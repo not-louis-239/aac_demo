@@ -1,0 +1,98 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "AACTalkerVocabularyConfiguration",
+    "type": "object",
+    "required": [ "nodes" ],
+    "properties": {
+        "_comment": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "nodes": {
+            "type": "object",
+            "required": ["UNIVERSAL", "HOME"],
+            "additionalProperties": {
+                "$ref": "#/definitions/node"
+            }
+        }
+    },
+    "definitions": {
+        "node": {
+            "type": "object",
+            "required": ["buttons"],
+            "properties": {
+                "buttons": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/button"
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "button": {
+            "type": "object",
+            "required": ["label", "coords", "type"],
+            "anyOf": [
+                { "required": ["dest"] },
+                { "required": ["word"] }
+            ],
+            "properties": {
+                "label": {
+                    "type": "string",
+                    "description": "The text displayed visually inside the button layout."
+                },
+                "word": {
+                    "type": "string",
+                    "description": "The phrase sent directly to the TTS Engine and sentence bar upon selection."
+                },
+                "dest": {
+                    "anyOf": [
+                        { "type": "string" },
+                        {
+                            "type": "integer",
+                            "maximum": -1,
+                            "description": "Negative integers symbolize relative breadcrumb history step offsets."
+                        }
+                    ],
+                    "description": "The destination routing endpoint key or relative navigation value."
+                },
+                "img": {
+                    "type": "string",
+                    "pattern": "^\\./.*\\.(png|jpg|jpeg|svg)$",
+                    "description": "Relative asset file path routing directly to the image file location from assets/images relative to project root."
+                },
+                "coords": {
+                    "type": "array",
+                    "minItems": 2,
+                    "maxItems": 2,
+                    "items": {
+                        "type": "integer",
+                        "anyOf": [
+                            { "minimum": -6, "maximum": -1 },
+                            { "minimum": 0, "maximum": 5 }
+                        ]
+                    },
+                    "description": "Grid alignment array mapped directly as [column, row] spanning indices [-6..-1] U [0..5]."
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "pronoun",
+                        "noun",
+                        "verb",
+                        "descriptor",
+                        "social",
+                        "syntax",
+                        "system",
+                        "folder"
+                    ],
+                    "description": "Functional part-of-speech layout structural classification type descriptor."
+                }
+            },
+            "additionalProperties": false
+        }
+    }
+}

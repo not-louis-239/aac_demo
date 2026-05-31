@@ -1,0 +1,16 @@
+# .gitignore
+
+__pycache__/
+.venv
+*.pyc
+
+workflow/
+
+**/tempCodeRunnerFile.py
+
+*.DS_Store
+Thumbs.db
+
+*.swp
+
+*.env

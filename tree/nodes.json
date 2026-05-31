@@ -1,0 +1,91 @@
+{
+    "$schema": "./nodes.schema.json",
+    "_comment": [
+        "The UNIVERSAL node describes nodes to include on every screen.",
+        "Negative integers for a destination are relative indicators as to how many history steps to go back.",
+        "Negative coordinates describe a number of cells from the last row or column.",
+        "The `.` directory refers to the `assets/images` directory relative to the project root.",
+        "Row -1 (bottom row) is reserved for UNIVERSAL nodes.",
+        "Grid is 6x6 for standard usability. Hence grid coordinate indices are in [-6..-1] U [0..5]"
+    ],
+    "nodes": {
+        "UNIVERSAL": {
+            "buttons": [
+                { "label": "Home", "dest": "HOME", "coords": [0, -1], "type": "system" },
+                { "label": "Back", "dest": -1, "coords": [1, -1], "type": "system" }
+            ]
+        },
+        "HOME": {
+            "buttons": [
+                { "label": "I", "word": "I", "img": "./core/i.png", "coords": [0, 0], "type": "pronoun" },
+                { "label": "Want", "word": "want", "img": "./core/want.png", "coords": [1, 0], "type": "verb" },
+                { "label": "More", "word": "more", "img": "./core/more.png", "coords": [2, 0], "type": "descriptor" },
+                { "label": "Stop", "word": "stop", "img": "./core/stop.png", "coords": [3, 0], "type": "verb" },
+
+                { "label": "Go", "word": "go", "img": "./core/go.png", "coords": [0, 1], "type": "verb" },
+                { "label": "Like", "word": "like", "img": "./core/like.png", "coords": [1, 1], "type": "verb" },
+                { "label": "Help", "word": "help", "img": "./core/help.png", "coords": [2, 1], "type": "verb" },
+                { "label": "Not", "word": "not", "img": "./core/not.png", "coords": [3, 1], "type": "descriptor" },
+
+                { "label": "Food", "dest": "FOOD", "img": "./folders/food.png", "coords": [0, 4], "type": "folder" },
+                { "label": "Drinks", "dest": "DRINKS", "img": "./folders/drinks.png", "coords": [1, 4], "type": "folder" },
+                { "label": "Places", "dest": "PLACES", "img": "./folders/places.png", "coords": [2, 4], "type": "folder" },
+                { "label": "Time", "dest": "TIME", "img": "./folders/time.png", "coords": [3, 4], "type": "folder" }
+            ]
+        },
+        "FOOD": {
+            "buttons": [
+                { "label": "Apple", "word": "apple", "img": "./food/apple.png", "coords": [0, 0], "type": "noun" },
+                { "label": "Banana", "word": "banana", "img": "./food/banana.png", "coords": [1, 0], "type": "noun" },
+                { "label": "Cookie", "word": "cookie", "img": "./food/cookie.png", "coords": [2, 0], "type": "noun" },
+                { "label": "Sandwich", "word": "sandwich", "img": "./food/sandwich.png", "coords": [3, 0], "type": "noun" },
+
+                { "label": "Eat", "word": "eat", "img": "./core/eat.png", "coords": [0, 4], "type": "verb" },
+                { "label": "Hungry", "word": "hungry", "img": "./core/hungry.png", "coords": [1, 4], "type": "descriptor" }
+            ]
+        },
+        "DRINKS": {
+            "buttons": [
+                { "label": "Water", "word": "water", "img": "./drinks/water.png", "coords": [0, 0], "type": "noun" },
+                { "label": "Juice", "word": "juice", "img": "./drinks/juice.png", "coords": [1, 0], "type": "noun" },
+                { "label": "Milk", "word": "milk", "img": "./drinks/milk.png", "coords": [2, 0], "type": "noun" },
+                { "label": "Hot Chocolate", "word": "hot chocolate", "img": "./drinks/hot_chocolate.png", "coords": [3, 0], "type": "noun" },
+
+                { "label": "Drink", "word": "drink", "img": "./core/drink.png", "coords": [0, 4], "type": "verb" },
+                { "label": "Thirsty", "word": "thirsty", "img": "./core/thirsty.png", "coords": [1, 4], "type": "descriptor" }
+            ]
+        },
+        "PLACES": {
+            "buttons": [
+                { "label": "Outside", "word": "outside", "img": "./places/outside.png", "coords": [0, 0], "type": "noun" },
+                { "label": "Park", "word": "park", "img": "./places/park.png", "coords": [1, 0], "type": "noun" },
+                { "label": "Home", "word": "home", "img": "./places/home_place.png", "coords": [2, 0], "type": "noun" },
+                { "label": "School", "word": "school", "img": "./places/school.png", "coords": [3, 0], "type": "noun" }
+            ]
+        },
+        "TIME": {
+            "buttons": [
+                { "label": "1", "word": "1", "img": "./numbers/1.png", "coords": [0, 0], "type": "syntax" },
+                { "label": "2", "word": "2", "img": "./numbers/2.png", "coords": [1, 0], "type": "syntax" },
+                { "label": "3", "word": "3", "img": "./numbers/3.png", "coords": [2, 0], "type": "syntax" },
+                { "label": "4", "word": "4", "img": "./numbers/4.png", "coords": [3, 0], "type": "syntax" },
+                { "label": "5", "word": "5", "img": "./numbers/5.png", "coords": [4, 0], "type": "syntax" },
+                { "label": "6", "word": "6", "img": "./numbers/6.png", "coords": [5, 0], "type": "syntax" },
+
+                { "label": "7", "word": "7", "img": "./numbers/7.png", "coords": [0, 1], "type": "syntax" },
+                { "label": "8", "word": "8", "img": "./numbers/8.png", "coords": [1, 1], "type": "syntax" },
+                { "label": "9", "word": "9", "img": "./numbers/9.png", "coords": [2, 1], "type": "syntax" },
+                { "label": "10", "word": "10", "img": "./numbers/10.png", "coords": [3, 1], "type": "syntax" },
+                { "label": "11", "word": "11", "img": "./numbers/11.png", "coords": [4, 1], "type": "syntax" },
+                { "label": "12", "word": "12", "img": "./numbers/12.png", "coords": [5, 1], "type": "syntax" },
+
+                { "label": "Month", "word": "month", "img": "./time/month.png", "coords": [0, 4], "type": "noun" },
+                { "label": "Week", "word": "week", "img": "./time/week.png", "coords": [1, 4], "type": "noun" },
+                { "label": "Day", "word": "day", "img": "./time/day.png", "coords": [2, 4], "type": "noun" },
+                { "label": "Hour", "word": "hour", "img": "./time/hour.png", "coords": [3, 4], "type": "noun" },
+                { "label": "Minute", "word": "minute", "img": "./time/minute.png", "coords": [4, 4], "type": "noun" },
+                { "label": "Second", "word": "second", "img": "./time/second.png", "coords": [5, 4], "type": "noun" }
+            ]
+        }
+    }
+}

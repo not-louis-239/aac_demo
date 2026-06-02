@@ -1,17 +1,7 @@
-from dataclasses import dataclass
-from pathlib import Path
+import pygame as pg
+from pygame.key import ScancodeWrapper
 
-@dataclass
-class Button:
-    # How it acts
-    word: str | None
-    dest: str | int | None   # target folder OR relative offset
-
-    # How it looks
-    label: str
-    img: Path                # relative path to image folder from assets/images
-    coords: tuple[int, int]  # (x, y) from [-6..-1] U [0..5]
-    type: str                # used for button highlighting
+from .load_nodes import Button, LanguageTree, load_language_tree
 
 class AACEngine:
     """The engine class for the AAC talker (AAC = Augmentative and Alternative Communication)."""
@@ -20,12 +10,13 @@ class AACEngine:
         self.sentence_bar: list[str] = []
         self.history: list[str] = []
         self.current_node: str = "HOME"
+        self.tree: LanguageTree = load_language_tree()
 
-    def reset_history(self) -> None:
+    def _reset_history(self) -> None:
         self.current_node = "HOME"
         self.history.clear()
 
-    def on_button_press(self, button: Button) -> None:
+    def _on_button_press(self, button: Button) -> None:
         # Update destination if the button has one
         if button.dest is not None:
             if isinstance(button.dest, int):
@@ -40,8 +31,11 @@ class AACEngine:
 
         # Clear history if at HOME or history is exhausted
         if self.current_node == "HOME" or not self.history:
-            self.reset_history()
+            self._reset_history()
 
         # Append word to sentence bar if the button has one
         if button.word is not None:
             self.sentence_bar.append(button.word)
+
+    def take_input(self, keys: ScancodeWrapper, events: list[pg.event.Event], dt_s: float) -> None:
+        ...  # TODO: implement input handling logic

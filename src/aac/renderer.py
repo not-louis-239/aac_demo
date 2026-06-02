@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 
 import pygame as pg
 
-
+from crystallinium.text_utils import draw_text
 
 from aac.paths import IMAGES_DIR
 from aac.asset_manager import Images
@@ -65,6 +65,16 @@ class Renderer:
         pg.draw.rect(screen, colour, rect)
         # Now border
         pg.draw.rect(screen, theme.fg_colour, rect, BUTTON_BORDER_WIDTH)
+
+        # Now the text
+        text_centre_x = rect.centerx
+        text_centre_y = rect.top + rect.height // 10
+
+        draw_text(
+            surface=screen, pos=(text_centre_x, text_centre_y),
+            horiz_align="centre", vert_align="top", colour=theme.fg_colour,
+            text=str(button.label), font_family=(self.aac_inst.assets.fonts.button_font, 15)
+        )
 
     def draw(self, screen: pg.Surface) -> None:
         theme = THEMES[self.theme_idx]

@@ -1,3 +1,4 @@
+crystallinium @ git+https://github.com/not-louis-239/crystallinium@cea2e395268d14a7b0f5621256e2d5fadb57fe35
 pygame==2.6.1
 pyobjc==12.2
 pyobjc-core==12.2

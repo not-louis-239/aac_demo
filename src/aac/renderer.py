@@ -2,6 +2,8 @@ from typing import TYPE_CHECKING
 
 import pygame as pg
 
+
+
 from aac.paths import IMAGES_DIR
 from aac.asset_manager import Images
 from aac.load_nodes import Button
@@ -12,7 +14,6 @@ from aac.constants import (
     BUTTON_BORDER_WIDTH,
     BUTTON_FONT_SIZE,
     BUTTON_PADDING,
-    BUTTON_TEXT_COLOR,
     THEMES
 )
 
@@ -69,6 +70,9 @@ class Renderer:
         theme = THEMES[self.theme_idx]
         screen.fill((theme.bg_colour))
 
+        # Draw buttons
         eng = self.aac_inst.engine
         for button in eng.tree[eng.current_node].buttons:
             self._draw_button(screen=screen, button=button)
+
+        # Now draw the sentence bar text

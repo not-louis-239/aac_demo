@@ -1,21 +1,74 @@
+from typing import TYPE_CHECKING
+
 import pygame as pg
 
-from .load_nodes import Button
-from .engine import AACEngine
-from .constants import (
+from aac.paths import IMAGES_DIR
+from aac.asset_manager import Images
+from aac.load_nodes import Button
+from aac.constants import (
     WN_W, WN_H,
+    GRID_W, GRID_H,
+    SENTENCE_BAR_H,
     BUTTON_BORDER_WIDTH,
     BUTTON_FONT_SIZE,
     BUTTON_PADDING,
-    BUTTON_TEXT_COLOR
+    BUTTON_TEXT_COLOR,
+    THEMES
 )
 
-class Renderer:
-    def __init__(self, engine: AACEngine):
-        self.engine = engine
+if TYPE_CHECKING:
+    from aac.aac_main import AAC
 
-    def _draw_button(self, button: Button) -> None:
-        ...
+def retrieve_img(img: Images, rel_path: str) -> pg.Surface:
+    """Relative path is relative to assets/images,
+    e.g. './food/apple.png'"""
+
+    if rel_path not in img.image_cache:
+        clean_rel_path = rel_path.lstrip("./") if rel_path.startswith("./") else rel_path
+        path = IMAGES_DIR / clean_rel_path
+        img.image_cache[rel_path] = pg.image.load(path).convert_alpha()
+
+    return img.image_cache[rel_path]
+
+class Renderer:
+    def __init__(self, aac_inst: AAC):
+        self.aac_inst = aac_inst
+        self.theme_idx: int = 0
+
+    def _calculate_button_rect(self, button: Button) -> pg.Rect:
+        bx, by = button.coords
+        bx, by = bx % GRID_W, by % GRID_H  # normalise negative coordinates
+
+        min_x = BUTTON_PADDING
+        min_y = SENTENCE_BAR_H + BUTTON_PADDING
+
+        # The size of the button area, minus the left/top margins
+        area_w = WN_W - min_x
+        area_h = WN_H - min_y
+
+        button_w = area_w / GRID_W
+        button_h = area_h / GRID_H
+
+        screen_x = min_x + bx * button_w
+        screen_y = min_y + by * button_h
+        return pg.Rect(screen_x, screen_y, button_w - BUTTON_PADDING, button_h - BUTTON_PADDING)
+
+    def _draw_button(self, screen: pg.Surface, button: Button) -> None:
+        # Draw button rect
+        rect = self._calculate_button_rect(button)
+
+        theme = THEMES[self.theme_idx]
+        colour = theme.fitzgerald_theme.get(button.type) or theme.fitzgerald_theme["system"]
+
+        # Draw the actual rect first
+        pg.draw.rect(screen, colour, rect)
+        # Now border
+        pg.draw.rect(screen, theme.fg_colour, rect, BUTTON_BORDER_WIDTH)
 
     def draw(self, screen: pg.Surface) -> None:
-        pass
+        theme = THEMES[self.theme_idx]
+        screen.fill((theme.bg_colour))
+
+        eng = self.aac_inst.engine
+        for button in eng.tree[eng.current_node].buttons:
+            self._draw_button(screen=screen, button=button)

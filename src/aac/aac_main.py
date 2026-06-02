@@ -1,13 +1,15 @@
 import pygame as pg
 from pygame.key import ScancodeWrapper
 
+from aac.asset_manager import Assets
 from aac.engine import AACEngine
 from aac.renderer import Renderer
 
 class AAC:
     def __init__(self):
         self.engine = AACEngine()
-        self.renderer = Renderer(engine=self.engine)
+        self.renderer = Renderer(aac_inst=self)
+        self.assets = Assets()
 
     def update(self, dt_s: float) -> None:
         pass

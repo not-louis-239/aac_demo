@@ -30,6 +30,8 @@ class Node:
 class LanguageTree:
     nodes: dict[str, Node] = field(default_factory=dict)
 
+    def __getitem__(self, k: str) -> Node:
+        return self.nodes[k]
 
 def load_language_tree() -> LanguageTree:
     with open(NODES_FILE) as f:

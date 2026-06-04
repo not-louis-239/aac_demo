@@ -55,13 +55,16 @@ def resize_surface_fit(surface: pg.Surface, max_size: int) -> pg.Surface:
     fitted_rect = current_rect.fit(target_rect)
     return pg.transform.smoothscale(surface, (fitted_rect.width, fitted_rect.height))
 
-def retrieve_img(img: Images, rel_path: str) -> pg.Surface | None:
+def retrieve_img(img: Images, rel_path: str | None) -> pg.Surface | None:
     """Load an image from an images manager and
     a relative path.
     Relative path is relative to assets/images,
     e.g. './food/apple.png'.
     If the file is not accessible (e.g. doesn't exist, permission denied),
     return None and log an error to stderr."""
+
+    if rel_path is None:
+        return None
 
     if rel_path not in _warned_paths and Path(rel_path).is_dir():
         _warned_paths.add(rel_path)
@@ -132,7 +135,7 @@ class Renderer:
         pg.draw.rect(screen, theme.fg_colour, rect, BUTTON_BORDER_WIDTH)
 
         # Now the image
-        img = retrieve_img(img=self.aac_inst.assets.images, rel_path=str(button.img))
+        img = retrieve_img(img=self.aac_inst.assets.images, rel_path=str(button.img) if button.img is not None else None)
         if img is not None:
             img_rect = img.get_rect()
             img_rect.center = (rect.centerx, int(rect.centery + BUTTON_FONT_SIZE // 2))

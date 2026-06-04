@@ -88,7 +88,7 @@ def print_lt(lt: LanguageTree) -> None:
                 + (f"{_DEST_DISPLAY_COL} -> {button.dest!r}{_END}," if button.dest else ",")
                 + (f"{_WORD_DISPLAY_COL} word: {button.word!r}{_END}," if button.word else "")
                 + f" coords: {button.coords},"
-                + f" img: '{button.img}'"
+                + f" img: {button.img!r}"
             )
 
             print(line)

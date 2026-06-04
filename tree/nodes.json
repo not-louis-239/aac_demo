@@ -30,7 +30,8 @@
                 { "label": "Food", "dest": "FOOD", "img": "./folders/food.png", "coords": [0, 4], "type": "folder" },
                 { "label": "Drinks", "dest": "DRINKS", "img": "./folders/drinks.png", "coords": [1, 4], "type": "folder" },
                 { "label": "Places", "dest": "PLACES", "img": "./folders/places.png", "coords": [2, 4], "type": "folder" },
-                { "label": "Time", "dest": "TIME", "img": "./folders/time.png", "coords": [3, 4], "type": "folder" }
+                { "label": "Time", "dest": "TIME", "img": "./folders/time.png", "coords": [3, 4], "type": "folder" },
+                { "label": "Groups", "dest": "GROUPS", "img": "./folders/groups.png", "coords": [4, 4], "type": "folder" }
             ]
         },
         "FOOD": {

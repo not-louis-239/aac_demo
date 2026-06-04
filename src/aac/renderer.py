@@ -24,6 +24,7 @@ import pygame as pg
 
 from crystallinium.text_utils import draw_text
 
+from aac.terminal_formatting import COL_END, COL_BOLD, COL_WARN
 from aac.paths import IMAGES_DIR
 from aac.asset_manager import Images
 from aac.load_nodes import Button
@@ -80,17 +81,17 @@ def retrieve_img(img: Images, rel_path: str) -> pg.Surface | None:
         return img.image_cache[rel_path]
     except FileNotFoundError:
         if rel_path not in _warned_paths:
-            print(f"warning: cannot load image: no such file: '{rel_path}'", file=sys.stderr)
+            print(f"{COL_WARN}{COL_BOLD}warning{COL_END}: cannot load image: no such file: {COL_WARN}'{rel_path}'{COL_END}", file=sys.stderr)
             _warned_paths.add(rel_path)
         return None
     except PermissionError:
         if rel_path not in _warned_paths:
-            print(f"warning: cannot load image: read permission denied: '{rel_path}'", file=sys.stderr)
+            print(f"{COL_WARN}{COL_BOLD}warning{COL_END}: cannot load image: read permission denied: {COL_WARN}'{rel_path}'{COL_END}", file=sys.stderr)
             _warned_paths.add(rel_path)
         return None
     except Exception as e:
         if rel_path not in _warned_paths:
-            print(f"warning: cannot load image: '{rel_path}' - unexpected error: {e}", file=sys.stderr)
+            print(f"{COL_WARN}{COL_BOLD}warning{COL_END}: cannot load image: {COL_WARN}'{rel_path}'{COL_END} - unexpected error: {e}", file=sys.stderr)
             _warned_paths.add(rel_path)
         return None
 

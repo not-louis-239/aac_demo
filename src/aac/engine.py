@@ -17,9 +17,11 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
+import sys
 import pygame as pg
 from pygame.key import ScancodeWrapper
 
+from .terminal_formatting import COL_WARN, COL_END, COL_BOLD
 from .speak import speak
 from .load_nodes import Button, LanguageTree, load_language_tree
 from .constants import (
@@ -30,6 +32,8 @@ from .constants import (
     WN_W,
     WN_H
 )
+
+_warned_nodes: set[str] = set()
 
 def _button_coord(screen_coords: tuple[int, int]) -> tuple[int, int] | None:
     """Get the corresponding button coordinates for a given screen coordinate.
@@ -69,13 +73,26 @@ class AACEngine:
         self.history.clear()
 
     def current_buttons(self) -> list[Button]:
-        universal_node = self.tree.nodes.get("UNIVERSAL")
-        node_buttons = self.tree[self.current_node].buttons
+        """Get the current buttons for the engine's current node,
+        accounting for the universal node.
+        If a node cannot be found in the language tree, it skips attempting
+        to find buttons for the current node."""
 
-        if universal_node is None:
-            return node_buttons
+        universal_node = self.tree.get("UNIVERSAL")
+        node = self.tree.get(self.current_node)
 
-        return [*universal_node.buttons, *node_buttons]
+        buttons: list[Button] = []
+
+        if universal_node is not None:
+            buttons.extend(universal_node.buttons)
+        if node is not None:
+            buttons.extend(node.buttons)
+        else:
+            if self.current_node not in _warned_nodes:
+                print(f"{COL_WARN}{COL_BOLD}warning{COL_END}: unspecified node: {COL_WARN}'{self.current_node}'{COL_END}", file=sys.stderr)
+                _warned_nodes.add(self.current_node)
+
+        return buttons
 
     def _on_button_press(self, button: Button) -> None:
         # Update destination if the button has one

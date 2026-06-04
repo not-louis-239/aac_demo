@@ -26,6 +26,7 @@ from aac.paths import NODES_FILE
 _TYPE_DISPLAY_COL = "\033[93m"
 _WORD_DISPLAY_COL = "\033[32m"
 _DEST_DISPLAY_COL = "\033[94m"
+_FUNC_DISPLAY_COL = "\033[95m"
 _END = "\033[0m"
 
 @dataclass
@@ -33,6 +34,7 @@ class Button:
     # How it acts
     word: str | None
     dest: str | int | None   # target folder OR relative offset
+    func: str | None         # function alias for hooking
 
     # How it looks
     label: str
@@ -65,11 +67,12 @@ def load_language_tree() -> LanguageTree:
         for button_raw in buttons_raw_list:
             button = Button(
                 label=button_raw["label"],
+                word=button_raw.get("word", None),
                 dest=button_raw.get("dest", None),
+                func=button_raw.get("func", None),
                 coords=tuple(button_raw["coords"]),
                 type=button_raw["type"],
-                word=button_raw.get("word", None),
-                img=button_raw.get("img", None),
+                img=button_raw.get("img", None)
             )
             node_buttons.append(button)
 
@@ -87,6 +90,7 @@ def print_lt(lt: LanguageTree) -> None:
                 f"  - {button.label!r} {_TYPE_DISPLAY_COL}[{button.type}]{_END}"
                 + (f"{_DEST_DISPLAY_COL} -> {button.dest!r}{_END}," if button.dest else ",")
                 + (f"{_WORD_DISPLAY_COL} word: {button.word!r}{_END}," if button.word else "")
+                + (f"{_FUNC_DISPLAY_COL} func: {button.func!r}{_END}," if button.func else "")
                 + f" coords: {button.coords},"
                 + f" img: {button.img!r}"
             )

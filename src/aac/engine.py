@@ -37,6 +37,7 @@ from .constants import (
 )
 
 _warned_nodes: set[str] = set()
+_warned_funcs: set[str] = set()
 
 def _button_coord(screen_coords: tuple[int, int]) -> tuple[int, int] | None:
     """Get the corresponding button coordinates for a given screen coordinate.
@@ -69,14 +70,9 @@ class AACEngine:
 
     @classmethod
     def register(cls, func_alias: str) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
-        """Decorator factory to register actions under a custom string key."""
         def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
-            @wraps(func)
-            def wrapper(*args: Any, **kwargs: Any) -> Any:
-                return func(*args, **kwargs)
-
-            cls.FUNC_REGISTRY[func_alias] = func
-            return wrapper
+            AACEngine.FUNC_REGISTRY[func_alias] = func
+            return func
         return decorator
 
     def __init__(self):
@@ -135,6 +131,17 @@ class AACEngine:
             speak(button.word.lower())  # normalise
             self.sentence_bar.append(button.word)
 
+        # If no word or dest, the button must have a function call inside of it
+        if button.func is not None:
+            func = AACEngine.FUNC_REGISTRY.get(button.func)
+            if func is not None:
+                func(self)
+                return
+
+            if button.func not in _warned_funcs:
+                print(f"{COL_WARN}{COL_BOLD}warning{COL_END}: unrecognised function: {COL_WARN}'{button.func}'{COL_END}", file=sys.stderr)
+                _warned_funcs.add(button.func)
+
     def take_input(self, keys: ScancodeWrapper, events: list[pg.event.Event], dt_s: float) -> None:
         for event in events:
             if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
@@ -147,8 +154,14 @@ class AACEngine:
                             break
 
 
-    # Now for registry functions
-    @register("clear_sentence_bar")
-    def clear_sentence_bar(self) -> None:
-        """Clear the sentence bar."""
-        self.sentence_bar.clear()
+# Now for registry functions
+@AACEngine.register("clear_sentence_bar")
+def clear_sentence_bar(self) -> None:
+    """Clear the sentence bar."""
+    self.sentence_bar.clear()
+
+@AACEngine.register("backspace_sentence_bar")
+def backspace_sentence_bar(self) -> None:
+    """Remove the last word from the sentence bar."""
+    if self.sentence_bar:
+        self.sentence_bar.pop()

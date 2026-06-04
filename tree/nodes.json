@@ -29,11 +29,17 @@
                 { "label": "Help", "word": "help", "img": "./core/help.png", "coords": [2, 1], "type": "verb" },
                 { "label": "Not", "word": "not", "img": "./core/not.png", "coords": [3, 1], "type": "descriptor" },
 
-                { "label": "Food", "dest": "FOOD", "img": "./folders/food.png", "coords": [0, 4], "type": "folder" },
-                { "label": "Drinks", "dest": "DRINKS", "img": "./folders/drinks.png", "coords": [1, 4], "type": "folder" },
-                { "label": "Places", "dest": "PLACES", "img": "./folders/places.png", "coords": [2, 4], "type": "folder" },
-                { "label": "Time", "dest": "TIME", "img": "./folders/time.png", "coords": [3, 4], "type": "folder" },
-                { "label": "Groups", "dest": "GROUPS", "img": "./folders/groups.png", "coords": [4, 4], "type": "folder" }
+                { "label": "Food", "dest": "FOOD", "img": "./folders/food.png", "coords": [0, 3], "type": "folder" },
+                { "label": "Drinks", "dest": "DRINKS", "img": "./folders/drinks.png", "coords": [1, 3], "type": "folder" },
+                { "label": "Places", "dest": "PLACES", "img": "./folders/places.png", "coords": [2, 3], "type": "folder" },
+                { "label": "Time", "dest": "TIME", "img": "./folders/time.png", "coords": [3, 3], "type": "folder" },
+                { "label": "Groups", "dest": "GROUPS", "img": "./folders/groups.png", "coords": [4, 3], "type": "folder" },
+                { "label": "Actions", "dest": "ACTIONS", "img": "./folders/actions.png", "coords": [5, 3], "type": "folder" },
+                { "label": "People", "dest": "PEOPLE", "img": "./folders/people.png", "coords": [0, 4], "type": "folder" },
+                { "label": "Feelings", "dest": "EMOTIONS", "img": "./folders/emotions.png", "coords": [1, 4], "type": "folder" },
+                { "label": "Weather", "dest": "WEATHER", "img": "./folders/weather.png", "coords": [2, 4], "type": "folder" },
+                { "label": "Ask", "dest": "QUESTIONS", "img": "./folders/questions.png", "coords": [3, 4], "type": "folder" },
+                { "label": "Colors", "dest": "COLORS", "img": "./folders/colors.png", "coords": [4, 4], "type": "folder" }
             ]
         },
         "FOOD": {
@@ -68,19 +74,19 @@
         },
         "TIME": {
             "buttons": [
-                { "label": "1", "word": "1", "img": "./numbers/1.png", "coords": [0, 0], "type": "syntax" },
-                { "label": "2", "word": "2", "img": "./numbers/2.png", "coords": [1, 0], "type": "syntax" },
-                { "label": "3", "word": "3", "img": "./numbers/3.png", "coords": [2, 0], "type": "syntax" },
-                { "label": "4", "word": "4", "img": "./numbers/4.png", "coords": [3, 0], "type": "syntax" },
-                { "label": "5", "word": "5", "img": "./numbers/5.png", "coords": [4, 0], "type": "syntax" },
-                { "label": "6", "word": "6", "img": "./numbers/6.png", "coords": [5, 0], "type": "syntax" },
+                { "label": "1", "word": "1", "coords": [0, 0], "type": "syntax" },
+                { "label": "2", "word": "2", "coords": [1, 0], "type": "syntax" },
+                { "label": "3", "word": "3", "coords": [2, 0], "type": "syntax" },
+                { "label": "4", "word": "4", "coords": [3, 0], "type": "syntax" },
+                { "label": "5", "word": "5", "coords": [4, 0], "type": "syntax" },
+                { "label": "6", "word": "6", "coords": [5, 0], "type": "syntax" },
 
-                { "label": "7", "word": "7", "img": "./numbers/7.png", "coords": [0, 1], "type": "syntax" },
-                { "label": "8", "word": "8", "img": "./numbers/8.png", "coords": [1, 1], "type": "syntax" },
-                { "label": "9", "word": "9", "img": "./numbers/9.png", "coords": [2, 1], "type": "syntax" },
-                { "label": "10", "word": "10", "img": "./numbers/10.png", "coords": [3, 1], "type": "syntax" },
-                { "label": "11", "word": "11", "img": "./numbers/11.png", "coords": [4, 1], "type": "syntax" },
-                { "label": "12", "word": "12", "img": "./numbers/12.png", "coords": [5, 1], "type": "syntax" },
+                { "label": "7", "word": "7", "coords": [0, 1], "type": "syntax" },
+                { "label": "8", "word": "8", "coords": [1, 1], "type": "syntax" },
+                { "label": "9", "word": "9", "coords": [2, 1], "type": "syntax" },
+                { "label": "10", "word": "10", "coords": [3, 1], "type": "syntax" },
+                { "label": "11", "word": "11", "coords": [4, 1], "type": "syntax" },
+                { "label": "12", "word": "12", "coords": [5, 1], "type": "syntax" },
 
                 { "label": "Month", "word": "month", "img": "./time/month.png", "coords": [0, 4], "type": "noun" },
                 { "label": "Week", "word": "week", "img": "./time/week.png", "coords": [1, 4], "type": "noun" },
@@ -88,6 +94,68 @@
                 { "label": "Hour", "word": "hour", "img": "./time/hour.png", "coords": [3, 4], "type": "noun" },
                 { "label": "Minute", "word": "minute", "img": "./time/minute.png", "coords": [4, 4], "type": "noun" },
                 { "label": "Second", "word": "second", "img": "./time/second.png", "coords": [5, 4], "type": "noun" }
+            ]
+        },
+        "ACTIONS": {
+            "buttons": [
+                { "label": "Go", "word": "go", "img": "./actions/go.png", "coords": [0, 0], "type": "verb" },
+                { "label": "Stop", "word": "stop", "img": "./actions/stop.png", "coords": [1, 0], "type": "verb" },
+                { "label": "Play", "word": "play", "img": "./actions/play.png", "coords": [2, 0], "type": "verb" },
+                { "label": "Open", "word": "open", "img": "./actions/open.png", "coords": [3, 0], "type": "verb" },
+                { "label": "Close", "word": "close", "img": "./actions/close.png", "coords": [4, 0], "type": "verb" },
+                { "label": "Wait", "word": "wait", "img": "./actions/wait.png", "coords": [5, 0], "type": "verb" },
+                { "label": "Help", "word": "help", "img": "./core/help.png", "coords": [0, 1], "type": "verb" },
+                { "label": "Tell", "word": "tell", "img": "./actions/tell.png", "coords": [1, 1], "type": "verb" }
+            ]
+        },
+        "PEOPLE": {
+            "buttons": [
+                { "label": "Mom", "word": "mom", "img": "./people/mom.png", "coords": [0, 0], "type": "noun" },
+                { "label": "Dad", "word": "dad", "img": "./people/dad.png", "coords": [1, 0], "type": "noun" },
+                { "label": "Friend", "word": "friend", "img": "./people/friend.png", "coords": [2, 0], "type": "noun" },
+                { "label": "Teacher", "word": "teacher", "img": "./people/teacher.png", "coords": [3, 0], "type": "noun" },
+                { "label": "Doctor", "word": "doctor", "img": "./people/doctor.png", "coords": [4, 0], "type": "noun" },
+                { "label": "Baby", "word": "baby", "img": "./people/baby.png", "coords": [5, 0], "type": "noun" }
+            ]
+        },
+        "EMOTIONS": {
+            "buttons": [
+                { "label": "Happy", "word": "happy", "img": "./emotions/happy.png", "coords": [0, 0], "type": "descriptor" },
+                { "label": "Sad", "word": "sad", "img": "./emotions/sad.png", "coords": [1, 0], "type": "descriptor" },
+                { "label": "Angry", "word": "angry", "img": "./emotions/angry.png", "coords": [2, 0], "type": "descriptor" },
+                { "label": "Excited", "word": "excited", "img": "./emotions/excited.png", "coords": [3, 0], "type": "descriptor" },
+                { "label": "Scared", "word": "scared", "img": "./emotions/scared.png", "coords": [4, 0], "type": "descriptor" },
+                { "label": "Tired", "word": "tired", "img": "./emotions/tired.png", "coords": [5, 0], "type": "descriptor" }
+            ]
+        },
+        "WEATHER": {
+            "buttons": [
+                { "label": "Sunny", "word": "sunny", "img": "./weather/sunny.png", "coords": [0, 0], "type": "descriptor" },
+                { "label": "Rainy", "word": "rainy", "img": "./weather/rainy.png", "coords": [1, 0], "type": "descriptor" },
+                { "label": "Cloudy", "word": "cloudy", "img": "./weather/cloudy.png", "coords": [2, 0], "type": "descriptor" },
+                { "label": "Windy", "word": "windy", "img": "./weather/windy.png", "coords": [3, 0], "type": "descriptor" },
+                { "label": "Hot", "word": "hot", "img": "./weather/hot.png", "coords": [4, 0], "type": "descriptor" },
+                { "label": "Cold", "word": "cold", "img": "./weather/cold.png", "coords": [5, 0], "type": "descriptor" }
+            ]
+        },
+        "QUESTIONS": {
+            "buttons": [
+                { "label": "Who", "word": "who", "img": "./questions/who.png", "coords": [0, 0], "type": "syntax" },
+                { "label": "What", "word": "what", "img": "./questions/what.png", "coords": [1, 0], "type": "syntax" },
+                { "label": "Where", "word": "where", "img": "./questions/where.png", "coords": [2, 0], "type": "syntax" },
+                { "label": "When", "word": "when", "img": "./questions/when.png", "coords": [3, 0], "type": "syntax" },
+                { "label": "Why", "word": "why", "img": "./questions/why.png", "coords": [4, 0], "type": "syntax" },
+                { "label": "How", "word": "how", "img": "./questions/how.png", "coords": [5, 0], "type": "syntax" }
+            ]
+        },
+        "COLORS": {
+            "buttons": [
+                { "label": "Red", "word": "red", "img": "./colors/red.png", "coords": [0, 0], "type": "descriptor" },
+                { "label": "Blue", "word": "blue", "img": "./colors/blue.png", "coords": [1, 0], "type": "descriptor" },
+                { "label": "Green", "word": "green", "img": "./colors/green.png", "coords": [2, 0], "type": "descriptor" },
+                { "label": "Yellow", "word": "yellow", "img": "./colors/yellow.png", "coords": [3, 0], "type": "descriptor" },
+                { "label": "Purple", "word": "purple", "img": "./colors/purple.png", "coords": [4, 0], "type": "descriptor" },
+                { "label": "Orange", "word": "orange", "img": "./colors/orange.png", "coords": [5, 0], "type": "descriptor" }
             ]
         }
     }

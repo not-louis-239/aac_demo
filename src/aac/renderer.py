@@ -109,9 +109,9 @@ class Renderer:
         # Draw the sentence bar text
         sentence_bar_text = " ".join(self.aac_inst.engine.sentence_bar)
 
-        # rendering a maximum of 255 characters for performance
+        # rendering only the last 255 characters for performance
         max_width = WN_W - 2 * UI_PADDING
-        text_surf = self.sentence_bar_font.render(sentence_bar_text[:255], True, theme.fg_colour)
+        text_surf = self.sentence_bar_font.render(sentence_bar_text[-255:], True, theme.fg_colour)
         if (big_width := text_surf.get_width()) > max_width:
             excess = big_width - max_width
             crop_rect = pg.Rect(excess, 0, max_width, text_surf.get_height())

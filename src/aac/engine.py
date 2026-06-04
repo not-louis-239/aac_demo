@@ -21,6 +21,38 @@ import pygame as pg
 from pygame.key import ScancodeWrapper
 
 from .load_nodes import Button, LanguageTree, load_language_tree
+from .constants import (
+    SENTENCE_BAR_H,
+    BUTTON_PADDING,
+    GRID_W,
+    GRID_H,
+    WN_W,
+    WN_H
+)
+
+def _button_coord(screen_coords: tuple[int, int]) -> tuple[int, int] | None:
+    """Get the corresponding button coordinates for a given screen coordinate.
+    If there is no valid coordinate, return None."""
+
+    min_x = BUTTON_PADDING
+    min_y = SENTENCE_BAR_H + BUTTON_PADDING
+
+    area_w = WN_W - min_x
+    area_h = WN_H - min_y
+
+    button_w = area_w / GRID_W
+    button_h = area_h / GRID_H
+
+    for by in range(GRID_H):
+        for bx in range(GRID_W):
+            screen_x = min_x + bx * button_w
+            screen_y = min_y + by * button_h
+            rect = pg.Rect(screen_x, screen_y, button_w - BUTTON_PADDING, button_h - BUTTON_PADDING)
+
+            if rect.collidepoint(screen_coords):
+                return bx, by
+
+    return None
 
 class AACEngine:
     """The engine class for the AAC talker (AAC = Augmentative and Alternative Communication)."""
@@ -59,4 +91,12 @@ class AACEngine:
     def take_input(self, keys: ScancodeWrapper, events: list[pg.event.Event], dt_s: float) -> None:
         for event in events:
             if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
-                ...
+                button_coord = _button_coord(event.pos)
+
+                if button_coord is not None:
+                    node = self.tree[self.current_node]
+                    buttons = node.buttons
+
+                    for button in buttons:
+                        if button.coords == button_coord:
+                            self._on_button_press(button)

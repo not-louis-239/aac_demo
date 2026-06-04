@@ -20,6 +20,7 @@
 import pygame as pg
 from pygame.key import ScancodeWrapper
 
+from .speak import speak
 from .load_nodes import Button, LanguageTree, load_language_tree
 from .constants import (
     SENTENCE_BAR_H,
@@ -97,6 +98,7 @@ class AACEngine:
 
         # Append word to sentence bar if the button has one
         if button.word is not None:
+            speak(button.word.lower())  # normalise
             self.sentence_bar.append(button.word)
 
     def take_input(self, keys: ScancodeWrapper, events: list[pg.event.Event], dt_s: float) -> None:

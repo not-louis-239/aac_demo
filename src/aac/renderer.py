@@ -110,6 +110,9 @@ class Renderer:
         sentence_bar_text = " ".join(self.aac_inst.engine.sentence_bar)
 
         # rendering only the last 255 characters for performance
+        # this is arbitrary but we expect here that a little kid might
+        # press the buttons on the AAC thousands of times
+        # if not optimised, this could cause severe lag
         max_width = WN_W - 2 * UI_PADDING
         text_surf = self.sentence_bar_font.render(sentence_bar_text[-255:], True, theme.fg_colour)
         if (big_width := text_surf.get_width()) > max_width:

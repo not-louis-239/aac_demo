@@ -18,6 +18,9 @@
 
 
 import sys
+from typing import Any, Callable
+from functools import wraps
+
 import pygame as pg
 from pygame.key import ScancodeWrapper
 
@@ -61,6 +64,20 @@ def _button_coord(screen_coords: tuple[int, int]) -> tuple[int, int] | None:
 
 class AACEngine:
     """The engine class for the AAC talker (AAC = Augmentative and Alternative Communication)."""
+
+    FUNC_REGISTRY: dict[str, Callable[[Any], None]] = {}
+
+    @classmethod
+    def register(cls, func_alias: str) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
+        """Decorator factory to register actions under a custom string key."""
+        def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
+            @wraps(func)
+            def wrapper(*args: Any, **kwargs: Any) -> Any:
+                return func(*args, **kwargs)
+
+            cls.FUNC_REGISTRY[func_alias] = func
+            return wrapper
+        return decorator
 
     def __init__(self):
         self.sentence_bar: list[str] = []
@@ -128,3 +145,10 @@ class AACEngine:
                         if (button.coords[0] % GRID_W, button.coords[1] % GRID_H) == button_coord:
                             self._on_button_press(button)
                             break
+
+
+    # Now for registry functions
+    @register("clear_sentence_bar")
+    def clear_sentence_bar(self) -> None:
+        """Clear the sentence bar."""
+        self.sentence_bar.clear()

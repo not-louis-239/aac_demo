@@ -37,7 +37,8 @@
             "required": ["label", "coords", "type"],
             "anyOf": [
                 { "required": ["dest"] },
-                { "required": ["word"] }
+                { "required": ["word"] },
+                { "required": ["func"] }
             ],
             "properties": {
                 "label": {
@@ -54,10 +55,14 @@
                         {
                             "type": "integer",
                             "maximum": -1,
-                            "description": "Negative integers symbolize relative breadcrumb history step offsets."
+                            "description": "Negative integers symbolise relative breadcrumb history step offsets."
                         }
                     ],
                     "description": "The destination routing endpoint key or relative navigation value."
+                },
+                "func": {
+                    "type": "string",
+                    "description": "A function from the AACEngine's function registry to call when this button is pressed."
                 },
                 "img": {
                     "type": "string",

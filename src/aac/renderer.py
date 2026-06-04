@@ -31,7 +31,7 @@ from aac.constants import (
     SENTENCE_BAR_H,
     BUTTON_BORDER_WIDTH,
     BUTTON_FONT_SIZE,
-    BUTTON_PADDING,
+    UI_PADDING,
     THEMES
 )
 
@@ -59,8 +59,8 @@ class Renderer:
         bx, by = button.coords
         bx, by = bx % GRID_W, by % GRID_H  # normalise negative coordinates
 
-        min_x = BUTTON_PADDING
-        min_y = SENTENCE_BAR_H + BUTTON_PADDING
+        min_x = UI_PADDING
+        min_y = SENTENCE_BAR_H + UI_PADDING
 
         # The size of the button area, minus the left/top margins
         area_w = WN_W - min_x
@@ -71,7 +71,7 @@ class Renderer:
 
         screen_x = min_x + bx * button_w
         screen_y = min_y + by * button_h
-        return pg.Rect(screen_x, screen_y, button_w - BUTTON_PADDING, button_h - BUTTON_PADDING)
+        return pg.Rect(screen_x, screen_y, button_w - UI_PADDING, button_h - UI_PADDING)
 
     def _draw_button(self, screen: pg.Surface, button: Button) -> None:
         # Draw button rect
@@ -108,5 +108,13 @@ class Renderer:
         pg.draw.line(screen, theme.fg_colour, (0, SENTENCE_BAR_H), (WN_W, SENTENCE_BAR_H), 2)
         # Draw the sentence bar text
         sentence_bar_text = " ".join(self.aac_inst.engine.sentence_bar)
-        text_surf = self.sentence_bar_font.render(sentence_bar_text, True, theme.fg_colour)
-        screen.blit(text_surf, (BUTTON_PADDING, BUTTON_PADDING))
+
+        # rendering a maximum of 255 characters for performance
+        max_width = WN_W - 2 * UI_PADDING
+        text_surf = self.sentence_bar_font.render(sentence_bar_text[:255], True, theme.fg_colour)
+        if (big_width := text_surf.get_width()) > max_width:
+            excess = big_width - max_width
+            crop_rect = pg.Rect(excess, 0, max_width, text_surf.get_height())
+            text_surf = text_surf.subsurface(crop_rect)
+
+        screen.blit(text_surf, (UI_PADDING, UI_PADDING))

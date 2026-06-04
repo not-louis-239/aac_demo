@@ -57,4 +57,6 @@ class AACEngine:
             self.sentence_bar.append(button.word)
 
     def take_input(self, keys: ScancodeWrapper, events: list[pg.event.Event], dt_s: float) -> None:
-        ...  # TODO: implement input handling logic
+        for event in events:
+            if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+                ...

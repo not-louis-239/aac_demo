@@ -25,9 +25,11 @@ from aac.renderer import Renderer
 
 class AAC:
     def __init__(self):
+        # assets MUST be initialised first
+        self.assets = Assets()
+
         self.engine = AACEngine()
         self.renderer = Renderer(aac_inst=self)
-        self.assets = Assets()
 
     def update(self, dt_s: float) -> None:
         pass

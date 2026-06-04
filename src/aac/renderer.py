@@ -53,6 +53,7 @@ class Renderer:
     def __init__(self, aac_inst: AAC):
         self.aac_inst = aac_inst
         self.theme_idx: int = 0
+        self.sentence_bar_font: pg.font.Font = pg.font.Font(self.aac_inst.assets.fonts.ui_font, int(SENTENCE_BAR_H * 0.75))
 
     def _calculate_button_rect(self, button: Button) -> pg.Rect:
         bx, by = button.coords
@@ -103,4 +104,8 @@ class Renderer:
         for button in eng.tree[eng.current_node].buttons:
             self._draw_button(screen=screen, button=button)
 
-        # Now draw the sentence bar text
+        # Now draw the sentence bar line
+        pg.draw.line(screen, theme.fg_colour, (0, SENTENCE_BAR_H), (WN_W, SENTENCE_BAR_H), 2)
+        # Draw the sentence bar text
+        sentence_bar_text = " ".join(self.aac_inst.engine.sentence_bar)
+        text_surf = self.sentence_bar_font.render(sentence_bar_text, True, theme.fg_colour)

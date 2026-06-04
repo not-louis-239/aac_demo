@@ -1,5 +1,7 @@
 # AAC
 
+**Version**: 0.1.0
+
 A demo for an open-source AAC desktop program written in Pygame.
 
 Are you sick of these pesky companies charging $8,000 for a metal slab whose only purpose is to say words and get snotted on by children? Here, take this.

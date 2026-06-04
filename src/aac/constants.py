@@ -42,6 +42,8 @@ BUTTON_BORDER_WIDTH = 2
 UI_PADDING = WN_W * 0.01
 BUTTON_FONT_SIZE = WN_W * 0.015
 
+IMAGE_SIZE = int((WN_H - SENTENCE_BAR_H - UI_PADDING) / GRID_H * 0.7)
+
 THEMES: list[Theme] = [
     # Light mode
     Theme(

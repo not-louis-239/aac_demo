@@ -17,6 +17,8 @@
 
 
 from typing import TYPE_CHECKING
+from pathlib import Path
+import sys
 
 import pygame as pg
 
@@ -32,22 +34,65 @@ from aac.constants import (
     BUTTON_BORDER_WIDTH,
     BUTTON_FONT_SIZE,
     UI_PADDING,
-    THEMES
+    THEMES,
+    IMAGE_SIZE
 )
 
 if TYPE_CHECKING:
     from aac.aac_main import AAC
 
-def retrieve_img(img: Images, rel_path: str) -> pg.Surface:
-    """Relative path is relative to assets/images,
-    e.g. './food/apple.png'"""
+# set of paths for which a warning has already been printed
+# to prevent spamming warnings for the same path
+_warned_paths: set[str] = set()
 
-    if rel_path not in img.image_cache:
-        clean_rel_path = rel_path.lstrip("./") if rel_path.startswith("./") else rel_path
-        path = IMAGES_DIR / clean_rel_path
-        img.image_cache[rel_path] = pg.image.load(path).convert_alpha()
+def resize_surface_fit(surface: pg.Surface, max_size: int) -> pg.Surface:
+    """Resizes a surface to be as large as possible, ensuring neither width nor height
+    exceeds max_size, while perfectly preserving the aspect ratio."""
 
-    return img.image_cache[rel_path]
+    target_rect = pg.Rect(0, 0, max_size, max_size)
+    current_rect = surface.get_rect()
+    fitted_rect = current_rect.fit(target_rect)
+    return pg.transform.smoothscale(surface, (fitted_rect.width, fitted_rect.height))
+
+def retrieve_img(img: Images, rel_path: str) -> pg.Surface | None:
+    """Load an image from an images manager and
+    a relative path.
+    Relative path is relative to assets/images,
+    e.g. './food/apple.png'.
+    If the file is not accessible (e.g. doesn't exist, permission denied),
+    return None and log an error to stderr."""
+
+    if rel_path not in _warned_paths and Path(rel_path).is_dir():
+        _warned_paths.add(rel_path)
+        print(f"warning: cannot load image: expected image, got directory: '{rel_path}'", file=sys.stderr)
+        return None
+
+    try:
+        if rel_path not in img.image_cache:
+            clean_rel_path = rel_path.lstrip("./") if rel_path.startswith("./") else rel_path
+            path = IMAGES_DIR / clean_rel_path
+            img_loaded = pg.image.load(path).convert_alpha()
+
+            # scale the image so it fits within the buttons
+            img_loaded = resize_surface_fit(img_loaded, IMAGE_SIZE)
+            img.image_cache[rel_path] = img_loaded
+
+        return img.image_cache[rel_path]
+    except FileNotFoundError:
+        if rel_path not in _warned_paths:
+            print(f"warning: cannot load image: no such file: '{rel_path}'", file=sys.stderr)
+            _warned_paths.add(rel_path)
+        return None
+    except PermissionError:
+        if rel_path not in _warned_paths:
+            print(f"warning: cannot load image: read permission denied: '{rel_path}'", file=sys.stderr)
+            _warned_paths.add(rel_path)
+        return None
+    except Exception as e:
+        if rel_path not in _warned_paths:
+            print(f"warning: cannot load image: '{rel_path}' - unexpected error: {e}", file=sys.stderr)
+            _warned_paths.add(rel_path)
+        return None
 
 class Renderer:
     def __init__(self, aac_inst: AAC):
@@ -85,14 +130,24 @@ class Renderer:
         # Now border
         pg.draw.rect(screen, theme.fg_colour, rect, BUTTON_BORDER_WIDTH)
 
+        # Now the image
+        img = retrieve_img(img=self.aac_inst.assets.images, rel_path=str(button.img))
+        if img is not None:
+            img_rect = img.get_rect()
+            img_rect.center = (rect.centerx, int(rect.centery + BUTTON_FONT_SIZE // 2))
+            screen.blit(img, img_rect)
+
         # Now the text
         text_centre_x = rect.centerx
-        text_centre_y = rect.top + rect.height // 10
+        if not img:
+            text_y = rect.centery  # no image -> print text in centre of the rect
+        else:
+            text_y = rect.top
 
         draw_text(
-            surface=screen, pos=(text_centre_x, text_centre_y),
-            horiz_align="centre", vert_align="top", colour=theme.fg_colour,
-            text=str(button.label), font_family=(self.aac_inst.assets.fonts.button_font, 15)
+            surface=screen, pos=(text_centre_x, text_y),
+            horiz_align="centre", vert_align="top" if img else "centre", colour=theme.fg_colour,
+            text=str(button.label), font_family=(self.aac_inst.assets.fonts.button_font, int(BUTTON_FONT_SIZE))
         )
 
     def draw(self, screen: pg.Surface) -> None:
@@ -111,7 +166,7 @@ class Renderer:
 
         # rendering only the last 255 characters for performance
         # this is arbitrary but we expect here that a little kid might
-        # press the buttons on the AAC thousands of times
+        # spam the buttons on the AAC thousands of times
         # if not optimised, this could cause severe lag
         max_width = WN_W - 2 * UI_PADDING
         text_surf = self.sentence_bar_font.render(sentence_bar_text[-255:], True, theme.fg_colour)

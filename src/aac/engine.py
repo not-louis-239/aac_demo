@@ -67,6 +67,15 @@ class AACEngine:
         self.current_node = "HOME"
         self.history.clear()
 
+    def current_buttons(self) -> list[Button]:
+        universal_node = self.tree.nodes.get("UNIVERSAL")
+        node_buttons = self.tree[self.current_node].buttons
+
+        if universal_node is None:
+            return node_buttons
+
+        return [*universal_node.buttons, *node_buttons]
+
     def _on_button_press(self, button: Button) -> None:
         # Update destination if the button has one
         if button.dest is not None:
@@ -78,6 +87,8 @@ class AACEngine:
                     if self.history:
                         self.current_node = self.history.pop()
             else:
+                if button.dest != "HOME":
+                    self.history.append(self.current_node)
                 self.current_node = button.dest
 
         # Clear history if at HOME or history is exhausted
@@ -94,9 +105,7 @@ class AACEngine:
                 button_coord = _button_coord(event.pos)
 
                 if button_coord is not None:
-                    node = self.tree[self.current_node]
-                    buttons = node.buttons
-
-                    for button in buttons:
-                        if button.coords == button_coord:
+                    for button in self.current_buttons():
+                        if (button.coords[0] % GRID_W, button.coords[1] % GRID_H) == button_coord:
                             self._on_button_press(button)
+                            break

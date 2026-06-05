@@ -19,15 +19,15 @@
         },
         "HOME": {
             "buttons": [
-                { "label": "I", "word": "I", "img": "./core/i.png", "coords": [0, 0], "type": "pronoun" },
-                { "label": "Want", "word": "want", "img": "./core/want.png", "coords": [1, 0], "type": "verb" },
-                { "label": "More", "word": "more", "img": "./core/more.png", "coords": [2, 0], "type": "descriptor" },
-                { "label": "Stop", "word": "stop", "img": "./core/stop.png", "coords": [3, 0], "type": "verb" },
+                { "label": "I", "word": "I", "coords": [0, 0], "type": "pronoun" },
+                { "label": "Want", "word": "want", "coords": [1, 0], "type": "verb" },
+                { "label": "More", "word": "more", "img": "./icons/home/more.png", "coords": [2, 0], "type": "descriptor" },
+                { "label": "Stop", "word": "stop", "img": "./icons/home/stop.png", "coords": [3, 0], "type": "verb" },
 
-                { "label": "Go", "word": "go", "img": "./core/go.png", "coords": [0, 1], "type": "verb" },
-                { "label": "Like", "word": "like", "img": "./core/like.png", "coords": [1, 1], "type": "verb" },
-                { "label": "Help", "word": "help", "img": "./core/help.png", "coords": [2, 1], "type": "verb" },
-                { "label": "Not", "word": "not", "img": "./core/not.png", "coords": [3, 1], "type": "descriptor" },
+                { "label": "Go", "word": "go", "img": "./icons/home/go.png", "coords": [0, 1], "type": "verb" },
+                { "label": "Like", "word": "like", "img": "./icons/home/like.png", "coords": [1, 1], "type": "verb" },
+                { "label": "Help", "word": "help", "img": "./icons/home/help.png", "coords": [2, 1], "type": "verb" },
+                { "label": "Not", "word": "not", "img": "./icons/home/not.png", "coords": [3, 1], "type": "descriptor" },
 
                 { "label": "Food", "dest": "FOOD", "img": "./folders/food.png", "coords": [0, 3], "type": "folder" },
                 { "label": "Drinks", "dest": "DRINKS", "img": "./folders/drinks.png", "coords": [1, 3], "type": "folder" },
@@ -44,32 +44,32 @@
         },
         "FOOD": {
             "buttons": [
-                { "label": "Apple", "word": "apple", "img": "./food/apple.png", "coords": [0, 0], "type": "noun" },
-                { "label": "Banana", "word": "banana", "img": "./food/banana.png", "coords": [1, 0], "type": "noun" },
-                { "label": "Cookie", "word": "cookie", "img": "./food/cookie.png", "coords": [2, 0], "type": "noun" },
-                { "label": "Sandwich", "word": "sandwich", "img": "./food/sandwich.png", "coords": [3, 0], "type": "noun" },
+                { "label": "Apple", "word": "apple", "img": "./icons/food/apple.png", "coords": [0, 0], "type": "noun" },
+                { "label": "Banana", "word": "banana", "img": "./icons/food/banana.png", "coords": [1, 0], "type": "noun" },
+                { "label": "Cookie", "word": "cookie", "img": "./icons/food/cookie.png", "coords": [2, 0], "type": "noun" },
+                { "label": "Sandwich", "word": "sandwich", "img": "./icons/food/sandwich.png", "coords": [3, 0], "type": "noun" },
 
-                { "label": "Eat", "word": "eat", "img": "./core/eat.png", "coords": [0, 4], "type": "verb" },
-                { "label": "Hungry", "word": "hungry", "img": "./core/hungry.png", "coords": [1, 4], "type": "descriptor" }
+                { "label": "Eat", "word": "eat", "img": "./icons/food/eat.png", "coords": [0, 4], "type": "verb" },
+                { "label": "Hungry", "word": "hungry", "img": "./icons/food/hungry.png", "coords": [1, 4], "type": "descriptor" }
             ]
         },
         "DRINKS": {
             "buttons": [
-                { "label": "Water", "word": "water", "img": "./drinks/water.png", "coords": [0, 0], "type": "noun" },
-                { "label": "Juice", "word": "juice", "img": "./drinks/juice.png", "coords": [1, 0], "type": "noun" },
-                { "label": "Milk", "word": "milk", "img": "./drinks/milk.png", "coords": [2, 0], "type": "noun" },
-                { "label": "Hot Chocolate", "word": "hot chocolate", "img": "./drinks/hot_chocolate.png", "coords": [3, 0], "type": "noun" },
+                { "label": "Water", "word": "water", "img": "./icons/drinks/water.png", "coords": [0, 0], "type": "noun" },
+                { "label": "Juice", "word": "juice", "img": "./icons/drinks/juice.png", "coords": [1, 0], "type": "noun" },
+                { "label": "Milk", "word": "milk", "img": "./icons/drinks/milk.png", "coords": [2, 0], "type": "noun" },
+                { "label": "Hot Chocolate", "word": "hot chocolate", "img": "./icons/drinks/hot_chocolate.png", "coords": [3, 0], "type": "noun" },
 
-                { "label": "Drink", "word": "drink", "img": "./core/drink.png", "coords": [0, 4], "type": "verb" },
-                { "label": "Thirsty", "word": "thirsty", "img": "./core/thirsty.png", "coords": [1, 4], "type": "descriptor" }
+                { "label": "Drink", "word": "drink", "img": "./icons/drinks/drink.png", "coords": [0, 4], "type": "verb" },
+                { "label": "Thirsty", "word": "thirsty", "img": "./icons/drinks/thirsty.png", "coords": [1, 4], "type": "descriptor" }
             ]
         },
         "PLACES": {
             "buttons": [
-                { "label": "Outside", "word": "outside", "img": "./places/outside.png", "coords": [0, 0], "type": "noun" },
-                { "label": "Park", "word": "park", "img": "./places/park.png", "coords": [1, 0], "type": "noun" },
-                { "label": "Home", "word": "home", "img": "./places/home_place.png", "coords": [2, 0], "type": "noun" },
-                { "label": "School", "word": "school", "img": "./places/school.png", "coords": [3, 0], "type": "noun" }
+                { "label": "Outside", "word": "outside", "img": "./icons/places/outside.png", "coords": [0, 0], "type": "noun" },
+                { "label": "Park", "word": "park", "img": "./icons/places/park.png", "coords": [1, 0], "type": "noun" },
+                { "label": "Home", "word": "home", "img": "./icons/places/home_place.png", "coords": [2, 0], "type": "noun" },
+                { "label": "School", "word": "school", "img": "./icons/places/school.png", "coords": [3, 0], "type": "noun" }
             ]
         },
         "TIME": {
@@ -88,74 +88,74 @@
                 { "label": "11", "word": "11", "coords": [4, 1], "type": "syntax" },
                 { "label": "12", "word": "12", "coords": [5, 1], "type": "syntax" },
 
-                { "label": "Month", "word": "month", "img": "./time/month.png", "coords": [0, 4], "type": "noun" },
-                { "label": "Week", "word": "week", "img": "./time/week.png", "coords": [1, 4], "type": "noun" },
-                { "label": "Day", "word": "day", "img": "./time/day.png", "coords": [2, 4], "type": "noun" },
-                { "label": "Hour", "word": "hour", "img": "./time/hour.png", "coords": [3, 4], "type": "noun" },
-                { "label": "Minute", "word": "minute", "img": "./time/minute.png", "coords": [4, 4], "type": "noun" },
-                { "label": "Second", "word": "second", "img": "./time/second.png", "coords": [5, 4], "type": "noun" }
+                { "label": "Month", "word": "month", "img": "./icons/time/month.png", "coords": [0, 4], "type": "noun" },
+                { "label": "Week", "word": "week", "img": "./icons/time/week.png", "coords": [1, 4], "type": "noun" },
+                { "label": "Day", "word": "day", "img": "./icons/time/day.png", "coords": [2, 4], "type": "noun" },
+                { "label": "Hour", "word": "hour", "img": "./icons/time/hour.png", "coords": [3, 4], "type": "noun" },
+                { "label": "Minute", "word": "minute", "img": "./icons/time/minute.png", "coords": [4, 4], "type": "noun" },
+                { "label": "Second", "word": "second", "img": "./icons/time/second.png", "coords": [5, 4], "type": "noun" }
             ]
         },
         "ACTIONS": {
             "buttons": [
-                { "label": "Go", "word": "go", "img": "./actions/go.png", "coords": [0, 0], "type": "verb" },
-                { "label": "Stop", "word": "stop", "img": "./actions/stop.png", "coords": [1, 0], "type": "verb" },
-                { "label": "Play", "word": "play", "img": "./actions/play.png", "coords": [2, 0], "type": "verb" },
-                { "label": "Open", "word": "open", "img": "./actions/open.png", "coords": [3, 0], "type": "verb" },
-                { "label": "Close", "word": "close", "img": "./actions/close.png", "coords": [4, 0], "type": "verb" },
-                { "label": "Wait", "word": "wait", "img": "./actions/wait.png", "coords": [5, 0], "type": "verb" },
-                { "label": "Help", "word": "help", "img": "./core/help.png", "coords": [0, 1], "type": "verb" },
-                { "label": "Tell", "word": "tell", "img": "./actions/tell.png", "coords": [1, 1], "type": "verb" }
+                { "label": "Go", "word": "go", "img": "./icons/actions/go.png", "coords": [0, 0], "type": "verb" },
+                { "label": "Stop", "word": "stop", "img": "./icons/actions/stop.png", "coords": [1, 0], "type": "verb" },
+                { "label": "Play", "word": "play", "img": "./icons/actions/play.png", "coords": [2, 0], "type": "verb" },
+                { "label": "Open", "word": "open", "img": "./icons/actions/open.png", "coords": [3, 0], "type": "verb" },
+                { "label": "Close", "word": "close", "img": "./icons/actions/close.png", "coords": [4, 0], "type": "verb" },
+                { "label": "Wait", "word": "wait", "img": "./icons/actions/wait.png", "coords": [5, 0], "type": "verb" },
+                { "label": "Help", "word": "help", "img": "./icons/core/help.png", "coords": [0, 1], "type": "verb" },
+                { "label": "Tell", "word": "tell", "img": "./icons/actions/tell.png", "coords": [1, 1], "type": "verb" }
             ]
         },
         "PEOPLE": {
             "buttons": [
-                { "label": "Mom", "word": "mom", "img": "./people/mom.png", "coords": [0, 0], "type": "noun" },
-                { "label": "Dad", "word": "dad", "img": "./people/dad.png", "coords": [1, 0], "type": "noun" },
-                { "label": "Friend", "word": "friend", "img": "./people/friend.png", "coords": [2, 0], "type": "noun" },
-                { "label": "Teacher", "word": "teacher", "img": "./people/teacher.png", "coords": [3, 0], "type": "noun" },
-                { "label": "Doctor", "word": "doctor", "img": "./people/doctor.png", "coords": [4, 0], "type": "noun" },
-                { "label": "Baby", "word": "baby", "img": "./people/baby.png", "coords": [5, 0], "type": "noun" }
+                { "label": "Mom", "word": "mom", "img": "./icons/people/mom.png", "coords": [0, 0], "type": "noun" },
+                { "label": "Dad", "word": "dad", "img": "./icons/people/dad.png", "coords": [1, 0], "type": "noun" },
+                { "label": "Friend", "word": "friend", "img": "./icons/people/friend.png", "coords": [2, 0], "type": "noun" },
+                { "label": "Teacher", "word": "teacher", "img": "./icons/people/teacher.png", "coords": [3, 0], "type": "noun" },
+                { "label": "Doctor", "word": "doctor", "img": "./icons/people/doctor.png", "coords": [4, 0], "type": "noun" },
+                { "label": "Baby", "word": "baby", "img": "./icons/people/baby.png", "coords": [5, 0], "type": "noun" }
             ]
         },
         "EMOTIONS": {
             "buttons": [
-                { "label": "Happy", "word": "happy", "img": "./emotions/happy.png", "coords": [0, 0], "type": "descriptor" },
-                { "label": "Sad", "word": "sad", "img": "./emotions/sad.png", "coords": [1, 0], "type": "descriptor" },
-                { "label": "Angry", "word": "angry", "img": "./emotions/angry.png", "coords": [2, 0], "type": "descriptor" },
-                { "label": "Excited", "word": "excited", "img": "./emotions/excited.png", "coords": [3, 0], "type": "descriptor" },
-                { "label": "Scared", "word": "scared", "img": "./emotions/scared.png", "coords": [4, 0], "type": "descriptor" },
-                { "label": "Tired", "word": "tired", "img": "./emotions/tired.png", "coords": [5, 0], "type": "descriptor" }
+                { "label": "Happy", "word": "happy", "img": "./icons/emotions/happy.png", "coords": [0, 0], "type": "descriptor" },
+                { "label": "Sad", "word": "sad", "img": "./icons/emotions/sad.png", "coords": [1, 0], "type": "descriptor" },
+                { "label": "Angry", "word": "angry", "img": "./icons/emotions/angry.png", "coords": [2, 0], "type": "descriptor" },
+                { "label": "Excited", "word": "excited", "img": "./icons/emotions/excited.png", "coords": [3, 0], "type": "descriptor" },
+                { "label": "Scared", "word": "scared", "img": "./icons/emotions/scared.png", "coords": [4, 0], "type": "descriptor" },
+                { "label": "Tired", "word": "tired", "img": "./icons/emotions/tired.png", "coords": [5, 0], "type": "descriptor" }
             ]
         },
         "WEATHER": {
             "buttons": [
-                { "label": "Sunny", "word": "sunny", "img": "./weather/sunny.png", "coords": [0, 0], "type": "descriptor" },
-                { "label": "Rainy", "word": "rainy", "img": "./weather/rainy.png", "coords": [1, 0], "type": "descriptor" },
-                { "label": "Cloudy", "word": "cloudy", "img": "./weather/cloudy.png", "coords": [2, 0], "type": "descriptor" },
-                { "label": "Windy", "word": "windy", "img": "./weather/windy.png", "coords": [3, 0], "type": "descriptor" },
-                { "label": "Hot", "word": "hot", "img": "./weather/hot.png", "coords": [4, 0], "type": "descriptor" },
-                { "label": "Cold", "word": "cold", "img": "./weather/cold.png", "coords": [5, 0], "type": "descriptor" }
+                { "label": "Sunny", "word": "sunny", "img": "./icons/weather/sunny.png", "coords": [0, 0], "type": "descriptor" },
+                { "label": "Rainy", "word": "rainy", "img": "./icons/weather/rainy.png", "coords": [1, 0], "type": "descriptor" },
+                { "label": "Cloudy", "word": "cloudy", "img": "./icons/weather/cloudy.png", "coords": [2, 0], "type": "descriptor" },
+                { "label": "Windy", "word": "windy", "img": "./icons/weather/windy.png", "coords": [3, 0], "type": "descriptor" },
+                { "label": "Hot", "word": "hot", "img": "./icons/weather/hot.png", "coords": [4, 0], "type": "descriptor" },
+                { "label": "Cold", "word": "cold", "img": "./icons/weather/cold.png", "coords": [5, 0], "type": "descriptor" }
             ]
         },
         "QUESTIONS": {
             "buttons": [
-                { "label": "Who", "word": "who", "img": "./questions/who.png", "coords": [0, 0], "type": "syntax" },
-                { "label": "What", "word": "what", "img": "./questions/what.png", "coords": [1, 0], "type": "syntax" },
-                { "label": "Where", "word": "where", "img": "./questions/where.png", "coords": [2, 0], "type": "syntax" },
-                { "label": "When", "word": "when", "img": "./questions/when.png", "coords": [3, 0], "type": "syntax" },
-                { "label": "Why", "word": "why", "img": "./questions/why.png", "coords": [4, 0], "type": "syntax" },
-                { "label": "How", "word": "how", "img": "./questions/how.png", "coords": [5, 0], "type": "syntax" }
+                { "label": "Who", "word": "who", "img": "./icons/questions/who.png", "coords": [0, 0], "type": "syntax" },
+                { "label": "What", "word": "what", "img": "./icons/questions/what.png", "coords": [1, 0], "type": "syntax" },
+                { "label": "Where", "word": "where", "img": "./icons/questions/where.png", "coords": [2, 0], "type": "syntax" },
+                { "label": "When", "word": "when", "img": "./icons/questions/when.png", "coords": [3, 0], "type": "syntax" },
+                { "label": "Why", "word": "why", "img": "./icons/questions/why.png", "coords": [4, 0], "type": "syntax" },
+                { "label": "How", "word": "how", "img": "./icons/questions/how.png", "coords": [5, 0], "type": "syntax" }
             ]
         },
         "COLORS": {
             "buttons": [
-                { "label": "Red", "word": "red", "img": "./colors/red.png", "coords": [0, 0], "type": "descriptor" },
-                { "label": "Blue", "word": "blue", "img": "./colors/blue.png", "coords": [1, 0], "type": "descriptor" },
-                { "label": "Green", "word": "green", "img": "./colors/green.png", "coords": [2, 0], "type": "descriptor" },
-                { "label": "Yellow", "word": "yellow", "img": "./colors/yellow.png", "coords": [3, 0], "type": "descriptor" },
-                { "label": "Purple", "word": "purple", "img": "./colors/purple.png", "coords": [4, 0], "type": "descriptor" },
-                { "label": "Orange", "word": "orange", "img": "./colors/orange.png", "coords": [5, 0], "type": "descriptor" }
+                { "label": "Red", "word": "red", "img": "./icons/colours/red.png", "coords": [0, 0], "type": "descriptor" },
+                { "label": "Blue", "word": "blue", "img": "./icons/colours/blue.png", "coords": [1, 0], "type": "descriptor" },
+                { "label": "Green", "word": "green", "img": "./icons/colours/green.png", "coords": [2, 0], "type": "descriptor" },
+                { "label": "Yellow", "word": "yellow", "img": "./icons/colours/yellow.png", "coords": [3, 0], "type": "descriptor" },
+                { "label": "Purple", "word": "purple", "img": "./icons/colours/purple.png", "coords": [4, 0], "type": "descriptor" },
+                { "label": "Orange", "word": "orange", "img": "./icons/colours/orange.png", "coords": [5, 0], "type": "descriptor" }
             ]
         }
     }

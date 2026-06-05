@@ -34,7 +34,7 @@ WN_W, WN_H = 1280, 720
 SENTENCE_BAR_H = 80
 
 # How many buttons to have in the button area
-GRID_W, GRID_H = 6, 6
+GRID_W, GRID_H = 10, 6
 
 BUTTON_BORDER_WIDTH = 2
 

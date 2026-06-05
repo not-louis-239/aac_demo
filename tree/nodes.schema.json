@@ -76,11 +76,11 @@
                     "items": {
                         "type": "integer",
                         "anyOf": [
-                            { "minimum": -6, "maximum": -1 },
-                            { "minimum": 0, "maximum": 5 }
+                            { "minimum": -10, "maximum": -1 },
+                            { "minimum": 0, "maximum": 9 }
                         ]
                     },
-                    "description": "Grid alignment array mapped directly as [column, row] spanning indices [-6..-1] U [0..5]."
+                    "description": "Grid alignment array mapped directly as [column, row] spanning indices [-max_dim..max_dim-1]. Negative indices describe a number of cells from the last row or column. Row -1 (bottom row) is reserved for UNIVERSAL nodes."
                 },
                 "type": {
                     "type": "string",

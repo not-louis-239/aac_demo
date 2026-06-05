@@ -39,7 +39,9 @@ class Button:
     # How it looks
     label: str
     img: Path                # relative path to image folder from assets/images
-    coords: tuple[int, int]  # (x, y) from [-6..-1] U [0..5]
+    coords: tuple[int, int]  # (x, y) from:
+                             #     for x:  [-10..-1] U [0..9]
+                             #     for y:  [-6..-1] U [0..5]
     type: str                # used for button highlighting
 
 @dataclass

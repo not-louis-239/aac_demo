@@ -6,7 +6,7 @@
         "Negative coordinates describe a number of cells from the last row or column.",
         "The `.` directory refers to the `assets/images` directory relative to the project root.",
         "Row -1 (bottom row) is reserved for UNIVERSAL nodes.",
-        "Grid is 6x6 for standard usability. Hence grid coordinate indices are in [-6..-1] U [0..5]"
+        "Grid is 10x6 for standard usability. Hence grid coordinate indices are in [-10..-1] U [0..9] for x and [-6..-1] U [0..5] for y."
     ],
     "nodes": {
         "UNIVERSAL": {
@@ -25,6 +25,16 @@
                 { "label": "Want", "word": "want", "coords": [1, 0], "type": "verb" },
                 { "label": "More", "word": "more", "img": "./icons/home/more.png", "coords": [2, 0], "type": "descriptor" },
                 { "label": "Stop", "word": "stop", "img": "./icons/home/stop.png", "coords": [3, 0], "type": "verb" },
+                { "label": "Do", "word": "do", "coords": [4, 0], "type": "verb" },
+                { "label": "For", "word": "for", "coords": [5, 0], "type": "syntax" },
+                { "label": "A", "word": "a", "coords": [4, 1], "type": "syntax" },
+                { "label": "The", "word": "the", "coords": [5, 1], "type": "syntax" },
+                { "label": "In", "word": "in", "coords": [0, 2], "type": "descriptor" },
+                { "label": "On", "word": "on", "coords": [1, 2], "type": "syntax" },
+                { "label": "Out", "word": "out", "coords": [2, 2], "type": "descriptor" },
+                { "label": "At", "word": "at", "coords": [3, 2], "type": "syntax" },
+                { "label": "And", "word": "and", "coords": [4, 2], "type": "syntax" },
+                { "label": "An", "word": "an", "coords": [5, 2], "type": "syntax" },
 
                 { "label": "Go", "word": "go", "img": "./icons/home/go.png", "coords": [0, 1], "type": "verb" },
                 { "label": "Like", "word": "like", "img": "./icons/home/like.png", "coords": [1, 1], "type": "verb" },
@@ -41,7 +51,8 @@
                 { "label": "Feelings", "dest": "EMOTIONS", "img": "./folders/emotions.png", "coords": [1, 4], "type": "folder" },
                 { "label": "Weather", "dest": "WEATHER", "img": "./folders/weather.png", "coords": [2, 4], "type": "folder" },
                 { "label": "Ask", "dest": "QUESTIONS", "img": "./folders/questions.png", "coords": [3, 4], "type": "folder" },
-                { "label": "Colours", "dest": "COLOURS", "img": "./folders/colours.png", "coords": [4, 4], "type": "folder" }
+                { "label": "Colours", "dest": "COLOURS", "img": "./folders/colours.png", "coords": [4, 4], "type": "folder" },
+                { "label": "Extra Words", "dest": "EXTRA_WORDS", "img": "./folders/extra_words.png", "coords": [5, 4], "type": "folder" }
             ]
         },
         "FOOD": {

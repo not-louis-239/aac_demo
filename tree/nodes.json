@@ -148,7 +148,7 @@
                 { "label": "How", "word": "how", "img": "./icons/questions/how.png", "coords": [5, 0], "type": "syntax" }
             ]
         },
-        "COLORS": {
+        "COLOURS": {
             "buttons": [
                 { "label": "Red", "word": "red", "img": "./icons/colours/red.png", "coords": [0, 0], "type": "descriptor" },
                 { "label": "Blue", "word": "blue", "img": "./icons/colours/blue.png", "coords": [1, 0], "type": "descriptor" },

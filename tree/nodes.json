@@ -170,6 +170,16 @@
                 { "label": "Purple", "word": "purple", "img": "./icons/colours/purple.png", "coords": [4, 0], "type": "descriptor" },
                 { "label": "Orange", "word": "orange", "img": "./icons/colours/orange.png", "coords": [5, 0], "type": "descriptor" }
             ]
-        }
+        },
+        "EXTRA_WORDS": {
+            "buttons": [
+                { "label": "Please", "word": "please", "img": "./icons/extra_words/please.png", "coords": [0, 0], "type": "social" },
+                { "label": "Thank you", "word": "thank you", "img": "./icons/extra_words/thank_you.png", "coords": [1, 0], "type": "social" },
+                { "label": "Sorry", "word": "sorry", "img": "./icons/extra_words/sorry.png", "coords": [2, 0], "type": "social" },
+                { "label": "Yes", "word": "yes", "img": "./icons/extra_words/yes.png", "coords": [3, 0], "type": "syntax" },
+                { "label": "No", "word": "no", "img": "./icons/extra_words/no.png", "coords": [4, 0], "type": "syntax" },
+                { "label": "Maybe", "word": "maybe", "img": "./icons/extra_words/maybe.png", "coords": [5, 0], "type": "syntax" }
+            ]
+         }
     }
 }

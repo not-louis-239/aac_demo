@@ -39,7 +39,7 @@
                 { "label": "Feelings", "dest": "EMOTIONS", "img": "./folders/emotions.png", "coords": [1, 4], "type": "folder" },
                 { "label": "Weather", "dest": "WEATHER", "img": "./folders/weather.png", "coords": [2, 4], "type": "folder" },
                 { "label": "Ask", "dest": "QUESTIONS", "img": "./folders/questions.png", "coords": [3, 4], "type": "folder" },
-                { "label": "Colors", "dest": "COLORS", "img": "./folders/colors.png", "coords": [4, 4], "type": "folder" }
+                { "label": "Colours", "dest": "COLOURS", "img": "./folders/colours.png", "coords": [4, 4], "type": "folder" }
             ]
         },
         "FOOD": {
@@ -110,7 +110,7 @@
         },
         "PEOPLE": {
             "buttons": [
-                { "label": "Mom", "word": "mom", "img": "./icons/people/mom.png", "coords": [0, 0], "type": "noun" },
+                { "label": "Mum", "word": "mum", "img": "./icons/people/mum.png", "coords": [0, 0], "type": "noun" },
                 { "label": "Dad", "word": "dad", "img": "./icons/people/dad.png", "coords": [1, 0], "type": "noun" },
                 { "label": "Friend", "word": "friend", "img": "./icons/people/friend.png", "coords": [2, 0], "type": "noun" },
                 { "label": "Teacher", "word": "teacher", "img": "./icons/people/teacher.png", "coords": [3, 0], "type": "noun" },

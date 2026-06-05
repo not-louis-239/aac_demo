@@ -4,7 +4,7 @@
 
 **Version**: 0.3.0
 
-This is an open-source, lightweight AAC (Augmentative and Alternative Communication) desktop application written in Python using Pygame and Pyttsx3, relying on highly customiseable JSON configurations, licensed under the GNU General Public License, version 3 (GPLv3). 
+This is an open-source, lightweight AAC (Augmentative and Alternative Communication) desktop application written in Python using Pygame and Pyttsx3, relying on highly customiseable JSON configurations, licensed under the GNU General Public License, version 3 (GPLv3 or later). 
 
 ## But Why?
 
@@ -27,6 +27,10 @@ And it's not just about people with speech disabilities. These proprietary compa
 
 ## Licence
 
-This project uses dual licencing to ensure it stays open-source and free for everyone, while preventing corporate exploitation:
-- **Software**: All Python source code and JSON configurations are licensed under the **GNU General Public Licence v3 (GPLv3)**. See [LICENCE](./LICENCE) for the GNU GPLv3 licence terms.
+This project uses mixed-scope licencing to ensure it stays open-source and free for everyone, while preventing corporate exploitation:
+- **Software**: All Python source code and JSON configurations are licensed under the **GNU General Public Licence v3 (GPLv3)** or later. See [LICENCE](./LICENCE) for the GNU GPLv3 licence terms.
 - **Icons**: All hand-drawn image icons inside the `assets/images` directory are licenced under the **Creative Commons Attribution-ShareAlike (CC-BY-SA) 4.0**. The licence file can be found inside that directory. See the corresponding [LICENCE](./assets/images/LICENCE) for the licence terms.
+- **Fonts**: This project uses fonts licensed under the **SIL Open Font Licence v1.1**. These fonts are available on Google Fonts as follows:
+  - Atkinson-Hyperlegible: https://fonts.google.com/specimen/Atkinson+Hyperlegible
+  - ComicNeue-Bold: https://fonts.google.com/specimen/Comic+Neue
+  - Additionally, a copy of the SIL OFL v1.1 is available at: [LICENCE](./assets/fonts/LICENCE)

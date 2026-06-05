@@ -25,7 +25,7 @@ import pygame as pg
 from pygame.key import ScancodeWrapper
 
 from .terminal_formatting import COL_WARN, COL_END, COL_BOLD
-from .speak import speak
+from .speak import speak, stop_speaking as _stop_speaking
 from .load_nodes import Button, LanguageTree, load_language_tree
 from .constants import (
     SENTENCE_BAR_H,
@@ -165,3 +165,14 @@ def backspace_sentence_bar(self) -> None:
     """Remove the last word from the sentence bar."""
     if self.sentence_bar:
         self.sentence_bar.pop()
+
+@AACEngine.register("speak_sentence_bar")
+def speak_sentence_bar(self) -> None:
+    """Speak the current sentence bar."""
+    sentence = " ".join(self.sentence_bar)
+    speak(sentence)
+
+@AACEngine.register("stop_speaking")
+def stop_speaking(self) -> None:
+    """Stop any currently playing speech immediately."""
+    _stop_speaking()

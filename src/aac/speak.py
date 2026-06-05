@@ -28,6 +28,7 @@ import pyttsx3
 _speech_queue = queue.Queue()
 _engine_ready = threading.Event()
 
+
 def _speech_worker():
     """Dedicated background thread that owns the TTS engine loop."""
 
@@ -53,13 +54,20 @@ def _speech_worker():
                 engine = pyttsx3.init()
                 engine.say(text)
                 engine.runAndWait()
+            elif command == "STOP":
+                try:
+                    engine.stop()  # type: ignore
+                except Exception:
+                    pass
 
             _speech_queue.task_done()
         except queue.Empty:
             continue
 
+
 # Start the dedicated voice manager thread immediately
 threading.Thread(target=_speech_worker, daemon=True).start()
+
 
 def speak(s: str) -> None:
     """Speaks a given string of text, stopping any speech
@@ -76,6 +84,20 @@ def speak(s: str) -> None:
             break
 
     _speech_queue.put(("SPEAK", s))
+
+
+def stop_speaking() -> None:
+    """Stops any currently playing speech immediately."""
+    _engine_ready.wait()
+
+    while not _speech_queue.empty():
+        try:
+            _speech_queue.get_nowait()
+            _speech_queue.task_done()
+        except queue.Empty:
+            break
+
+    _speech_queue.put(("STOP", None))
 
 
 def _test():

@@ -51,7 +51,7 @@
                     "immutable": true
                 },
                 {
-                    "label": "Bksp",
+                    "label": "Backspace",
                     "word": null,
                     "dest": null,
                     "func": "backspace_sentence_bar",

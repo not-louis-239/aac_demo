@@ -196,6 +196,8 @@ class AACEngine:
         # the modify action currently doesn't include an option to change things like
         # paths and stuff
 
+        # if it's a GUI then we won't have to deal with EOFErrors from maniacs who decide to push Ctrl+D on this thing
+
         button_coord = _button_coord(event.pos)
 
         # If the click does not correspond to a valid coordinate, return

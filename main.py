@@ -27,7 +27,7 @@ import pygame as pg
 sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
 
 from sunrise.constants import WN_W, WN_H, FPS
-from sunrise.aac_main import AAC
+from sunrise.aac import AAC
 
 def main():
     pg.init()

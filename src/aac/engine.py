@@ -19,11 +19,12 @@
 
 import sys
 from typing import Any, Callable
+from pathlib import Path
 
 import pygame as pg
 from pygame.key import ScancodeWrapper
 
-from .terminal_formatting import COL_WARN, COL_END, COL_BOLD
+from .terminal_formatting import COL_ERR, COL_WARN, COL_END, COL_BOLD
 from .speak import speak, stop_speaking as _stop_speaking
 from .load_nodes import Button, LanguageTree, load_language_tree, save_language_tree
 from .constants import (
@@ -204,11 +205,59 @@ class AACEngine:
         # If the coordinate does not correspond to a valid on-screen
         # button, open the interface to create it, then early return
         if not button:
-            
+            # Prompt user for button properties
+            label = input("enter a label for the new button: ").strip()
+            if not label:
+                print(f"{COL_WARN}{COL_BOLD}warning{COL_END}: button label cannot be empty", file=sys.stderr)
+                return
 
-        # Open the interface. Get an action: either 'modify', 'move' or 'delete'
+            word = input("enter a word for the button (or press Enter for none): ").strip() or None
+            dest = input("enter a destination node for the button (or press Enter for none): ").strip() or None
+            func = input(f"enter a function for the button (available: {', '.join(self.FUNC_REGISTRY.keys())}, or press Enter for none): ").strip() or None
+
+            if not word and not dest and not func:
+                print(f"{COL_WARN}{COL_BOLD}warning{COL_END}: at least one of word, destination or func must be provided", file=sys.stderr)
+                return
+
+            # Validate function if provided
+            if func and func not in self.FUNC_REGISTRY:
+                print(f"{COL_WARN}{COL_BOLD}warning{COL_END}: unrecognised function: {COL_WARN}'{func}'{COL_END}", file=sys.stderr)
+                return
+
+            button_type = input(f"enter a button type (or press Enter for 'default'): ").strip() or "default"
+
+            # Provide a path to the image
+            path_input = input(f"Enter a path to the image for the button (or press Enter to skip): ").strip() or None
+            if path_input:
+                path = Path(path_input).resolve()
+                if not path.exists():
+                    print(f"{COL_ERR}{COL_BOLD}error{COL_END}: no such image file: '{path}'", file=sys.stderr)
+                    return
+                if not path.is_file():
+                    print(f"{COL_ERR}{COL_BOLD}error{COL_END}: not an image file: '{path}'", file=sys.stderr)
+                    return
+
+            # Create the new button
+            new_button = Button(
+                word=word,
+                dest=dest,
+                func=func,
+                label=label,
+                img=path_input,  # placeholder image path
+                coords=button_coord,
+                type=button_type
+            )
+
+            # Add button to current node and save
+            # If the node doesn't exist, initialise a new node for the new button
+            node = self.tree.get(self.current_node) or self.tree.add_node(self.current_node)
+            node.buttons.append(new_button)
+            save_language_tree(self.tree)
+            return
+
+        # Open the interface. Get an action: either 'modify', 'move', 'delete' or 'inspect'.
         # Once done, save the JSON to the nodes.json file.
-        action = input("enter an action [modify | move | delete]: ").strip().lower()
+        action = input("enter an action [modify | move | delete | inspect]: ").strip().lower()
 
         if action == "modify":
             if button.immutable:
@@ -277,6 +326,14 @@ class AACEngine:
                 if node and button in node.buttons:
                     node.buttons.remove(button)
                     save_language_tree(self.tree)
+                    break
+        elif action == 'inspect':
+            # Inspect the button's properties
+            for node_name in ["UNIVERSAL", self.current_node]:
+                node = self.tree.get(node_name)
+                if node and button in node.buttons:
+                    print(button.inspect(node_label=node_name))
+                    break
         else:
             print(f"{COL_WARN}{COL_BOLD}warning{COL_END}: unrecognised action: {COL_WARN}'{action}'{COL_END}", file=sys.stderr)
 

@@ -21,8 +21,9 @@ from pathlib import Path
 from typing import Any
 import json
 
+from aac.constants import ALLOWED_BUTTON_TYPES
 from aac.paths import NODES_FILE
-from aac.terminal_formatting import COL_ERR, COL_INFO, COL_END, COL_BOLD
+from aac.terminal_formatting import COL_ERR, COL_WARN, COL_INFO, COL_END
 
 _TYPE_DISPLAY_COL = "\033[93m"
 _WORD_DISPLAY_COL = "\033[32m"
@@ -42,16 +43,40 @@ class Button:
 
     # How it looks
     label: str
-    img: Path                # relative path to image folder from assets/images
+    img: str | None          # relative path to image folder from assets/images
     coords: tuple[int, int]  # (x, y) from:
                              #     for x:  [-10..-1] U [0..9]
                              #     for y:  [-6..-1] U [0..5]
 
     type: str                # used for button highlighting
 
-@dataclass
+    def inspect(self, node_label: str) -> str:
+        """Return a formatted string for inspecting the Button object."""
+        first_line = f"button {COL_INFO}'{self.label}'{COL_END} @ {COL_INFO}{self.coords}{COL_END} in node {COL_INFO}'{node_label}'{COL_END}"
+
+        if self.immutable:
+            first_line += f" {COL_WARN}(immutable){COL_END}"
+
+        if self.dest:
+            first_line += f' -> {COL_INFO}{self.dest}{COL_END}'
+        elif self.word:
+            first_line += f' (word: {COL_INFO}{self.word}{COL_END})'
+        elif self.func:
+            first_line += f' -> {COL_INFO}{self.func}(){COL_END}'
+        else:
+            first_line += f' {COL_WARN}(no defined functionality){COL_END}'
+
+        lines: list[str] = [first_line]
+
+        if self.img:
+            lines.append(f"  - image: {COL_INFO}{self.img}{COL_END}")
+        lines.append(f"  - type: {COL_INFO}{self.type}{COL_END}")
+
+        return "\n".join(lines)
+
+@dataclass(kw_only=True)
 class Node:
-    buttons: list[Button]
+    buttons: list[Button] = field(default_factory=list)
 
 @dataclass
 class LanguageTree:
@@ -59,6 +84,17 @@ class LanguageTree:
 
     def get(self, k: str) -> Node | None:
         return self.nodes.get(k)
+
+    def add_node(self, node_label: str) -> Node:
+        """Initialise a new empty node called `node_label` in
+        `self`'s nodes dictionary if it doesn't exist, before returning
+        the new node, or the node if it already exists."""
+        if node_label in self.nodes:
+            return self.nodes[node_label]
+
+        new_node = Node()
+        self.nodes[node_label] = new_node
+        return new_node
 
     def serialise_to_json(self) -> dict[str, Any]:
         return {
@@ -184,6 +220,10 @@ def lint_language_tree(lt: LanguageTree) -> list[str]:
             # Check for destinations not specified in nodes.json
             if isinstance(button.dest, str) and button.dest != "HOME" and button.dest not in lt.nodes:
                 errors.append(_make_error(node_name, button, f"undefined destination '{button.dest}'"))
+
+            # Check for disallowed/unrecognised button types
+            if button.type not in ALLOWED_BUTTON_TYPES:
+                errors.append(_make_error(node_name, button, f"unrecognised button type '{button.type}'"))
 
     return errors
 

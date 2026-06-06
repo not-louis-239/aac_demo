@@ -11,175 +11,1550 @@
     "nodes": {
         "UNIVERSAL": {
             "buttons": [
-                { "label": "Home", "dest": "HOME", "coords": [0, -1], "type": "system", "immutable": true },
-                { "label": "Back", "dest": -1, "coords": [1, -1], "type": "system", "immutable": true },
-                { "label": "Clear", "func": "clear_sentence_bar", "coords": [2, -1], "type": "system", "immutable": true },
-                { "label": "Bksp", "func": "backspace_sentence_bar", "coords": [3, -1], "type": "system", "immutable": true },
-                { "label": "Speak", "func": "speak_sentence_bar", "coords": [4, -1], "type": "system", "immutable": true },
-                { "label": "Stop", "func": "stop_speaking", "coords": [5, -1], "type": "system", "immutable": true }
+                {
+                    "label": "Home",
+                    "word": null,
+                    "dest": "HOME",
+                    "func": null,
+                    "coords": [
+                        0,
+                        -1
+                    ],
+                    "type": "system",
+                    "img": null,
+                    "immutable": true
+                },
+                {
+                    "label": "Back",
+                    "word": null,
+                    "dest": -1,
+                    "func": null,
+                    "coords": [
+                        1,
+                        -1
+                    ],
+                    "type": "system",
+                    "img": null,
+                    "immutable": true
+                },
+                {
+                    "label": "Clear",
+                    "word": null,
+                    "dest": null,
+                    "func": "clear_sentence_bar",
+                    "coords": [
+                        2,
+                        -1
+                    ],
+                    "type": "system",
+                    "img": null,
+                    "immutable": true
+                },
+                {
+                    "label": "Bksp",
+                    "word": null,
+                    "dest": null,
+                    "func": "backspace_sentence_bar",
+                    "coords": [
+                        3,
+                        -1
+                    ],
+                    "type": "system",
+                    "img": null,
+                    "immutable": true
+                },
+                {
+                    "label": "Speak",
+                    "word": null,
+                    "dest": null,
+                    "func": "speak_sentence_bar",
+                    "coords": [
+                        4,
+                        -1
+                    ],
+                    "type": "system",
+                    "img": null,
+                    "immutable": true
+                },
+                {
+                    "label": "Stop",
+                    "word": null,
+                    "dest": null,
+                    "func": "stop_speaking",
+                    "coords": [
+                        5,
+                        -1
+                    ],
+                    "type": "system",
+                    "img": null,
+                    "immutable": true
+                }
             ]
         },
         "HOME": {
             "buttons": [
-                { "label": "I", "word": "I", "coords": [0, 0], "type": "pronoun" },
-                { "label": "Want", "word": "want", "coords": [1, 0], "type": "verb" },
-                { "label": "More", "word": "more", "img": "./icons/home/more.png", "coords": [2, 0], "type": "descriptor" },
-                { "label": "Stop", "word": "stop", "img": "./icons/home/stop.png", "coords": [3, 0], "type": "verb" },
-                { "label": "Do", "word": "do", "coords": [4, 0], "type": "verb" },
-                { "label": "For", "word": "for", "coords": [5, 0], "type": "syntax" },
-                { "label": "A", "word": "a", "coords": [4, 1], "type": "syntax" },
-                { "label": "The", "word": "the", "coords": [5, 1], "type": "syntax" },
-                { "label": "In", "word": "in", "coords": [0, 2], "type": "descriptor" },
-                { "label": "On", "word": "on", "coords": [1, 2], "type": "syntax" },
-                { "label": "Out", "word": "out", "coords": [2, 2], "type": "descriptor" },
-                { "label": "At", "word": "at", "coords": [3, 2], "type": "syntax" },
-                { "label": "And", "word": "and", "coords": [4, 2], "type": "syntax" },
-                { "label": "An", "word": "an", "coords": [5, 2], "type": "syntax" },
-
-                { "label": "Go", "word": "go", "img": "./icons/home/go.png", "coords": [0, 1], "type": "verb" },
-                { "label": "Like", "word": "like", "img": "./icons/home/like.png", "coords": [1, 1], "type": "verb" },
-                { "label": "Help", "word": "help", "img": "./icons/home/help.png", "coords": [2, 1], "type": "verb" },
-                { "label": "Not", "word": "not", "img": "./icons/home/not.png", "coords": [3, 1], "type": "descriptor" },
-
-                { "label": "Food", "dest": "FOOD", "img": "./folders/food.png", "coords": [0, 3], "type": "folder" },
-                { "label": "Drinks", "dest": "DRINKS", "img": "./folders/drinks.png", "coords": [1, 3], "type": "folder" },
-                { "label": "Places", "dest": "PLACES", "img": "./folders/places.png", "coords": [2, 3], "type": "folder" },
-                { "label": "Time", "dest": "TIME", "img": "./folders/time.png", "coords": [3, 3], "type": "folder" },
-                { "label": "Groups", "dest": "GROUPS", "img": "./folders/groups.png", "coords": [4, 3], "type": "folder" },
-                { "label": "Actions", "dest": "ACTIONS", "img": "./folders/actions.png", "coords": [5, 3], "type": "folder" },
-                { "label": "People", "dest": "PEOPLE", "img": "./folders/people.png", "coords": [0, 4], "type": "folder" },
-                { "label": "Feelings", "dest": "EMOTIONS", "img": "./folders/emotions.png", "coords": [1, 4], "type": "folder" },
-                { "label": "Weather", "dest": "WEATHER", "img": "./folders/weather.png", "coords": [2, 4], "type": "folder" },
-                { "label": "Ask", "dest": "QUESTIONS", "img": "./folders/questions.png", "coords": [3, 4], "type": "folder" },
-                { "label": "Colours", "dest": "COLOURS", "img": "./folders/colours.png", "coords": [4, 4], "type": "folder" },
-                { "label": "Extra Words", "dest": "EXTRA_WORDS", "img": "./folders/extra_words.png", "coords": [5, 4], "type": "folder" }
+                {
+                    "label": "I",
+                    "word": "I",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        0,
+                        0
+                    ],
+                    "type": "pronoun",
+                    "img": null,
+                    "immutable": false
+                },
+                {
+                    "label": "Want",
+                    "word": "want",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        1,
+                        0
+                    ],
+                    "type": "verb",
+                    "img": null,
+                    "immutable": false
+                },
+                {
+                    "label": "More",
+                    "word": "more",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        2,
+                        0
+                    ],
+                    "type": "descriptor",
+                    "img": "./icons/home/more.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Stop",
+                    "word": "stop",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        3,
+                        0
+                    ],
+                    "type": "verb",
+                    "img": "./icons/home/stop.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Do",
+                    "word": "do",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        4,
+                        0
+                    ],
+                    "type": "verb",
+                    "img": null,
+                    "immutable": false
+                },
+                {
+                    "label": "For",
+                    "word": "for",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        5,
+                        0
+                    ],
+                    "type": "syntax",
+                    "img": null,
+                    "immutable": false
+                },
+                {
+                    "label": "A",
+                    "word": "a",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        4,
+                        1
+                    ],
+                    "type": "syntax",
+                    "img": null,
+                    "immutable": false
+                },
+                {
+                    "label": "The",
+                    "word": "the",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        5,
+                        1
+                    ],
+                    "type": "syntax",
+                    "img": null,
+                    "immutable": false
+                },
+                {
+                    "label": "In",
+                    "word": "in",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        0,
+                        2
+                    ],
+                    "type": "descriptor",
+                    "img": null,
+                    "immutable": false
+                },
+                {
+                    "label": "On",
+                    "word": "on",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        1,
+                        2
+                    ],
+                    "type": "syntax",
+                    "img": null,
+                    "immutable": false
+                },
+                {
+                    "label": "Out",
+                    "word": "out",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        2,
+                        2
+                    ],
+                    "type": "descriptor",
+                    "img": null,
+                    "immutable": false
+                },
+                {
+                    "label": "At",
+                    "word": "at",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        3,
+                        2
+                    ],
+                    "type": "syntax",
+                    "img": null,
+                    "immutable": false
+                },
+                {
+                    "label": "And",
+                    "word": "and",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        4,
+                        2
+                    ],
+                    "type": "syntax",
+                    "img": null,
+                    "immutable": false
+                },
+                {
+                    "label": "An",
+                    "word": "an",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        5,
+                        2
+                    ],
+                    "type": "syntax",
+                    "img": null,
+                    "immutable": false
+                },
+                {
+                    "label": "Go",
+                    "word": "go",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        0,
+                        1
+                    ],
+                    "type": "verb",
+                    "img": "./icons/home/go.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Like",
+                    "word": "like",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        1,
+                        1
+                    ],
+                    "type": "verb",
+                    "img": "./icons/home/like.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Help",
+                    "word": "help",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        2,
+                        1
+                    ],
+                    "type": "verb",
+                    "img": "./icons/home/help.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Not",
+                    "word": "not",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        3,
+                        1
+                    ],
+                    "type": "descriptor",
+                    "img": "./icons/home/not.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Food",
+                    "word": null,
+                    "dest": "FOOD",
+                    "func": null,
+                    "coords": [
+                        0,
+                        3
+                    ],
+                    "type": "folder",
+                    "img": "./folders/food.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Drinks",
+                    "word": null,
+                    "dest": "DRINKS",
+                    "func": null,
+                    "coords": [
+                        1,
+                        3
+                    ],
+                    "type": "folder",
+                    "img": "./folders/drinks.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Places",
+                    "word": null,
+                    "dest": "PLACES",
+                    "func": null,
+                    "coords": [
+                        2,
+                        3
+                    ],
+                    "type": "folder",
+                    "img": "./folders/places.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Time",
+                    "word": null,
+                    "dest": "TIME",
+                    "func": null,
+                    "coords": [
+                        3,
+                        3
+                    ],
+                    "type": "folder",
+                    "img": "./folders/time.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Groups",
+                    "word": null,
+                    "dest": "GROUPS",
+                    "func": null,
+                    "coords": [
+                        4,
+                        3
+                    ],
+                    "type": "folder",
+                    "img": "./folders/groups.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Actions",
+                    "word": null,
+                    "dest": "ACTIONS",
+                    "func": null,
+                    "coords": [
+                        5,
+                        3
+                    ],
+                    "type": "folder",
+                    "img": "./folders/actions.png",
+                    "immutable": false
+                },
+                {
+                    "label": "People",
+                    "word": null,
+                    "dest": "PEOPLE",
+                    "func": null,
+                    "coords": [
+                        0,
+                        4
+                    ],
+                    "type": "folder",
+                    "img": "./folders/people.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Feelings",
+                    "word": null,
+                    "dest": "EMOTIONS",
+                    "func": null,
+                    "coords": [
+                        1,
+                        4
+                    ],
+                    "type": "folder",
+                    "img": "./folders/emotions.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Weather",
+                    "word": null,
+                    "dest": "WEATHER",
+                    "func": null,
+                    "coords": [
+                        2,
+                        4
+                    ],
+                    "type": "folder",
+                    "img": "./folders/weather.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Ask",
+                    "word": null,
+                    "dest": "QUESTIONS",
+                    "func": null,
+                    "coords": [
+                        3,
+                        4
+                    ],
+                    "type": "folder",
+                    "img": "./folders/questions.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Colours",
+                    "word": null,
+                    "dest": "COLOURS",
+                    "func": null,
+                    "coords": [
+                        4,
+                        4
+                    ],
+                    "type": "folder",
+                    "img": "./folders/colours.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Extra Words",
+                    "word": null,
+                    "dest": "EXTRA_WORDS",
+                    "func": null,
+                    "coords": [
+                        5,
+                        4
+                    ],
+                    "type": "folder",
+                    "img": "./folders/extra_words.png",
+                    "immutable": false
+                },
+                {
+                    "label": "You",
+                    "word": "you",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        6,
+                        1
+                    ],
+                    "type": "pronoun",
+                    "img": null,
+                    "immutable": false
+                }
             ]
         },
         "FOOD": {
             "buttons": [
-                { "label": "Apple", "word": "apple", "img": "./icons/food/apple.png", "coords": [0, 0], "type": "noun" },
-                { "label": "Banana", "word": "banana", "img": "./icons/food/banana.png", "coords": [1, 0], "type": "noun" },
-                { "label": "Cookie", "word": "cookie", "img": "./icons/food/cookie.png", "coords": [2, 0], "type": "noun" },
-                { "label": "Sandwich", "word": "sandwich", "img": "./icons/food/sandwich.png", "coords": [3, 0], "type": "noun" },
-
-                { "label": "Eat", "word": "eat", "img": "./icons/food/eat.png", "coords": [0, 4], "type": "verb" },
-                { "label": "Hungry", "word": "hungry", "img": "./icons/food/hungry.png", "coords": [1, 4], "type": "descriptor" }
+                {
+                    "label": "Apple",
+                    "word": "apple",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        0,
+                        0
+                    ],
+                    "type": "noun",
+                    "img": "./icons/food/apple.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Banana",
+                    "word": "banana",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        1,
+                        0
+                    ],
+                    "type": "noun",
+                    "img": "./icons/food/banana.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Cookie",
+                    "word": "cookie",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        2,
+                        0
+                    ],
+                    "type": "noun",
+                    "img": "./icons/food/cookie.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Sandwich",
+                    "word": "sandwich",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        3,
+                        0
+                    ],
+                    "type": "noun",
+                    "img": "./icons/food/sandwich.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Eat",
+                    "word": "eat",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        0,
+                        4
+                    ],
+                    "type": "verb",
+                    "img": "./icons/food/eat.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Hungry",
+                    "word": "hungry",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        1,
+                        4
+                    ],
+                    "type": "descriptor",
+                    "img": "./icons/food/hungry.png",
+                    "immutable": false
+                }
             ]
         },
         "DRINKS": {
             "buttons": [
-                { "label": "Water", "word": "water", "img": "./icons/drinks/water.png", "coords": [0, 0], "type": "noun" },
-                { "label": "Juice", "word": "juice", "img": "./icons/drinks/juice.png", "coords": [1, 0], "type": "noun" },
-                { "label": "Milk", "word": "milk", "img": "./icons/drinks/milk.png", "coords": [2, 0], "type": "noun" },
-                { "label": "Hot Chocolate", "word": "hot chocolate", "img": "./icons/drinks/hot_chocolate.png", "coords": [3, 0], "type": "noun" },
-
-                { "label": "Drink", "word": "drink", "img": "./icons/drinks/drink.png", "coords": [0, 4], "type": "verb" },
-                { "label": "Thirsty", "word": "thirsty", "img": "./icons/drinks/thirsty.png", "coords": [1, 4], "type": "descriptor" }
+                {
+                    "label": "Water",
+                    "word": "water",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        0,
+                        0
+                    ],
+                    "type": "noun",
+                    "img": "./icons/drinks/water.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Juice",
+                    "word": "juice",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        1,
+                        0
+                    ],
+                    "type": "noun",
+                    "img": "./icons/drinks/juice.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Milk",
+                    "word": "milk",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        2,
+                        0
+                    ],
+                    "type": "noun",
+                    "img": "./icons/drinks/milk.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Hot Chocolate",
+                    "word": "hot chocolate",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        3,
+                        0
+                    ],
+                    "type": "noun",
+                    "img": "./icons/drinks/hot_chocolate.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Drink",
+                    "word": "drink",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        0,
+                        4
+                    ],
+                    "type": "verb",
+                    "img": "./icons/drinks/drink.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Thirsty",
+                    "word": "thirsty",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        1,
+                        4
+                    ],
+                    "type": "descriptor",
+                    "img": "./icons/drinks/thirsty.png",
+                    "immutable": false
+                }
             ]
         },
         "PLACES": {
             "buttons": [
-                { "label": "Outside", "word": "outside", "img": "./icons/places/outside.png", "coords": [0, 0], "type": "noun" },
-                { "label": "Park", "word": "park", "img": "./icons/places/park.png", "coords": [1, 0], "type": "noun" },
-                { "label": "Home", "word": "home", "img": "./icons/places/home_place.png", "coords": [2, 0], "type": "noun" },
-                { "label": "School", "word": "school", "img": "./icons/places/school.png", "coords": [3, 0], "type": "noun" }
+                {
+                    "label": "Outside",
+                    "word": "outside",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        0,
+                        0
+                    ],
+                    "type": "noun",
+                    "img": "./icons/places/outside.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Park",
+                    "word": "park",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        1,
+                        0
+                    ],
+                    "type": "noun",
+                    "img": "./icons/places/park.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Home",
+                    "word": "home",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        2,
+                        0
+                    ],
+                    "type": "noun",
+                    "img": "./icons/places/home_place.png",
+                    "immutable": false
+                },
+                {
+                    "label": "School",
+                    "word": "school",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        3,
+                        0
+                    ],
+                    "type": "noun",
+                    "img": "./icons/places/school.png",
+                    "immutable": false
+                }
             ]
         },
         "TIME": {
             "buttons": [
-                { "label": "1", "word": "1", "coords": [0, 0], "type": "syntax" },
-                { "label": "2", "word": "2", "coords": [1, 0], "type": "syntax" },
-                { "label": "3", "word": "3", "coords": [2, 0], "type": "syntax" },
-                { "label": "4", "word": "4", "coords": [3, 0], "type": "syntax" },
-                { "label": "5", "word": "5", "coords": [4, 0], "type": "syntax" },
-                { "label": "6", "word": "6", "coords": [5, 0], "type": "syntax" },
-
-                { "label": "7", "word": "7", "coords": [0, 1], "type": "syntax" },
-                { "label": "8", "word": "8", "coords": [1, 1], "type": "syntax" },
-                { "label": "9", "word": "9", "coords": [2, 1], "type": "syntax" },
-                { "label": "10", "word": "10", "coords": [3, 1], "type": "syntax" },
-                { "label": "11", "word": "11", "coords": [4, 1], "type": "syntax" },
-                { "label": "12", "word": "12", "coords": [5, 1], "type": "syntax" },
-
-                { "label": "Month", "word": "month", "img": "./icons/time/month.png", "coords": [0, 4], "type": "noun" },
-                { "label": "Week", "word": "week", "img": "./icons/time/week.png", "coords": [1, 4], "type": "noun" },
-                { "label": "Day", "word": "day", "img": "./icons/time/day.png", "coords": [2, 4], "type": "noun" },
-                { "label": "Hour", "word": "hour", "img": "./icons/time/hour.png", "coords": [3, 4], "type": "noun" },
-                { "label": "Minute", "word": "minute", "img": "./icons/time/minute.png", "coords": [4, 4], "type": "noun" },
-                { "label": "Second", "word": "second", "img": "./icons/time/second.png", "coords": [5, 4], "type": "noun" }
+                {
+                    "label": "1",
+                    "word": "1",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        0,
+                        0
+                    ],
+                    "type": "syntax",
+                    "img": null,
+                    "immutable": false
+                },
+                {
+                    "label": "2",
+                    "word": "2",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        1,
+                        0
+                    ],
+                    "type": "syntax",
+                    "img": null,
+                    "immutable": false
+                },
+                {
+                    "label": "3",
+                    "word": "3",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        2,
+                        0
+                    ],
+                    "type": "syntax",
+                    "img": null,
+                    "immutable": false
+                },
+                {
+                    "label": "4",
+                    "word": "4",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        3,
+                        0
+                    ],
+                    "type": "syntax",
+                    "img": null,
+                    "immutable": false
+                },
+                {
+                    "label": "5",
+                    "word": "5",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        4,
+                        0
+                    ],
+                    "type": "syntax",
+                    "img": null,
+                    "immutable": false
+                },
+                {
+                    "label": "6",
+                    "word": "6",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        5,
+                        0
+                    ],
+                    "type": "syntax",
+                    "img": null,
+                    "immutable": false
+                },
+                {
+                    "label": "7",
+                    "word": "7",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        0,
+                        1
+                    ],
+                    "type": "syntax",
+                    "img": null,
+                    "immutable": false
+                },
+                {
+                    "label": "8",
+                    "word": "8",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        1,
+                        1
+                    ],
+                    "type": "syntax",
+                    "img": null,
+                    "immutable": false
+                },
+                {
+                    "label": "9",
+                    "word": "9",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        2,
+                        1
+                    ],
+                    "type": "syntax",
+                    "img": null,
+                    "immutable": false
+                },
+                {
+                    "label": "10",
+                    "word": "10",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        3,
+                        1
+                    ],
+                    "type": "syntax",
+                    "img": null,
+                    "immutable": false
+                },
+                {
+                    "label": "11",
+                    "word": "11",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        4,
+                        1
+                    ],
+                    "type": "syntax",
+                    "img": null,
+                    "immutable": false
+                },
+                {
+                    "label": "12",
+                    "word": "12",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        5,
+                        1
+                    ],
+                    "type": "syntax",
+                    "img": null,
+                    "immutable": false
+                },
+                {
+                    "label": "Month",
+                    "word": "month",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        0,
+                        4
+                    ],
+                    "type": "noun",
+                    "img": "./icons/time/month.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Week",
+                    "word": "week",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        1,
+                        4
+                    ],
+                    "type": "noun",
+                    "img": "./icons/time/week.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Day",
+                    "word": "day",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        2,
+                        4
+                    ],
+                    "type": "noun",
+                    "img": "./icons/time/day.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Hour",
+                    "word": "hour",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        3,
+                        4
+                    ],
+                    "type": "noun",
+                    "img": "./icons/time/hour.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Minute",
+                    "word": "minute",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        4,
+                        4
+                    ],
+                    "type": "noun",
+                    "img": "./icons/time/minute.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Second",
+                    "word": "second",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        5,
+                        4
+                    ],
+                    "type": "noun",
+                    "img": "./icons/time/second.png",
+                    "immutable": false
+                }
             ]
         },
         "ACTIONS": {
             "buttons": [
-                { "label": "Go", "word": "go", "img": "./icons/actions/go.png", "coords": [0, 0], "type": "verb" },
-                { "label": "Stop", "word": "stop", "img": "./icons/actions/stop.png", "coords": [1, 0], "type": "verb" },
-                { "label": "Play", "word": "play", "img": "./icons/actions/play.png", "coords": [2, 0], "type": "verb" },
-                { "label": "Open", "word": "open", "img": "./icons/actions/open.png", "coords": [3, 0], "type": "verb" },
-                { "label": "Close", "word": "close", "img": "./icons/actions/close.png", "coords": [4, 0], "type": "verb" },
-                { "label": "Wait", "word": "wait", "img": "./icons/actions/wait.png", "coords": [5, 0], "type": "verb" },
-                { "label": "Help", "word": "help", "img": "./icons/core/help.png", "coords": [0, 1], "type": "verb" },
-                { "label": "Tell", "word": "tell", "img": "./icons/actions/tell.png", "coords": [1, 1], "type": "verb" }
+                {
+                    "label": "Go",
+                    "word": "go",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        0,
+                        0
+                    ],
+                    "type": "verb",
+                    "img": "./icons/actions/go.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Stop",
+                    "word": "stop",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        1,
+                        0
+                    ],
+                    "type": "verb",
+                    "img": "./icons/actions/stop.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Play",
+                    "word": "play",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        2,
+                        0
+                    ],
+                    "type": "verb",
+                    "img": "./icons/actions/play.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Open",
+                    "word": "open",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        3,
+                        0
+                    ],
+                    "type": "verb",
+                    "img": "./icons/actions/open.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Close",
+                    "word": "close",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        4,
+                        0
+                    ],
+                    "type": "verb",
+                    "img": "./icons/actions/close.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Wait",
+                    "word": "wait",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        5,
+                        0
+                    ],
+                    "type": "verb",
+                    "img": "./icons/actions/wait.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Help",
+                    "word": "help",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        0,
+                        1
+                    ],
+                    "type": "verb",
+                    "img": "./icons/core/help.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Tell",
+                    "word": "tell",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        1,
+                        1
+                    ],
+                    "type": "verb",
+                    "img": "./icons/actions/tell.png",
+                    "immutable": false
+                }
             ]
         },
         "PEOPLE": {
             "buttons": [
-                { "label": "Mum", "word": "mum", "img": "./icons/people/mum.png", "coords": [0, 0], "type": "noun" },
-                { "label": "Dad", "word": "dad", "img": "./icons/people/dad.png", "coords": [1, 0], "type": "noun" },
-                { "label": "Friend", "word": "friend", "img": "./icons/people/friend.png", "coords": [2, 0], "type": "noun" },
-                { "label": "Teacher", "word": "teacher", "img": "./icons/people/teacher.png", "coords": [3, 0], "type": "noun" },
-                { "label": "Doctor", "word": "doctor", "img": "./icons/people/doctor.png", "coords": [4, 0], "type": "noun" },
-                { "label": "Baby", "word": "baby", "img": "./icons/people/baby.png", "coords": [5, 0], "type": "noun" }
+                {
+                    "label": "Mum",
+                    "word": "mum",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        0,
+                        0
+                    ],
+                    "type": "noun",
+                    "img": "./icons/people/mum.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Dad",
+                    "word": "dad",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        1,
+                        0
+                    ],
+                    "type": "noun",
+                    "img": "./icons/people/dad.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Friend",
+                    "word": "friend",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        2,
+                        0
+                    ],
+                    "type": "noun",
+                    "img": "./icons/people/friend.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Teacher",
+                    "word": "teacher",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        3,
+                        0
+                    ],
+                    "type": "noun",
+                    "img": "./icons/people/teacher.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Doctor",
+                    "word": "doctor",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        4,
+                        0
+                    ],
+                    "type": "noun",
+                    "img": "./icons/people/doctor.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Baby",
+                    "word": "baby",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        5,
+                        0
+                    ],
+                    "type": "noun",
+                    "img": "./icons/people/baby.png",
+                    "immutable": false
+                }
             ]
         },
         "EMOTIONS": {
             "buttons": [
-                { "label": "Happy", "word": "happy", "img": "./icons/emotions/happy.png", "coords": [0, 0], "type": "descriptor" },
-                { "label": "Sad", "word": "sad", "img": "./icons/emotions/sad.png", "coords": [1, 0], "type": "descriptor" },
-                { "label": "Angry", "word": "angry", "img": "./icons/emotions/angry.png", "coords": [2, 0], "type": "descriptor" },
-                { "label": "Excited", "word": "excited", "img": "./icons/emotions/excited.png", "coords": [3, 0], "type": "descriptor" },
-                { "label": "Scared", "word": "scared", "img": "./icons/emotions/scared.png", "coords": [4, 0], "type": "descriptor" },
-                { "label": "Tired", "word": "tired", "img": "./icons/emotions/tired.png", "coords": [5, 0], "type": "descriptor" }
+                {
+                    "label": "Happy",
+                    "word": "happy",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        0,
+                        0
+                    ],
+                    "type": "descriptor",
+                    "img": "./icons/emotions/happy.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Sad",
+                    "word": "sad",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        1,
+                        0
+                    ],
+                    "type": "descriptor",
+                    "img": "./icons/emotions/sad.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Angry",
+                    "word": "angry",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        2,
+                        0
+                    ],
+                    "type": "descriptor",
+                    "img": "./icons/emotions/angry.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Excited",
+                    "word": "excited",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        3,
+                        0
+                    ],
+                    "type": "descriptor",
+                    "img": "./icons/emotions/excited.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Scared",
+                    "word": "scared",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        4,
+                        0
+                    ],
+                    "type": "descriptor",
+                    "img": "./icons/emotions/scared.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Tired",
+                    "word": "tired",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        5,
+                        0
+                    ],
+                    "type": "descriptor",
+                    "img": "./icons/emotions/tired.png",
+                    "immutable": false
+                }
             ]
         },
         "WEATHER": {
             "buttons": [
-                { "label": "Sunny", "word": "sunny", "img": "./icons/weather/sunny.png", "coords": [0, 0], "type": "descriptor" },
-                { "label": "Rainy", "word": "rainy", "img": "./icons/weather/rainy.png", "coords": [1, 0], "type": "descriptor" },
-                { "label": "Cloudy", "word": "cloudy", "img": "./icons/weather/cloudy.png", "coords": [2, 0], "type": "descriptor" },
-                { "label": "Windy", "word": "windy", "img": "./icons/weather/windy.png", "coords": [3, 0], "type": "descriptor" },
-                { "label": "Hot", "word": "hot", "img": "./icons/weather/hot.png", "coords": [4, 0], "type": "descriptor" },
-                { "label": "Cold", "word": "cold", "img": "./icons/weather/cold.png", "coords": [5, 0], "type": "descriptor" }
+                {
+                    "label": "Sunny",
+                    "word": "sunny",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        0,
+                        0
+                    ],
+                    "type": "descriptor",
+                    "img": "./icons/weather/sunny.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Rainy",
+                    "word": "rainy",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        1,
+                        0
+                    ],
+                    "type": "descriptor",
+                    "img": "./icons/weather/rainy.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Cloudy",
+                    "word": "cloudy",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        2,
+                        0
+                    ],
+                    "type": "descriptor",
+                    "img": "./icons/weather/cloudy.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Windy",
+                    "word": "windy",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        3,
+                        0
+                    ],
+                    "type": "descriptor",
+                    "img": "./icons/weather/windy.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Hot",
+                    "word": "hot",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        4,
+                        0
+                    ],
+                    "type": "descriptor",
+                    "img": "./icons/weather/hot.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Cold",
+                    "word": "cold",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        5,
+                        0
+                    ],
+                    "type": "descriptor",
+                    "img": "./icons/weather/cold.png",
+                    "immutable": false
+                }
             ]
         },
         "QUESTIONS": {
             "buttons": [
-                { "label": "Who", "word": "who", "img": "./icons/questions/who.png", "coords": [0, 0], "type": "syntax" },
-                { "label": "What", "word": "what", "img": "./icons/questions/what.png", "coords": [1, 0], "type": "syntax" },
-                { "label": "Where", "word": "where", "img": "./icons/questions/where.png", "coords": [2, 0], "type": "syntax" },
-                { "label": "When", "word": "when", "img": "./icons/questions/when.png", "coords": [3, 0], "type": "syntax" },
-                { "label": "Why", "word": "why", "img": "./icons/questions/why.png", "coords": [4, 0], "type": "syntax" },
-                { "label": "How", "word": "how", "img": "./icons/questions/how.png", "coords": [5, 0], "type": "syntax" }
+                {
+                    "label": "Who",
+                    "word": "who",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        0,
+                        0
+                    ],
+                    "type": "syntax",
+                    "img": "./icons/questions/who.png",
+                    "immutable": false
+                },
+                {
+                    "label": "What",
+                    "word": "what",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        1,
+                        0
+                    ],
+                    "type": "syntax",
+                    "img": "./icons/questions/what.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Where",
+                    "word": "where",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        2,
+                        0
+                    ],
+                    "type": "syntax",
+                    "img": "./icons/questions/where.png",
+                    "immutable": false
+                },
+                {
+                    "label": "When",
+                    "word": "when",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        3,
+                        0
+                    ],
+                    "type": "syntax",
+                    "img": "./icons/questions/when.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Why",
+                    "word": "why",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        4,
+                        0
+                    ],
+                    "type": "syntax",
+                    "img": "./icons/questions/why.png",
+                    "immutable": false
+                },
+                {
+                    "label": "How",
+                    "word": "how",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        5,
+                        0
+                    ],
+                    "type": "syntax",
+                    "img": "./icons/questions/how.png",
+                    "immutable": false
+                }
             ]
         },
         "COLOURS": {
             "buttons": [
-                { "label": "Red", "word": "red", "img": "./icons/colours/red.png", "coords": [0, 0], "type": "descriptor" },
-                { "label": "Blue", "word": "blue", "img": "./icons/colours/blue.png", "coords": [1, 0], "type": "descriptor" },
-                { "label": "Green", "word": "green", "img": "./icons/colours/green.png", "coords": [2, 0], "type": "descriptor" },
-                { "label": "Yellow", "word": "yellow", "img": "./icons/colours/yellow.png", "coords": [3, 0], "type": "descriptor" },
-                { "label": "Purple", "word": "purple", "img": "./icons/colours/purple.png", "coords": [4, 0], "type": "descriptor" },
-                { "label": "Orange", "word": "orange", "img": "./icons/colours/orange.png", "coords": [5, 0], "type": "descriptor" }
+                {
+                    "label": "Red",
+                    "word": "red",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        0,
+                        0
+                    ],
+                    "type": "descriptor",
+                    "img": "./icons/colours/red.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Blue",
+                    "word": "blue",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        1,
+                        0
+                    ],
+                    "type": "descriptor",
+                    "img": "./icons/colours/blue.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Green",
+                    "word": "green",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        2,
+                        0
+                    ],
+                    "type": "descriptor",
+                    "img": "./icons/colours/green.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Yellow",
+                    "word": "yellow",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        3,
+                        0
+                    ],
+                    "type": "descriptor",
+                    "img": "./icons/colours/yellow.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Purple",
+                    "word": "purple",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        4,
+                        0
+                    ],
+                    "type": "descriptor",
+                    "img": "./icons/colours/purple.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Orange",
+                    "word": "orange",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        5,
+                        0
+                    ],
+                    "type": "descriptor",
+                    "img": "./icons/colours/orange.png",
+                    "immutable": false
+                }
             ]
         },
         "EXTRA_WORDS": {
             "buttons": [
-                { "label": "Please", "word": "please", "img": "./icons/extra_words/please.png", "coords": [0, 0], "type": "social" },
-                { "label": "Thank you", "word": "thank you", "img": "./icons/extra_words/thank_you.png", "coords": [1, 0], "type": "social" },
-                { "label": "Sorry", "word": "sorry", "img": "./icons/extra_words/sorry.png", "coords": [2, 0], "type": "social" },
-                { "label": "Yes", "word": "yes", "img": "./icons/extra_words/yes.png", "coords": [3, 0], "type": "syntax" },
-                { "label": "No", "word": "no", "img": "./icons/extra_words/no.png", "coords": [4, 0], "type": "syntax" },
-                { "label": "Maybe", "word": "maybe", "img": "./icons/extra_words/maybe.png", "coords": [5, 0], "type": "syntax" }
+                {
+                    "label": "Please",
+                    "word": "please",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        0,
+                        0
+                    ],
+                    "type": "social",
+                    "img": "./icons/extra_words/please.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Thank you",
+                    "word": "thank you",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        1,
+                        0
+                    ],
+                    "type": "social",
+                    "img": "./icons/extra_words/thank_you.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Sorry",
+                    "word": "sorry",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        2,
+                        0
+                    ],
+                    "type": "social",
+                    "img": "./icons/extra_words/sorry.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Yes",
+                    "word": "yes",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        3,
+                        0
+                    ],
+                    "type": "syntax",
+                    "img": "./icons/extra_words/yes.png",
+                    "immutable": false
+                },
+                {
+                    "label": "No",
+                    "word": "no",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        4,
+                        0
+                    ],
+                    "type": "syntax",
+                    "img": "./icons/extra_words/no.png",
+                    "immutable": false
+                },
+                {
+                    "label": "Maybe",
+                    "word": "maybe",
+                    "dest": null,
+                    "func": null,
+                    "coords": [
+                        5,
+                        0
+                    ],
+                    "type": "syntax",
+                    "img": "./icons/extra_words/maybe.png",
+                    "immutable": false
+                }
             ]
-         }
+        }
     }
 }

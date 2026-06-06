@@ -44,6 +44,18 @@ BUTTON_FONT_SIZE = WN_W * 0.015
 
 IMAGE_SIZE = int((WN_H - SENTENCE_BAR_H - UI_PADDING) / GRID_H * 0.65)
 
+ALLOWED_BUTTON_TYPES = [
+    "pronoun",
+    "noun",
+    "verb",
+    "descriptor",
+    "social",
+    "syntax",
+    "system",
+    "folder",
+    "default"
+]
+
 THEMES: list[Theme] = [
     # Light mode
     Theme(

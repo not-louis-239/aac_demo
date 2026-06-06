@@ -46,11 +46,17 @@
                     "description": "The text displayed visually inside the button layout."
                 },
                 "word": {
-                    "type": "string",
-                    "description": "The phrase sent directly to the TTS Engine and sentence bar upon selection."
+                    "anyOf": [
+                        { "type": "null" },
+                        {
+                            "type": "string",
+                            "description": "The phrase sent directly to the TTS Engine and sentence bar upon selection."
+                        }
+                    ]
                 },
                 "dest": {
                     "anyOf": [
+                        { "type": "null" },
                         { "type": "string" },
                         {
                             "type": "integer",
@@ -61,13 +67,23 @@
                     "description": "The destination routing endpoint key or relative navigation value."
                 },
                 "func": {
-                    "type": "string",
-                    "description": "A function from the AACEngine's function registry to call when this button is pressed."
+                    "anyOf": [
+                        { "type": "null" },
+                        {
+                            "type": "string",
+                            "description": "A function from the AACEngine's function registry to call when this button is pressed."
+                        }
+                    ]
                 },
                 "img": {
-                    "type": "string",
-                    "pattern": "^\\./.*\\.(png|jpg|jpeg|svg)$",
-                    "description": "Relative asset file path routing directly to the image file location from assets/images relative to project root."
+                    "anyOf": [
+                        { "type": "null" },
+                        {
+                            "type": "string",
+                            "pattern": "^\\./.*\\.(png|jpg|jpeg|svg)$",
+                            "description": "Relative asset file path routing directly to the image file location from assets/images relative to project root."
+                        }
+                    ]
                 },
                 "coords": {
                     "type": "array",
@@ -92,7 +108,8 @@
                         "social",
                         "syntax",
                         "system",
-                        "folder"
+                        "folder",
+                        "default"
                     ],
                     "description": "Functional part-of-speech layout structural classification type descriptor."
                 },

@@ -120,7 +120,7 @@ class AACEngine:
 
         return buttons
 
-    def _on_button_press(self, button: Button) -> None:
+    def _on_lmb_button_press(self, button: Button) -> None:
         # Update destination if the button has one
         if button.dest is not None:
             if isinstance(button.dest, int):
@@ -155,17 +155,39 @@ class AACEngine:
                 print(f"{COL_WARN}{COL_BOLD}warning{COL_END}: unrecognised function: {COL_WARN}'{button.func}'{COL_END}", file=sys.stderr)
                 _warned_funcs.add(button.func)
 
+    def _handle_lmb_click(self, event: pg.event.Event) -> None:
+        button_coord = _button_coord(event.pos)
+
+        if button_coord is not None:
+            for button in self.current_buttons():
+                if (button.coords[0] % GRID_W, button.coords[1] % GRID_H) == button_coord:
+                    self._on_lmb_button_press(button)
+                    break
+
+    def _handle_rmb_click(self, event: pg.event.Event) -> None:
+        # Right-click on a button or empty spot to add a button or
+        # change its properties. This is 100% intended to be a user-facing feature.
+        # People should be able to configure the AAC layout exactly to their needs.
+        # Those proprietary suckers make you pay a representative to do it for you.
+
+        # TODO: for now, this will only open a terminal interface
+        # but eventually I'd like this make this a GUI and add drag-and-drop functionality
+
+        button = _button_coord(event.pos)
+
+        if not button:
+            print("Right-clicked outside of any button. No action taken.")
+            return
+
+        # Open the interface.
+        # Once done, save the JSON to the nodes.json file.
+
     def take_input(self, keys: ScancodeWrapper, events: list[pg.event.Event], dt_s: float) -> None:
         for event in events:
             if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
-                button_coord = _button_coord(event.pos)
-
-                if button_coord is not None:
-                    for button in self.current_buttons():
-                        if (button.coords[0] % GRID_W, button.coords[1] % GRID_H) == button_coord:
-                            self._on_button_press(button)
-                            break
-
+                self._handle_lmb_click(event)
+            elif event.type == pg.MOUSEBUTTONDOWN and event.button == 3:
+                self._handle_rmb_click(event)
 
 # Now for registry functions
 @AACEngine.register("clear_sentence_bar")

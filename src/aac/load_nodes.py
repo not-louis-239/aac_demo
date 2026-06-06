@@ -55,8 +55,41 @@ class LanguageTree:
     def get(self, k: str) -> Node | None:
         return self.nodes.get(k)
 
+    def serialise_to_json(self) -> dict[str, Any]:
+        return {
+            node_name: {
+                "buttons": [
+                    {
+                        "label": button.label,
+                        "word": button.word,
+                        "dest": button.dest,
+                        "func": button.func,
+                        "coords": button.coords,
+                        "type": button.type,
+                        "img": button.img
+                    }
+                    for button in node.buttons
+                ]
+            }
+            for node_name, node in self.nodes.items()
+        }
+
+def save_language_tree(lt: LanguageTree) -> None:
+    """Write the language tree to the nodes.json file, preserving
+    all JSON properties except "nodes", to which the new language
+    tree will be written."""
+
+    with open(NODES_FILE, encoding="utf-8") as f:
+        data_raw = json.load(f)
+
+    # mutate the raw data in-place to preserve all properties except "nodes"
+    data_raw["nodes"] = lt.serialise_to_json()
+
+    with open(NODES_FILE, "w", encoding="utf-8") as f:
+        json.dump(data_raw, f, indent=4, ensure_ascii=False)
+
 def load_language_tree() -> LanguageTree:
-    with open(NODES_FILE) as f:
+    with open(NODES_FILE, encoding="utf-8") as f:
         data_raw = json.load(f)
 
     nodes_raw: dict[str, Any] = data_raw["nodes"]

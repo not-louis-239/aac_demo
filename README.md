@@ -2,7 +2,7 @@
 
 **Because it shouldn't cost $7,000 to say "Good morning".**
 
-**Version**: 0.3.0
+**Version**: 0.4.0
 
 Sunrise AAC is an open-source, lightweight AAC (Augmentative and Alternative Communication) desktop application, built to bring back user autonomy. Powered by Python and Pygame, Sunrise AAC replaces expensive, locked-down speech devices with a transparent, hardy interface that anyone can configure in 30 seconds, just one right click away.
 

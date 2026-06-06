@@ -1,5 +1,5 @@
-# asset_manager.py - Asset Manager
-# repo at: https://github.com/not-louis-239/aac_demo
+# paths module
+# repo at: https://github.com/not-louis-239/sunrise-aac
 # Copyright (C) 2026 Louis Masarei-Boulton <243234869+not-louis-239@users.noreply.github.com>
 
 # This program is free software: you can redistribute it and/or modify
@@ -18,24 +18,14 @@
 
 from pathlib import Path
 
-import pygame as pg
+try:
+    ROOT_DIR = next(p for p in Path(__file__).resolve().parents if (p / ".git").exists())
+except StopIteration:
+    raise RuntimeError("Could not find root directory.")
 
-from aac.paths import FONTS_DIR
+ASSETS_DIR = ROOT_DIR / "assets"
 
+FONTS_DIR = ASSETS_DIR / "fonts"
+IMAGES_DIR = ASSETS_DIR / "images"
 
-class Fonts:
-    def __init__(self) -> None:
-        self.button_font: Path = FONTS_DIR / "ComicNeue-Bold.ttf"
-        self.ui_font: Path = FONTS_DIR / "AtkinsonHyperlegible-Regular.ttf"
-
-
-class Images:
-    def __init__(self) -> None:
-        # {relative_fp, pg.Surface} pairs
-        self.image_cache: dict[str, pg.Surface] = {}
-
-
-class Assets:
-    def __init__(self) -> None:
-        self.fonts = Fonts()
-        self.images = Images()
+NODES_FILE = ROOT_DIR / "tree" / "nodes.json"

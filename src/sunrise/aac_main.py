@@ -1,5 +1,5 @@
 # aac_main.py - module to store main AAC class
-# repo at: https://github.com/not-louis-239/aac_demo
+# repo at: https://github.com/not-louis-239/sunrise-aac
 # Copyright (C) 2026 Louis Masarei-Boulton <243234869+not-louis-239@users.noreply.github.com>
 
 # This program is free software: you can redistribute it and/or modify
@@ -19,9 +19,9 @@
 import pygame as pg
 from pygame.key import ScancodeWrapper
 
-from aac.asset_manager import Assets
-from aac.engine import AACEngine
-from aac.renderer import Renderer
+from sunrise.asset_manager import Assets
+from sunrise.engine import AACEngine
+from sunrise.renderer import Renderer
 
 class AAC:
     def __init__(self):

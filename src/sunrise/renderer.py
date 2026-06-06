@@ -1,5 +1,5 @@
 # module for rendering the AAC user interface
-# repo at: https://github.com/not-louis-239/aac_demo
+# repo at: https://github.com/not-louis-239/sunrise-aac
 # Copyright (C) 2026 Louis Masarei-Boulton <243234869+not-louis-239@users.noreply.github.com>
 
 # This program is free software: you can redistribute it and/or modify
@@ -24,11 +24,11 @@ import pygame as pg
 
 from crystallinium.text_utils import draw_text
 
-from aac.terminal_formatting import COL_END, COL_BOLD, COL_WARN
-from aac.paths import IMAGES_DIR
-from aac.asset_manager import Images
-from aac.load_nodes import Button
-from aac.constants import (
+from sunrise.terminal_formatting import COL_END, COL_BOLD, COL_WARN
+from sunrise.paths import IMAGES_DIR
+from sunrise.asset_manager import Images
+from sunrise.load_nodes import Button
+from sunrise.constants import (
     WN_W, WN_H,
     GRID_W, GRID_H,
     SENTENCE_BAR_H,
@@ -40,7 +40,7 @@ from aac.constants import (
 )
 
 if TYPE_CHECKING:
-    from aac.aac_main import AAC
+    from sunrise.aac_main import AAC
 
 # set of paths for which a warning has already been printed
 # to prevent spamming warnings for the same path

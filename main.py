@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-# entry point for AAC program
+# entry point for the Sunrise AAC program
 
-# repo at: https://github.com/not-louis-239/aac_demo
+# repo at: https://github.com/not-louis-239/sunrise-aac
 # Copyright (C) 2026 Louis Masarei-Boulton <243234869+not-louis-239@users.noreply.github.com>
 
 # This program is free software: you can redistribute it and/or modify
@@ -26,8 +26,8 @@ import pygame as pg
 
 sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
 
-from aac.constants import WN_W, WN_H, FPS
-from aac.aac_main import AAC
+from sunrise.constants import WN_W, WN_H, FPS
+from sunrise.aac_main import AAC
 
 def main():
     pg.init()

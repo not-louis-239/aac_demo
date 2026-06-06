@@ -1,6 +1,6 @@
 # engine.py - core AAC engine for behind-the-scenes, or should I say, behind-the-screens logic
 
-# repo at: https://github.com/not-louis-239/aac_demo
+# repo at: https://github.com/not-louis-239/sunrise-aac
 # Copyright (C) 2026 Louis Masarei-Boulton <243234869+not-louis-239@users.noreply.github.com>
 
 # This program is free software: you can redistribute it and/or modify

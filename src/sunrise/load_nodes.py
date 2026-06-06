@@ -1,5 +1,5 @@
 # module for loading language tree nodes
-# repo at: https://github.com/not-louis-239/aac_demo
+# repo at: https://github.com/not-louis-239/sunrise-aac
 # Copyright (C) 2026 Louis Masarei-Boulton <243234869+not-louis-239@users.noreply.github.com>
 
 # This program is free software: you can redistribute it and/or modify
@@ -21,9 +21,9 @@ from pathlib import Path
 from typing import Any
 import json
 
-from aac.constants import ALLOWED_BUTTON_TYPES
-from aac.paths import NODES_FILE
-from aac.terminal_formatting import COL_ERR, COL_WARN, COL_INFO, COL_END
+from sunrise.constants import ALLOWED_BUTTON_TYPES
+from sunrise.paths import NODES_FILE
+from sunrise.terminal_formatting import COL_ERR, COL_WARN, COL_INFO, COL_END
 
 _TYPE_DISPLAY_COL = "\033[93m"
 _WORD_DISPLAY_COL = "\033[32m"
@@ -185,7 +185,7 @@ def lint_language_tree(lt: LanguageTree) -> list[str]:
         universal_nodes = {button.coords for button in uni_node.buttons}
 
     # Import here to avoid circular import with aac.engine which imports this module
-    from aac.engine import AACEngine
+    from sunrise.engine import AACEngine
 
     for node_name, node in lt.nodes.items():
         if node_name != "UNIVERSAL":

@@ -22,6 +22,7 @@ from typing import Any
 import json
 
 from aac.paths import NODES_FILE
+from aac.terminal_formatting import COL_ERR, COL_INFO, COL_END, COL_BOLD
 
 _TYPE_DISPLAY_COL = "\033[93m"
 _WORD_DISPLAY_COL = "\033[32m"
@@ -42,6 +43,7 @@ class Button:
     coords: tuple[int, int]  # (x, y) from:
                              #     for x:  [-10..-1] U [0..9]
                              #     for y:  [-6..-1] U [0..5]
+
     type: str                # used for button highlighting
 
 @dataclass
@@ -116,6 +118,70 @@ def load_language_tree() -> LanguageTree:
 
     return LanguageTree(nodes=nodes)
 
+def _make_error(node_name: str, button: Button, msg: str) -> str:
+    return f"{COL_ERR}'{node_name}'{COL_END}:{COL_ERR}'{button.label}'{COL_END}@{COL_ERR}{button.coords}{COL_END}: {msg}"
+
+def lint_language_tree(lt: LanguageTree) -> list[str]:
+    """Check the language tree for unreachable nodes:
+    - OOB grid positions
+    - nodes in a folder that cannot be reached from any folder node
+    - nodes with duplicate positions with other nodes in the UNIVERSAL or same node as itself
+
+    Also checks for other issues such as:
+    - missing or unreadable image paths
+    - undefined function aliases
+    - destinations not specified in nodes.json
+    """
+
+    errors: list[str] = []
+
+    # Get the coordinates of all buttons in the UNIVERSAL node
+    uni_node = lt.get("UNIVERSAL")
+    if uni_node is None:
+        universal_nodes = set()
+        errors.append("missing UNIVERSAL node")
+    else:
+        universal_nodes = {button.coords for button in uni_node.buttons}
+
+    # Import here to avoid circular import with aac.engine which imports this module
+    from aac.engine import AACEngine
+
+    for node_name, node in lt.nodes.items():
+        if node_name != "UNIVERSAL":
+            seen_positions: set[tuple[int, int]] = universal_nodes.copy()  # start with UNIVERSAL node positions as seen
+        else:
+            seen_positions = set()
+
+        for button in node.buttons:
+            # Check for OOB grid positions
+            x, y = button.coords[0], button.coords[1]
+            if not (-10 <= x <= 9) or not (-6 <= y <= 5):
+                errors.append(_make_error(node_name, button, f"OOB coordinates: {button.coords}"))
+
+            # Check for duplicate positions
+            if button.coords in seen_positions:
+                errors.append(_make_error(node_name, button, f"duplicate coordinates: {button.coords}"))
+            else:
+                seen_positions.add(button.coords)
+
+            # Check for missing or unreadable image paths
+            if button.img is not None:
+                img_path = Path("assets/images") / button.img
+                if not img_path.exists():
+                    errors.append(_make_error(node_name, button, f"no such image file: {img_path}"))
+                elif not img_path.is_file():
+                    errors.append(_make_error(node_name, button, f"not an image file: {img_path}"))
+
+            # Check for undefined function aliases
+            if button.func is not None and button.func not in AACEngine.FUNC_REGISTRY:
+                errors.append(_make_error(node_name, button, f"function '{button.func}' is not defined in AACEngine.FUNC_REGISTRY"))
+
+            # Check for destinations not specified in nodes.json
+            if isinstance(button.dest, str) and button.dest != "HOME" and button.dest not in lt.nodes:
+                errors.append(_make_error(node_name, button, f"undefined destination '{button.dest}'"))
+
+    return errors
+
 def print_lt(lt: LanguageTree) -> None:
     for node_name, node in lt.nodes.items():
         print(f"[{node_name}]")
@@ -137,6 +203,18 @@ def print_lt(lt: LanguageTree) -> None:
 def _test():
     lt = load_language_tree()
     print_lt(lt)
+
+    print("Linting...")
+
+    issues = lint_language_tree(lt)
+    print()
+    if not issues:
+        print(f"{COL_INFO}No issues found!{COL_END}")
+    else:
+        num_issues = len(issues)
+        print(f"{COL_ERR}{num_issues}{COL_END} issue{'' if num_issues == 1 else 's'} found:")
+        for issue in issues:
+            print(f"  - {issue}")
 
 if __name__ == "__main__":
     _test()

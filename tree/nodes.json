@@ -11,12 +11,12 @@
     "nodes": {
         "UNIVERSAL": {
             "buttons": [
-                { "label": "Home", "dest": "HOME", "coords": [0, -1], "type": "system" },
-                { "label": "Back", "dest": -1, "coords": [1, -1], "type": "system" },
-                { "label": "Clear", "func": "clear_sentence_bar", "coords": [2, -1], "type": "system" },
-                { "label": "Bksp", "func": "backspace_sentence_bar", "coords": [3, -1], "type": "system" },
-                { "label": "Speak", "func": "speak_sentence_bar", "coords": [4, -1], "type": "system" },
-                { "label": "Stop", "func": "stop_speaking", "coords": [5, -1], "type": "system" }
+                { "label": "Home", "dest": "HOME", "coords": [0, -1], "type": "system", "immutable": true },
+                { "label": "Back", "dest": -1, "coords": [1, -1], "type": "system", "immutable": true },
+                { "label": "Clear", "func": "clear_sentence_bar", "coords": [2, -1], "type": "system", "immutable": true },
+                { "label": "Bksp", "func": "backspace_sentence_bar", "coords": [3, -1], "type": "system", "immutable": true },
+                { "label": "Speak", "func": "speak_sentence_bar", "coords": [4, -1], "type": "system", "immutable": true },
+                { "label": "Stop", "func": "stop_speaking", "coords": [5, -1], "type": "system", "immutable": true }
             ]
         },
         "HOME": {

@@ -95,6 +95,10 @@
                         "folder"
                     ],
                     "description": "Functional part-of-speech layout structural classification type descriptor."
+                },
+                "immutable": {
+                    "type": "boolean",
+                    "description": "If true, this button cannot be deleted or modified, only moved. This is needed to prevent little kids deleting the 'Home' button and bricking the program."
                 }
             },
             "additionalProperties": false

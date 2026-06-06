@@ -43,23 +43,36 @@ def _button_coord(screen_coords: tuple[int, int]) -> tuple[int, int] | None:
     """Get the corresponding button coordinates for a given screen coordinate.
     If there is no valid coordinate, return None."""
 
+    x, y = screen_coords
+
     min_x = UI_PADDING
     min_y = SENTENCE_BAR_H + UI_PADDING
 
+    # Calculate individual button dimensions
     area_w = WN_W - min_x
     area_h = WN_H - min_y
-
     button_w = area_w / GRID_W
     button_h = area_h / GRID_H
 
-    for by in range(GRID_H):
-        for bx in range(GRID_W):
-            screen_x = min_x + bx * button_w
-            screen_y = min_y + by * button_h
-            rect = pg.Rect(screen_x, screen_y, button_w - UI_PADDING, button_h - UI_PADDING)
+    # Is the click inside the grid at all?
+    if x < min_x or x >= WN_W or y < min_y or y >= WN_H:
+        return None
 
-            if rect.collidepoint(screen_coords):
-                return bx, by
+    # Derive the grid index directly using integer division
+    bx = int((x - min_x) // button_w)
+    by = int((y - min_y) // button_h)
+
+    # Gaps between buttons where a click shouldn't trigger anything.
+    button_start_x = min_x + bx * button_w
+    button_start_y = min_y + by * button_h
+
+    # Check if the click fell into the padding gap at the right or bottom of the button
+    if (x >= button_start_x + (button_w - UI_PADDING)) or (y >= button_start_y + (button_h - UI_PADDING)):
+        return None
+
+    # Safety check to ensure floating-point rounding didn't push us out of bounds
+    if 0 <= bx < GRID_W and 0 <= by < GRID_H:
+        return bx, by
 
     return None
 

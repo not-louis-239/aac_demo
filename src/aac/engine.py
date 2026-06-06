@@ -28,6 +28,7 @@ from .terminal_formatting import COL_ERR, COL_WARN, COL_END, COL_BOLD
 from .speak import speak, stop_speaking as _stop_speaking
 from .load_nodes import Button, LanguageTree, load_language_tree, save_language_tree
 from .constants import (
+    ALLOWED_BUTTON_TYPES,
     SENTENCE_BAR_H,
     UI_PADDING,
     GRID_W,
@@ -224,12 +225,16 @@ class AACEngine:
                 print(f"{COL_WARN}{COL_BOLD}warning{COL_END}: unrecognised function: {COL_WARN}'{func}'{COL_END}", file=sys.stderr)
                 return
 
-            button_type = input(f"enter a button type (or press Enter for 'default'): ").strip() or "default"
+            button_type = input(f"enter a button type (or press Enter for 'default', available: {', '.join(ALLOWED_BUTTON_TYPES)}): ").strip() or "default"
+            if button_type not in ALLOWED_BUTTON_TYPES:
+                print(f"{COL_WARN}{COL_BOLD}warning{COL_END}: unrecognised button type: {COL_WARN}'{button_type}'{COL_END}")
 
             # Provide a path to the image
             path_input = input(f"Enter a path to the image for the button (or press Enter to skip): ").strip() or None
             if path_input:
-                path = Path(path_input).resolve()
+                if not path_input.endswith(".png"):
+                    path_input += ".png"  # if no suffix provided, assume it's a PNG
+                path = Path("assets/images") / path_input
                 if not path.exists():
                     print(f"{COL_ERR}{COL_BOLD}error{COL_END}: no such image file: '{path}'", file=sys.stderr)
                     return

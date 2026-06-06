@@ -1555,6 +1555,36 @@
                     "immutable": false
                 }
             ]
+        },
+        "GROUPS": {
+            "buttons": [
+                {
+                    "label": "Animals",
+                    "word": null,
+                    "dest": "ANIMALS",
+                    "func": null,
+                    "coords": [
+                        0,
+                        0
+                    ],
+                    "type": "folder",
+                    "img": null,
+                    "immutable": false
+                },
+                {
+                    "label": "Drinks",
+                    "word": null,
+                    "dest": "DRINKS",
+                    "func": null,
+                    "coords": [
+                        1,
+                        0
+                    ],
+                    "type": "folder",
+                    "img": "./folders/drinks.png",
+                    "immutable": false
+                }
+            ]
         }
     }
 }

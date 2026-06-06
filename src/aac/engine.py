@@ -19,14 +19,13 @@
 
 import sys
 from typing import Any, Callable
-from functools import wraps
 
 import pygame as pg
 from pygame.key import ScancodeWrapper
 
 from .terminal_formatting import COL_WARN, COL_END, COL_BOLD
 from .speak import speak, stop_speaking as _stop_speaking
-from .load_nodes import Button, LanguageTree, load_language_tree
+from .load_nodes import Button, LanguageTree, load_language_tree, save_language_tree
 from .constants import (
     SENTENCE_BAR_H,
     UI_PADDING,
@@ -38,6 +37,17 @@ from .constants import (
 
 _warned_nodes: set[str] = set()
 _warned_funcs: set[str] = set()
+
+def _read_positive_int_coord(max_val: int, *, prompt: str) -> int:
+    """Read a positive integer coordinate from user input, ensuring it falls from 0 - max_val (inclusive)."""
+    while True:
+        try:
+            value = int(input(prompt).strip())
+            if 0 <= value <= max_val:
+                return value
+            print(f"{COL_WARN}{COL_BOLD}warning{COL_END}: expected a positive integer between 0 and {max_val}", file=sys.stderr)
+        except ValueError:
+            print(f"{COL_WARN}{COL_BOLD}warning{COL_END}: invalid input, please enter a positive integer", file=sys.stderr)
 
 def _button_coord(screen_coords: tuple[int, int]) -> tuple[int, int] | None:
     """Get the corresponding button coordinates for a given screen coordinate.
@@ -75,6 +85,17 @@ def _button_coord(screen_coords: tuple[int, int]) -> tuple[int, int] | None:
         return bx, by
 
     return None
+
+
+def _get_button_at_pos(buttons: list[Button], coords: tuple[int, int]) -> Button | None:
+    """Get the button at a specific grid position in a list of buttons.
+    If no such button exists there in the list, return None."""
+
+    for button in buttons:
+        if (button.coords[0] % GRID_W, button.coords[1] % GRID_H) == coords:
+            return button
+    return None
+
 
 class AACEngine:
     """The engine class for the AAC talker (AAC = Augmentative and Alternative Communication)."""
@@ -159,10 +180,8 @@ class AACEngine:
         button_coord = _button_coord(event.pos)
 
         if button_coord is not None:
-            for button in self.current_buttons():
-                if (button.coords[0] % GRID_W, button.coords[1] % GRID_H) == button_coord:
-                    self._on_lmb_button_press(button)
-                    break
+            if (button := _get_button_at_pos(self.current_buttons(), button_coord)):
+                self._on_lmb_button_press(button)
 
     def _handle_rmb_click(self, event: pg.event.Event) -> None:
         # Right-click on a button or empty spot to add a button or
@@ -173,14 +192,93 @@ class AACEngine:
         # TODO: for now, this will only open a terminal interface
         # but eventually I'd like this make this a GUI and add drag-and-drop functionality
 
-        button = _button_coord(event.pos)
+        button_coord = _button_coord(event.pos)
 
-        if not button:
-            print("Right-clicked outside of any button. No action taken.")
+        # If the click does not correspond to a valid coordinate, return
+        if not button_coord:
             return
 
-        # Open the interface.
+        # Fetch the button at the coordinate
+        button = _get_button_at_pos(self.current_buttons(), button_coord)
+
+        # If the coordinate does not correspond to a valid on-screen
+        # button, open the interface to create it, then early return
+        if not button:
+            
+
+        # Open the interface. Get an action: either 'modify', 'move' or 'delete'
         # Once done, save the JSON to the nodes.json file.
+        action = input("enter an action [modify | move | delete]: ").strip().lower()
+
+        if action == "modify":
+            if button.immutable:
+                print(f"{COL_WARN}{COL_BOLD}warning{COL_END}: refusing to modify immutable button", file=sys.stderr)
+                return
+
+            # Open the interface to modify the button's properties
+            new_label = input(f"enter a new label for the button (old='{button.label}') or Enter to skip: ").strip()
+            if new_label:
+                button.label = new_label
+
+            new_word, new_dest, new_func = None, None, None
+
+            while (new_word is None and new_dest is None and new_func is None):
+                new_word = input(f"enter a new word for the button (old='{button.word}') or Enter to skip: ").strip()
+                if new_word:
+                    button.word = new_word
+                    break
+
+                new_dest = input(f"enter a new destination node for the button (old='{button.dest}') or Enter to skip: ").strip()
+                if new_dest:
+                    button.dest = new_dest
+
+                    # print a warning but do not block a user out of creating the new uninitialised node
+                    if new_dest not in self.tree.nodes.keys():
+                        print(f"{COL_WARN}{COL_BOLD}warning{COL_END}: destination node does not exist in the language tree: {COL_WARN}'{new_dest}'{COL_END}. please click on the button to start initialising buttons in the new destination.", file=sys.stderr)
+
+                new_func = input(f"enter a new function for the button (old='{button.func}', available: {', '.join(self.FUNC_REGISTRY.keys())}) or Enter to skip: ").strip()
+                if new_func:
+                    if new_func in self.FUNC_REGISTRY:
+                        button.func = new_func
+                        break
+                    else:
+                        print(f"{COL_WARN}{COL_BOLD}warning{COL_END}: unrecognised function: {COL_WARN}'{new_func}'{COL_END}", file=sys.stderr)
+                        new_func = None  # reset to loop again
+
+                print(f"{COL_WARN}{COL_BOLD}warning{COL_END}: at least one of word, dest or func must be provided", file=sys.stderr)
+
+        elif action == "move":
+            # If no button exists at the target coordinate, move the button to said target coordinate
+            # If a button already exists there, swap positions between the button to move and the button already there
+            # If the target coordinate is out of bounds, print an error message
+
+            new_x = _read_positive_int_coord(GRID_W - 1, prompt=f"enter an integer coordinate value for the x-axis (0 to {GRID_W - 1}, old={button.coords[0]}): ")
+            new_y = _read_positive_int_coord(GRID_H - 1, prompt=f"enter an integer coordinate value for the y-axis (0 to {GRID_H - 1}, old={button.coords[1]}): ")
+            new_coords = (new_x, new_y)
+
+            other_button: Button | None = _get_button_at_pos(self.current_buttons(), new_coords)
+
+            if other_button is None:
+                button.coords = new_coords
+                return
+
+            print("button already at target location - swapping positions")
+            button.coords, other_button.coords = other_button.coords, button.coords
+
+        elif action == "delete":
+            # Fetch what node the button is in and delete the button from said node
+            # We only need to check the UNIVERSAL node and the AACEngine's current node
+            if button.immutable:
+                print(f"{COL_WARN}{COL_BOLD}warning{COL_END}: refusing to delete immutable button", file=sys.stderr)
+                return
+
+            for node_name in ["UNIVERSAL", self.current_node]:
+                node = self.tree.get(node_name)
+                if node and button in node.buttons:
+                    node.buttons.remove(button)
+                    save_language_tree(self.tree)
+        else:
+            print(f"{COL_WARN}{COL_BOLD}warning{COL_END}: unrecognised action: {COL_WARN}'{action}'{COL_END}", file=sys.stderr)
 
     def take_input(self, keys: ScancodeWrapper, events: list[pg.event.Event], dt_s: float) -> None:
         for event in events:
@@ -188,6 +286,7 @@ class AACEngine:
                 self._handle_lmb_click(event)
             elif event.type == pg.MOUSEBUTTONDOWN and event.button == 3:
                 self._handle_rmb_click(event)
+
 
 # Now for registry functions
 @AACEngine.register("clear_sentence_bar")

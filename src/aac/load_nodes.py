@@ -30,12 +30,15 @@ _DEST_DISPLAY_COL = "\033[94m"
 _FUNC_DISPLAY_COL = "\033[95m"
 _END = "\033[0m"
 
-@dataclass
+@dataclass(kw_only=True)
 class Button:
     # How it acts
     word: str | None
     dest: str | int | None   # target folder OR relative offset
     func: str | None         # function alias for hooking
+    immutable: bool = False  # if true, it cannot be deleted or modified, only moved
+                             # this is needed to prevent little kids deleting the "Home"
+                             # button and bricking the program
 
     # How it looks
     label: str
@@ -68,7 +71,8 @@ class LanguageTree:
                         "func": button.func,
                         "coords": button.coords,
                         "type": button.type,
-                        "img": button.img
+                        "img": button.img,
+                        "immutable": button.immutable
                     }
                     for button in node.buttons
                 ]
@@ -109,7 +113,8 @@ def load_language_tree() -> LanguageTree:
                 func=button_raw.get("func", None),
                 coords=tuple(button_raw["coords"]),
                 type=button_raw["type"],
-                img=button_raw.get("img", None)
+                img=button_raw.get("img", None),
+                immutable=button_raw.get("immutable", False)
             )
             node_buttons.append(button)
 

@@ -193,6 +193,8 @@ class AACEngine:
 
         # TODO: for now, this will only open a terminal interface
         # but eventually I'd like this make this a GUI and add drag-and-drop functionality
+        # the modify action currently doesn't include an option to change things like
+        # paths and stuff
 
         button_coord = _button_coord(event.pos)
 

@@ -1,24 +1,34 @@
-# AAC
+# Sunrise AAC
 
-**A human voice should never be locked behind a $8,000 paywall.**
+**Because it shouldn't cost $7,000 to say "Good morning".**
 
 **Version**: 0.3.0
 
-This is an open-source, lightweight AAC (Augmentative and Alternative Communication) desktop application written in Python using Pygame and Pyttsx3, relying on highly customiseable JSON configurations, licensed under the GNU General Public License, version 3 (GPLv3 or later). 
+Sunrise AAC is an open-source, lightweight AAC (Augmentative and Alternative Communication) desktop application, built to bring back user autonomy. Powered by Python and Pygame, Sunrise AAC replaces expensive, locked-down speech devices with a transparent, hardy interface that anyone can configure in 30 seconds, just one right click away.
+
+Distributed freely under the GNU General Public License, version 3 (GPLv3 or later). 
 
 ## But Why?
 
-Traditional AAC companies charge upwards of $7,000-8,000 for "rugged" devices. Strip away the corporate advertising and these are nothing more than off-the-shelf consumer tablets wrapped in thick plastic with big speakers. The price is artificially inflated only because these companies operate in the realm of medical insurance. If you have government funding, like the NDIS (National Disability Insurance Scheme) in Australia, you wait months for approval. **If you don't have funding, your family is priced out of communication.**
+Traditional AAC companies charge upwards of $7,000-8,000 for "rugged" devices. Strip away the corporate advertising and these are nothing more than locked-down, off-the-shelf consumer tablets wrapped in thick plastic with big speakers. The price is artificially inflated only because these companies operate in the realm of medical insurance. If you have government funding, like the NDIS (National Disability Insurance Scheme) in Australia, you wait weeks or months for approval. **If you don't have funding, your family is priced out of communication.**
+
+Dedicated proprietary AAC devices are also built on a fragile, closed lifecycle. When a device breaks, these proprietary companies often send over a whole new device instead of repairing the old one, which frequently becomes e-waste left to sit in dusty closets or be thrown away because the locked-down software prevents reuse.
 
 I have a sister who uses an AAC talker device. This project started because I took one look at the price, said "that's outrageous", and realised that a Python interpreter and a dream can outdo decades of corporate monopoly.
 
-The modern human species, *Homo sapiens* has been around for 200,000 years. Social communication is literally baked into our biology. It is what allowed us to share technologies, tell stories, and build communities. And today, communication is more important than ever before, in our ever-more-connected world. A speech or language impairment does not take away from a human being their need to communicate with others. The fact that a modern human voice can be locked behind an $8,000 paywall is an unacceptable tragedy. This project exists to restore the power of speech to those of which it has been deprived for too long.
+The modern human species, *Homo sapiens* has been around for 200,000 years. Social communication is literally baked into our biology. It is what allowed us to share technologies, tell stories, and build communities. And today, communication is more important than ever before, in our ever-more-connected world. A speech or language impairment does not take away from a human being their need nor fundamental right to communicate with others. The fact that a modern human voice can be locked behind a $7,000-8,000 paywall is an unacceptable tragedy. Sunrise AAC exists to restore the power of speech to those of which it has been deprived for too long.
 
 Even beyond the communication devices themselves, commercial AAC apps trap you into using proprietary symbol sets (like SymbolStix or Tobii Dynavox) that carry heavy licensing fees and strict distribution restrictions. 
 
 To ensure this project stays completely free and safe from corporate DMCA takedowns, **all image icons in this project are hand-drawn and licenced under Creative Commons Attribution-ShareAlike 4.0** (see Licence section for details). No monopolies allowed here.
 
+You can even add your own. With LiveEdit, modifying a button is simple as a right-click. Just drop an image into `assets/images`, enter the path, and you have a new button in 30 seconds. No more waiting around for hours on the phone to book an appointment.
+
 And it's not just about people with speech disabilities. These proprietary companies took the power away from them. They might come for you next. If proprietary software is allowed to proliferate unchecked, the next generation may inherit a world where they have no rights. So it is the job of our generation to not let that happen, under any circumstance.
+
+## Project Status
+
+Currently in development. Features may or may not work, or be incomplete. LiveEdit is still in terminal-interface mode, but I plan to add a GUI for LiveEdit in the near-future.
 
 ## Requirements
 

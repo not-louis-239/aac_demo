@@ -22,7 +22,7 @@ from .base import State
 
 
 class SettingsState(State):
-    def update(self) -> None:
+    def update(self, dt_s: float) -> None:
         pass
 
     def take_input(self, keys: ScancodeWrapper, events: list[Event], dt_s: float) -> None:

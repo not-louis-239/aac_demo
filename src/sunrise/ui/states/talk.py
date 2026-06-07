@@ -14,6 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+from typing import TYPE_CHECKING
+
 import pygame as pg
 from pygame import Surface
 from pygame.event import Event
@@ -22,7 +24,6 @@ from pygame.key import ScancodeWrapper
 from crystallinium.text_utils import draw_text
 
 from .base import State
-from sunrise.core.aac import AAC
 from sunrise.core.load_nodes import Button
 from sunrise.core.paths import IMAGES_DIR
 from sunrise.core.asset_manager import Assets
@@ -38,8 +39,11 @@ from sunrise.core.constants import (
     WN_H
 )
 
+if TYPE_CHECKING:
+    from sunrise.core.aac import AAC
 
-def resize_surface_fit(surface: pg.Surface, max_size: int) -> pg.Surface:
+
+def _resize_surface_to_fit(surface: pg.Surface, max_size: int) -> pg.Surface:
     """Resizes a surface to be as large as possible, ensuring neither width nor height
     exceeds max_size, while perfectly preserving the aspect ratio."""
 
@@ -47,6 +51,57 @@ def resize_surface_fit(surface: pg.Surface, max_size: int) -> pg.Surface:
     current_rect = surface.get_rect()
     fitted_rect = current_rect.fit(target_rect)
     return pg.transform.smoothscale(surface, (fitted_rect.width, fitted_rect.height))
+
+
+def _screen_to_grid_coord(screen_coords: tuple[int, int]) -> tuple[int, int] | None:
+    """Get the corresponding button coordinates for a given screen coordinate.
+    If there is no valid coordinate, return None."""
+
+    x, y = screen_coords
+
+    min_x = UI_PADDING
+    min_y = SENTENCE_BAR_H + UI_PADDING
+
+    # Calculate individual button dimensions
+    area_w = WN_W - min_x
+    area_h = WN_H - min_y
+    button_w = area_w / GRID_W
+    button_h = area_h / GRID_H
+
+    # Is the click inside the grid at all?
+    if x < min_x or x >= WN_W or y < min_y or y >= WN_H:
+        return None
+
+    # Derive the grid index directly using integer division
+    bx = int((x - min_x) // button_w)
+    by = int((y - min_y) // button_h)
+
+    # Gaps between buttons where a click shouldn't trigger anything.
+    button_start_x = min_x + bx * button_w
+    button_start_y = min_y + by * button_h
+
+    # Check if the click fell into the padding gap at the right or bottom of the button
+    if (x >= button_start_x + (button_w - UI_PADDING)) or (y >= button_start_y + (button_h - UI_PADDING)):
+        return None
+
+    # Safety check to ensure floating-point rounding didn't push us out of bounds
+    if 0 <= bx < GRID_W and 0 <= by < GRID_H:
+        return bx, by
+
+    return None
+
+
+def _get_button_at_pos(buttons: list[Button], grid_coords: tuple[int, int]) -> Button | None:
+    """Get the button at a specific grid position in a list of buttons.
+    If no such button exists there in the list, return None.
+    Assumes that grid_coords is the result of a screen-to-grid lookup
+    (positive ints only in `grid_coords`, pls!)"""
+
+    # we use modulo here to allow syntax like index -1 = last row/column
+    for button in buttons:
+        if (button.coords[0] % GRID_W, button.coords[1] % GRID_H) == grid_coords:
+            return button
+    return None
 
 
 class _Renderer:
@@ -75,7 +130,7 @@ class _Renderer:
         try:
             if rel_path not in self.assets.images.cache:
                 img_loaded = pg.image.load(path).convert_alpha()
-                img_loaded = resize_surface_fit(img_loaded, BUTTON_IMAGE_SIZE)
+                img_loaded = _resize_surface_to_fit(img_loaded, BUTTON_IMAGE_SIZE)
                 self.assets.images.cache[rel_path] = img_loaded
             return self.assets.images.cache[rel_path]
         except Exception:
@@ -162,11 +217,25 @@ class TalkState(State):
         super().__init__(aac_inst=aac_inst)
         self.renderer = _Renderer(aac_inst.assets, aac_inst=aac_inst)
 
-    def update(self) -> None:
+    def update(self, dt_s: float) -> None:
         pass
 
+    def _handle_lmb_click(self, event: pg.event.Event) -> None:
+        button_coord = _screen_to_grid_coord(event.pos)
+
+        if button_coord is not None:
+            if (button := _get_button_at_pos(self.aac_inst.engine.current_buttons(), button_coord)):
+                self.aac_inst.engine.on_button_press(button)
+
+    def _handle_rmb_click(self, event: pg.event.Event) -> None:
+        ...  # TODO: implement
+
     def take_input(self, keys: ScancodeWrapper, events: list[Event], dt_s: float) -> None:
-        pass
+        for event in events:
+            if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+                self._handle_lmb_click(event)
+            elif event.type == pg.MOUSEBUTTONDOWN and event.button == 3:
+                self._handle_rmb_click(event)
 
     def draw(self, screen: Surface) -> None:
         theme = self.aac_inst.get_current_theme()

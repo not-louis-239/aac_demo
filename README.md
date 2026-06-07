@@ -22,7 +22,7 @@ Even beyond the communication devices themselves, commercial AAC apps trap you i
 
 To ensure this project stays completely free and safe from corporate DMCA takedowns, **all image icons in this project are hand-drawn and licenced under Creative Commons Attribution-ShareAlike 4.0** (see Licence section for details). No monopolies allowed here.
 
-You can even add your own. With LiveEdit, modifying a button is simple as a right-click. Just drop an image into `assets/images`, enter the path, and you have a new button in 30 seconds. No more waiting around for hours on the phone to book an appointment.
+You can even add your own. With LiveEdit, modifying a button is simple as a right-click. Just drop an image into `assets/images`, enter the path, and you have a new button in 30 seconds. No more waiting around for hours on the phone to book an appointment to get someone to change it.
 
 And it's not just about people with speech disabilities. These proprietary companies took the power away from them. They might come for you next. If proprietary software is allowed to proliferate unchecked, the next generation may inherit a world where they have no rights. So it is the job of our generation to not let that happen, under any circumstance.
 

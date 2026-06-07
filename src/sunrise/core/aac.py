@@ -19,16 +19,22 @@
 import pygame as pg
 from pygame.key import ScancodeWrapper
 
-from sunrise.asset_manager import Assets
-from sunrise.engine import AACEngine
-from sunrise.renderer import Renderer
+from sunrise.core.asset_manager import Assets
+from sunrise.core.engine import AACEngine
+from sunrise.core.renderer import Renderer
+from sunrise.core.bus import Bus
+
 
 class AAC:
     def __init__(self):
         # assets MUST be initialised first
         self.assets = Assets()
+        self.bus = Bus()
 
         self.engine = AACEngine()
+
+
+
         self.renderer = Renderer(aac_inst=self)
 
     def update(self, dt_s: float) -> None:

@@ -20,7 +20,7 @@ from pathlib import Path
 
 import pygame as pg
 
-from sunrise.paths import FONTS_DIR
+from sunrise.core.paths import FONTS_DIR
 
 
 class Fonts:

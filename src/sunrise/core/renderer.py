@@ -24,11 +24,11 @@ import pygame as pg
 
 from crystallinium.text_utils import draw_text
 
-from sunrise.terminal_formatting import COL_END, COL_BOLD, COL_WARN
-from sunrise.paths import IMAGES_DIR
-from sunrise.asset_manager import Images
-from sunrise.load_nodes import Button
-from sunrise.constants import (
+from sunrise.core.terminal_formatting import COL_END, COL_BOLD, COL_WARN
+from sunrise.core.paths import IMAGES_DIR
+from sunrise.core.asset_manager import Images
+from sunrise.core.load_nodes import Button
+from sunrise.core.constants import (
     WN_W, WN_H,
     GRID_W, GRID_H,
     SENTENCE_BAR_H,
@@ -40,7 +40,7 @@ from sunrise.constants import (
 )
 
 if TYPE_CHECKING:
-    from sunrise.aac import AAC
+    from sunrise.core.aac import AAC
 
 # set of paths for which a warning has already been printed
 # to prevent spamming warnings for the same path

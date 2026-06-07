@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from abc import ABC, abstractmethod
+from enum import StrEnum
 from typing import TYPE_CHECKING
 
 import pygame as pg
@@ -41,3 +42,10 @@ class State(ABC):
     @abstractmethod
     def draw(self, screen: pg.Surface) -> None:
         raise NotImplementedError
+
+
+class StateID(StrEnum):
+    INSPECT = "inspect"
+    MODIFY = "modify"
+    TALK = "talk"
+    SETTINGS = "settings"

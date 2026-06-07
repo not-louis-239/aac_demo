@@ -18,7 +18,7 @@ from pygame import Surface
 from pygame.event import Event
 from pygame.key import ScancodeWrapper
 
-from .base import State
+from .base_states import State
 
 
 class ModifyState(State):

@@ -29,9 +29,9 @@ from sunrise.ui.states import (
     InspectState,
     ModifyState,
     TalkState,
-    SettingsState,
-    StateID
+    SettingsState
 )
+from sunrise.ui.states.base_states import StateID
 
 
 class AAC:

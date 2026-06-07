@@ -23,7 +23,9 @@ from pygame.key import ScancodeWrapper
 
 from crystallinium.text_utils import draw_text
 
-from .base import State
+from .base_states import State
+from sunrise.ui.states.base_states import StateID
+from sunrise.core.bus import EventID
 from sunrise.core.load_nodes import Button
 from sunrise.core.paths import IMAGES_DIR
 from sunrise.core.asset_manager import Assets
@@ -228,7 +230,13 @@ class TalkState(State):
                 self.aac_inst.engine.on_button_press(button)
 
     def _handle_rmb_click(self, event: pg.event.Event) -> None:
-        ...  # TODO: implement
+        button_coord = _screen_to_grid_coord(event.pos)
+
+        # Coordinate doesn't correspond to a grid position - return
+        if button_coord is None:
+            return
+
+        self.aac_inst.bus.emit(EventID.STATE_CHANGE, new_state=StateID.INSPECT)
 
     def take_input(self, keys: ScancodeWrapper, events: list[Event], dt_s: float) -> None:
         for event in events:

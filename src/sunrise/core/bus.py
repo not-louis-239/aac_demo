@@ -31,6 +31,8 @@ class Bus:
         self._listeners: dict[EventID, list[weakref.ref[Callable[..., Any]]]] = {}
 
     def subscribe(self, event_name: EventID, func: Callable) -> None:
+        """Register a function or method to be called when an
+        event name is emitted by the `Bus`."""
         if event_name not in self._listeners:
             self._listeners[event_name] = []
 
@@ -43,7 +45,8 @@ class Bus:
 
         self._listeners[event_name].append(ref)
 
-    def emit(self, event_name: EventID, *args, **kwargs) -> None:
+    def emit(self, event_name: EventID, *args: tuple[Any, ...], **kwargs: Any) -> None:
+        """Emit an event and call all registered functions"""
         if event_name not in self._listeners:
             return
 

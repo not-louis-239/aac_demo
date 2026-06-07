@@ -15,10 +15,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from enum import StrEnum
 
 from . import (
-    base,
+    base_states,
     inspect,
     modify,
     talk,
@@ -26,14 +25,7 @@ from . import (
 )
 
 
-class StateID(StrEnum):
-    INSPECT = "inspect"
-    MODIFY = "modify"
-    TALK = "talk"
-    SETTINGS = "settings"
-
-
-State = base.State
+State = base_states.State
 
 InspectState = inspect.InspectState
 ModifyState = modify.ModifyState

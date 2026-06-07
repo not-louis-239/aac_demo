@@ -94,23 +94,23 @@ class AACEngine:
 
 # Now for registry functions
 @AACEngine.register("clear_sentence_bar")
-def clear_sentence_bar(self) -> None:
+def clear_sentence_bar(self: AACEngine) -> None:
     """Clear the sentence bar."""
     self.sentence_bar.clear()
 
 @AACEngine.register("backspace_sentence_bar")
-def backspace_sentence_bar(self) -> None:
+def backspace_sentence_bar(self: AACEngine) -> None:
     """Remove the last word from the sentence bar."""
     if self.sentence_bar:
         self.sentence_bar.pop()
 
 @AACEngine.register("speak_sentence_bar")
-def speak_sentence_bar(self) -> None:
+def speak_sentence_bar(self: AACEngine) -> None:
     """Speak the current sentence bar."""
     sentence = " ".join(self.sentence_bar)
     speak(sentence)
 
 @AACEngine.register("stop_speaking")
-def stop_speaking(self) -> None:
+def stop_speaking(self: AACEngine) -> None:
     """Stop any currently playing speech immediately."""
     _stop_speaking()

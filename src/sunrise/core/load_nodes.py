@@ -76,6 +76,10 @@ class Button:
 
 @dataclass(kw_only=True)
 class Node:
+    # TODO: Potential idea: if we made this a dict,
+    # then button lookup from coordinates could become O(1) instead
+    # of O(W * H), this would be great.
+
     buttons: list[Button] = field(default_factory=list)
 
 @dataclass

@@ -19,10 +19,14 @@ from pygame import Surface
 from pygame.event import Event
 from pygame.key import ScancodeWrapper
 
-from .base import State
+from .base_states import State
+from sunrise.core.load_nodes import Button
 
 
 class InspectState(State):
+    def __init__(self, button: Button | None) -> None:
+        self.button = button
+
     def update(self, dt_s: float) -> None:
         pass
 

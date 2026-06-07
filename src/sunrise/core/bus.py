@@ -50,13 +50,17 @@ class Bus:
         dead_listeners = []
 
         for ref in self._listeners[event_name][:]:
-            func = ref()
+            try:
+                func = ref()
 
-            if func is None:
+                if func is None:
+                    dead_listeners.append(ref)
+                    continue
+
+                func(*args, **kwargs)
+            except ReferenceError:
+                # Weak reference was garbage collected
                 dead_listeners.append(ref)
-                continue
-
-            func(*args, **kwargs)
 
         for dead in dead_listeners:
             if dead in self._listeners[event_name]:

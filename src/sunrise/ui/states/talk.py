@@ -236,6 +236,13 @@ class TalkState(State):
         if button_coord is None:
             return
 
+        button = _get_button_at_pos(self.aac_inst.engine.current_buttons(), button_coord)
+        if button:
+            # `type: ignore` sucks but we know here that it points to an InspectState
+            self.aac_inst.states[StateID.INSPECT]._set_button(button)  # type: ignore
+        else:
+            ...  # TODO: move to the modify state to add a new button
+
         self.aac_inst.bus.emit(EventID.STATE_CHANGE, new_state=StateID.INSPECT)
 
     def take_input(self, keys: ScancodeWrapper, events: list[Event], dt_s: float) -> None:

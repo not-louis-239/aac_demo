@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import weakref
+import sys
 from typing import Callable, Any
 from enum import StrEnum
 
@@ -61,9 +62,13 @@ class Bus:
                     continue
 
                 func(*args, **kwargs)
-            except ReferenceError:
+            except ReferenceError as exc:
                 # Weak reference was garbage collected
                 dead_listeners.append(ref)
+
+                # DEBUG
+                err_str = f"removing listener '{ref}' for event '{event_name}' | ReferenceError: {str(exc) if str(exc) else '<no description>'}"
+                print(err_str, file=sys.stderr)
 
         for dead in dead_listeners:
             if dead in self._listeners[event_name]:

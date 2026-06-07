@@ -15,16 +15,27 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
+from typing import TYPE_CHECKING
+
+import pygame as pg
 from pygame import Surface
 from pygame.event import Event
 from pygame.key import ScancodeWrapper
 
 from .base_states import State
 from sunrise.core.load_nodes import Button
+from sunrise.core.constants import WN_W, WN_H, UI_PADDING
+
+if TYPE_CHECKING:
+    from sunrise.core.aac import AAC
 
 
 class InspectState(State):
-    def __init__(self, button: Button | None) -> None:
+    def __init__(self, aac_inst: AAC) -> None:
+        super().__init__(aac_inst)
+        self.button: Button | None = None
+
+    def _set_button(self, button: Button) -> None:
         self.button = button
 
     def update(self, dt_s: float) -> None:
@@ -34,4 +45,11 @@ class InspectState(State):
         pass
 
     def draw(self, screen: Surface) -> None:
-        pass
+        screen.fill(self.aac_inst.get_current_theme().bg_colour)
+
+        # Draw the popup background rect
+        min_x, min_y = int(UI_PADDING), int(UI_PADDING)
+        popup_w, popup_h = int(WN_W - 2 * UI_PADDING), int(WN_H - 2 * UI_PADDING)
+        pg.draw.rect(screen, self.aac_inst.get_current_theme().fg_colour, (min_x, min_y, popup_w, popup_h), width=2)
+
+        # Draw the 'x' button so users can actually get out!

@@ -1,4 +1,5 @@
-# asset_manager.py - Asset Manager
+# AAC visual settings
+
 # repo at: https://github.com/not-louis-239/sunrise-aac
 # Copyright (C) 2026 Louis Masarei-Boulton <243234869+not-louis-239@users.noreply.github.com>
 
@@ -15,27 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-
-from pathlib import Path
-
 import pygame as pg
 
-from sunrise.core.paths import FONTS_DIR
-
-
-class Fonts:
+class AACVisuals:
     def __init__(self) -> None:
-        self.button_font: Path = FONTS_DIR / "ComicNeue-Bold.ttf"
-        self.ui_font: Path = FONTS_DIR / "AtkinsonHyperlegible-Regular.ttf"
-
-
-class Images:
-    def __init__(self) -> None:
-        # {relative_fp, pg.Surface} pairs
-        self.cache: dict[str, pg.Surface] = {}
-
-
-class Assets:
-    def __init__(self) -> None:
-        self.fonts = Fonts()
-        self.images = Images()
+        self.theme_idx: int = 0

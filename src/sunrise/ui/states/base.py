@@ -1,4 +1,5 @@
-# asset_manager.py - Asset Manager
+# _base.py - module to contain the base State class
+
 # repo at: https://github.com/not-louis-239/sunrise-aac
 # Copyright (C) 2026 Louis Masarei-Boulton <243234869+not-louis-239@users.noreply.github.com>
 
@@ -15,27 +16,28 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-
-from pathlib import Path
+from abc import ABC, abstractmethod
+from typing import TYPE_CHECKING
 
 import pygame as pg
+from pygame.key import ScancodeWrapper
 
-from sunrise.core.paths import FONTS_DIR
-
-
-class Fonts:
-    def __init__(self) -> None:
-        self.button_font: Path = FONTS_DIR / "ComicNeue-Bold.ttf"
-        self.ui_font: Path = FONTS_DIR / "AtkinsonHyperlegible-Regular.ttf"
+if TYPE_CHECKING:
+    from sunrise.core.aac import AAC
 
 
-class Images:
-    def __init__(self) -> None:
-        # {relative_fp, pg.Surface} pairs
-        self.cache: dict[str, pg.Surface] = {}
+class State(ABC):
+    def __init__(self, aac_inst: AAC) -> None:
+        self.aac_inst = aac_inst
 
+    @abstractmethod
+    def update(self, dt_s: float) -> None:
+        raise NotImplementedError
 
-class Assets:
-    def __init__(self) -> None:
-        self.fonts = Fonts()
-        self.images = Images()
+    @abstractmethod
+    def take_input(self, keys: ScancodeWrapper, events: list[pg.event.Event], dt_s: float) -> None:
+        raise NotImplementedError
+
+    @abstractmethod
+    def draw(self, screen: pg.Surface) -> None:
+        raise NotImplementedError

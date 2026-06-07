@@ -1,4 +1,4 @@
-# asset_manager.py - Asset Manager
+# this is an init file
 # repo at: https://github.com/not-louis-239/sunrise-aac
 # Copyright (C) 2026 Louis Masarei-Boulton <243234869+not-louis-239@users.noreply.github.com>
 
@@ -15,27 +15,27 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+from enum import StrEnum
 
-from pathlib import Path
-
-import pygame as pg
-
-from sunrise.core.paths import FONTS_DIR
-
-
-class Fonts:
-    def __init__(self) -> None:
-        self.button_font: Path = FONTS_DIR / "ComicNeue-Bold.ttf"
-        self.ui_font: Path = FONTS_DIR / "AtkinsonHyperlegible-Regular.ttf"
+from . import (
+    base,
+    inspect,
+    modify,
+    talk,
+    settings
+)
 
 
-class Images:
-    def __init__(self) -> None:
-        # {relative_fp, pg.Surface} pairs
-        self.cache: dict[str, pg.Surface] = {}
+class StateID(StrEnum):
+    INSPECT = "inspect"
+    MODIFY = "modify"
+    TALK = "talk"
+    SETTINGS = "settings"
 
 
-class Assets:
-    def __init__(self) -> None:
-        self.fonts = Fonts()
-        self.images = Images()
+State = base.State
+
+InspectState = inspect.InspectState
+ModifyState = modify.ModifyState
+TalkState = talk.TalkState
+SettingsState = settings.SettingsState

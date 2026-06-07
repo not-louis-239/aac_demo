@@ -28,9 +28,9 @@ class EventID(StrEnum):
 class Bus:
     def __init__(self):
         # _listeners is {event_name, references_to_functions_to_call}
-        self._listeners: dict[str, list[weakref.ref[Callable[..., Any]]]] = {}
+        self._listeners: dict[EventID, list[weakref.ref[Callable[..., Any]]]] = {}
 
-    def subscribe(self, event_name: str, func: Callable) -> None:
+    def subscribe(self, event_name: EventID, func: Callable) -> None:
         if event_name not in self._listeners:
             self._listeners[event_name] = []
 
@@ -43,7 +43,7 @@ class Bus:
 
         self._listeners[event_name].append(ref)
 
-    def emit(self, event_name: str, *args, **kwargs) -> None:
+    def emit(self, event_name: EventID, *args, **kwargs) -> None:
         if event_name not in self._listeners:
             return
 

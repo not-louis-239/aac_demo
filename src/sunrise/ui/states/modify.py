@@ -1,4 +1,3 @@
-# asset_manager.py - Asset Manager
 # repo at: https://github.com/not-louis-239/sunrise-aac
 # Copyright (C) 2026 Louis Masarei-Boulton <243234869+not-louis-239@users.noreply.github.com>
 
@@ -15,27 +14,19 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+from pygame import Surface
+from pygame.event import Event
+from pygame.key import ScancodeWrapper
 
-from pathlib import Path
-
-import pygame as pg
-
-from sunrise.core.paths import FONTS_DIR
-
-
-class Fonts:
-    def __init__(self) -> None:
-        self.button_font: Path = FONTS_DIR / "ComicNeue-Bold.ttf"
-        self.ui_font: Path = FONTS_DIR / "AtkinsonHyperlegible-Regular.ttf"
+from .base import State
 
 
-class Images:
-    def __init__(self) -> None:
-        # {relative_fp, pg.Surface} pairs
-        self.cache: dict[str, pg.Surface] = {}
+class ModifyState(State):
+    def update(self) -> None:
+        pass
 
+    def take_input(self, keys: ScancodeWrapper, events: list[Event], dt_s: float) -> None:
+        pass
 
-class Assets:
-    def __init__(self) -> None:
-        self.fonts = Fonts()
-        self.images = Images()
+    def draw(self, screen: Surface) -> None:
+        pass

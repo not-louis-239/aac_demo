@@ -21,27 +21,49 @@ from pygame.key import ScancodeWrapper
 
 from sunrise.core.asset_manager import Assets
 from sunrise.core.engine import AACEngine
-from sunrise.core.renderer import Renderer
-from sunrise.core.bus import Bus
+from sunrise.core.visuals import AACVisuals
+from sunrise.core.bus import Bus, EventID
+from sunrise.core.constants import THEMES, Theme
+from sunrise.ui.states import (
+    State,
+    InspectState,
+    ModifyState,
+    TalkState,
+    SettingsState,
+    StateID
+)
 
 
 class AAC:
     def __init__(self):
         # assets MUST be initialised first
         self.assets = Assets()
+
         self.bus = Bus()
+        self.bus.subscribe(EventID.STATE_CHANGE, self.change_state)
 
         self.engine = AACEngine()
+        self.visuals = AACVisuals()
 
+        self.states: dict[StateID, State] = {
+            StateID.INSPECT: InspectState(self),
+            StateID.MODIFY: ModifyState(self),
+            StateID.TALK: TalkState(self),
+            StateID.SETTINGS: SettingsState(self)
+        }
+        self.state: StateID = StateID.TALK
 
+    def get_current_theme(self) -> Theme:
+        return THEMES[self.visuals.theme_idx]
 
-        self.renderer = Renderer(aac_inst=self)
+    def change_state(self, new_state: StateID) -> None:
+       self.state = new_state
 
     def update(self, dt_s: float) -> None:
-        pass
+        self.states[self.state].update(dt_s=dt_s)
 
     def take_input(self, keys: ScancodeWrapper, events: list[pg.event.Event], dt_s: float) -> None:
-        self.engine.take_input(keys=keys, events=events, dt_s=dt_s)
+        self.states[self.state].take_input(keys=keys, events=events, dt_s=dt_s)
 
     def draw(self, screen: pg.Surface) -> None:
-        self.renderer.draw(screen=screen)
+        self.states[self.state].draw(screen=screen)

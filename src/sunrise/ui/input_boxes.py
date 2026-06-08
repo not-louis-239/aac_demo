@@ -28,7 +28,6 @@ class InputBox:
         self.font = font  # needed so that it can auto-adjust text width while drawing
 
 
-
     def handle_click(self, event: pg.event.Event) -> None:
         if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
             self.active = self.rect.collidepoint(event.pos)
@@ -39,6 +38,7 @@ class InputBox:
                 elif event.key not in (pg.K_RETURN, pg.K_ESCAPE, pg.K_TAB):
                     # Append character
                     self.text += event.unicode
+
 
     def draw(
             self, screen: pg.Surface,

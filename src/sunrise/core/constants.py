@@ -26,6 +26,8 @@ class Theme:
     display_name: str
     bg_colour: Colour
     fg_colour: Colour
+    err_colour: Colour
+    warn_colour: Colour
     fitzgerald_theme: dict[str, Colour]
 
 FPS = 60
@@ -62,6 +64,8 @@ THEMES: list[Theme] = [
         display_name="Light",
         bg_colour=(255, 255, 255),
         fg_colour=(0, 0, 0),
+        err_colour=(255, 0, 0),
+        warn_colour=(255, 208, 0),
         fitzgerald_theme={
             "pronoun": (255, 255, 180),
             "noun": (255, 210, 180),
@@ -78,6 +82,8 @@ THEMES: list[Theme] = [
         display_name="Dark",
         bg_colour=(50, 50, 50),
         fg_colour=(255, 255, 255),
+        err_colour=(255, 0, 0),
+        warn_colour=(255, 208, 0),
         fitzgerald_theme={
             "pronoun": (100, 100, 50),
             "noun": (100, 75, 50),

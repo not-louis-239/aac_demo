@@ -24,6 +24,7 @@ from enum import StrEnum
 
 class EventID(StrEnum):
     STATE_CHANGE = "STATE_CHANGE"
+    SET_BUTTON = "SET_BUTTON"
 
 
 class Bus:

@@ -238,8 +238,8 @@ class TalkState(State):
 
         button = _get_button_at_pos(self.aac_inst.engine.current_buttons(), button_coord)
         if button:
-            # `type: ignore` sucks but we know here that it points to an InspectState
-            self.aac_inst.states[StateID.INSPECT]._set_button(button)  # type: ignore
+            node_name = self.aac_inst.engine.get_node_for_button(button)
+            self.aac_inst.bus.emit(EventID.SET_BUTTON, button=button, node_label=node_name)
         else:
             ...  # TODO: move to the modify state to add a new button
 

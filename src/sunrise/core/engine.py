@@ -20,7 +20,7 @@
 from typing import Any, Callable
 
 from .speak import speak, stop_speaking as _stop_speaking
-from .load_nodes import Button, LanguageTree, load_language_tree
+from .load_nodes import Button, Node, LanguageTree, load_language_tree
 
 class AACEngine:
     """The engine class for the AAC talker (AAC = Augmentative and Alternative Communication)."""
@@ -61,6 +61,13 @@ class AACEngine:
             buttons.extend(node.buttons)
 
         return buttons
+
+    def get_node_for_button(self, button: Button) -> str | None:
+        for node_name in ["UNIVERSAL", self.current_node]:
+            node = self.tree.get(node_name)
+            if node and button in node.buttons:
+                return node_name
+        return None
 
     def on_button_press(self, button: Button) -> None:
         # Update destination if the button has one

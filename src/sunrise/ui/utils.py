@@ -18,6 +18,9 @@
 
 import pygame as pg
 
+from sunrise.core.custom_types import Colour
+
+
 def crop_text_to_fit(text: str, font: pg.font.Font, maxwidth: int) -> str:
     """Truncate the text string to fit within a given width.
     Truncates with '...' at the end if necessary.
@@ -43,3 +46,11 @@ def crop_text_to_fit(text: str, font: pg.font.Font, maxwidth: int) -> str:
         known_good += char
 
     return known_good
+
+def make_tinted_surface(surface: pg.Surface, colour: Colour) -> pg.Surface:
+    """Tints the given surface with a given colour."""
+    tinted = surface.copy()
+    colour_surface = pg.Surface(tinted.get_size(), pg.SRCALPHA)
+    colour_surface.fill(colour)
+    tinted.blit(colour_surface, (0, 0), special_flags=pg.BLEND_RGBA_MULT)
+    return tinted

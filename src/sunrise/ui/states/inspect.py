@@ -22,12 +22,14 @@ from pygame import Surface
 from pygame.event import Event
 from pygame.key import ScancodeWrapper
 
+from crystallinium.text_utils import draw_text
+
 from .base_states import State, StateID
 from ..ui_buttons import CircularUIButton
 from sunrise.core.bus import EventID
 from sunrise.ui.utils import crop_text_to_fit
 from sunrise.core.load_nodes import Button
-from sunrise.core.constants import WN_W, WN_H, UI_PADDING
+from sunrise.core.constants import WN_W, WN_H, UI_PADDING, ICON_SIZE, UI_MARGIN
 
 if TYPE_CHECKING:
     from sunrise.core.aac import AAC
@@ -44,7 +46,7 @@ class InspectState(State):
         popup_w, popup_h = int(WN_W - 2 * UI_PADDING), int(WN_H - 2 * UI_PADDING)
         self.popup_rect = pg.Rect(min_x, min_y, popup_w, popup_h)
 
-        close_button_radius = int(WN_W * 0.02)
+        close_button_radius = ICON_SIZE // 2
         close_button_centre_x = int(min_x + popup_w - close_button_radius - UI_PADDING)
         close_button_centre_y = int(min_y + close_button_radius + UI_PADDING)
         self.close_button = CircularUIButton(centre_x=close_button_centre_x, centre_y=close_button_centre_y, r=close_button_radius)
@@ -65,23 +67,61 @@ class InspectState(State):
                     self.aac_inst.bus.emit(EventID.STATE_CHANGE, new_state=StateID.TALK)
 
     def draw(self, screen: Surface) -> None:
-        screen.fill(self.aac_inst.get_current_theme().bg_colour)
+        theme = self.aac_inst.get_current_theme()
+        screen.fill(theme.bg_colour)
 
         if not self.button:
             return
 
         # Draw the popup background rect
-        pg.draw.rect(screen, self.aac_inst.get_current_theme().fg_colour, self.popup_rect, width=2)
+        pg.draw.rect(screen, theme.fg_colour, self.popup_rect, width=2)
 
         # Draw the 'x' button so users can actually get out!
-        pg.draw.circle(screen, self.aac_inst.get_current_theme().err_colour, (self.close_button.centre_x, self.close_button.centre_y), self.close_button.r)
-        # TODO: Add an image for the 'x' button
+        topleft = (self.popup_rect.right - 2 * self.close_button.r - UI_PADDING, self.popup_rect.top + UI_PADDING)
+        screen.blit(self.aac_inst.assets.images.exit_icons[theme], topleft)
 
-        # Draw the popup text - last 255 chars for performance
+        # Draw the popup text
         text_left, text_top = self.popup_rect.topleft[0] + UI_PADDING, self.popup_rect.topleft[1] + UI_PADDING
         text = f"Button '{self.button.label}' in Node '{self.node_label}' at {self.button.coords}"
         text_max_width = int(self.popup_rect.width - 2 * self.close_button.r - 3 * UI_PADDING)
         text_cropped = crop_text_to_fit(text, self.title_font, text_max_width)
 
-        text_surf = self.title_font.render(text_cropped, True, self.aac_inst.get_current_theme().fg_colour)
+        text_surf = self.title_font.render(text_cropped, True, theme.fg_colour)
         screen.blit(text_surf, (text_left, text_top))
+
+        base_x, base_y = (UI_PADDING + UI_MARGIN, int(WN_H * 0.15))
+        value_offset = 150
+
+        def draw_key_value_pair(k: object, v: object, pos: tuple[int, int]) -> None:
+            px, py = pos
+
+            draw_text(
+                surface=screen, pos=(px, py),
+                horiz_align='left', vert_align='top',
+                font_family=self.title_font, text=str(k),
+                colour=theme.fg_colour
+            )
+
+            if v is not None:
+                v_str = str(v)
+                v_col = theme.fg_colour
+            else:
+                v_str = "n/a"
+                v_col = (*theme.fg_colour, 127)
+
+            draw_text(
+                surface=screen, pos=(px + value_offset, py),
+                horiz_align='left', vert_align='top',
+                font_family=self.title_font, text=v_str,
+                colour=v_col
+            )
+
+        for i, (k, v) in enumerate({
+            "word:": self.button.word,
+            "dest:": self.button.dest,
+            "func:": self.button.func,
+            "image:": self.button.img,
+            "type:": self.button.type,
+        }.items()):
+            pos = base_x, base_y + i * UI_MARGIN
+            draw_key_value_pair(k=k, v=v, pos=pos)

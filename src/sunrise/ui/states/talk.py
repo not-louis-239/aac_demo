@@ -161,7 +161,7 @@ class _Renderer:
         rect = self._calculate_button_rect(button)
 
         theme = self.aac_inst.get_current_theme()
-        colour = theme.fitzgerald_theme.get(button.type) or theme.fitzgerald_theme["system"]
+        colour = getattr(theme.fitzgerald_theme, button.type, theme.fitzgerald_theme.system)
 
         # Draw the actual rect first
         pg.draw.rect(screen, colour, rect)

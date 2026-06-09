@@ -20,7 +20,10 @@ from pathlib import Path
 
 import pygame as pg
 
-from sunrise.core.paths import FONTS_DIR
+from sunrise.ui.utils import make_tinted_surface
+from sunrise.core.custom_types import Colour
+from sunrise.core.paths import FONTS_DIR, UI_IMAGES_DIR
+from sunrise.core.constants import THEMES, ICON_SIZE, Theme
 
 
 class Fonts:
@@ -34,6 +37,27 @@ class Images:
         # {relative_fp, pg.Surface} pairs
         self.cache: dict[str, pg.Surface] = {}
 
+        # {theme colour: coloured icon}
+        self.exit_icons: dict[Theme, pg.Surface] = {}
+        self.proceed_icons: dict[Theme, pg.Surface] = {}
+
+        self.init_coloured_icons()
+
+    def init_coloured_icons(self, themes: list[Theme] = THEMES) -> None:
+        # Load icons
+        exit_icon = pg.transform.scale(
+            pg.image.load(UI_IMAGES_DIR / "exit.png").convert_alpha(), (ICON_SIZE, ICON_SIZE)
+        )
+        proceed_icon = pg.transform.scale(
+            pg.image.load(UI_IMAGES_DIR / "proceed.png").convert_alpha(), (ICON_SIZE, ICON_SIZE)
+        )
+
+        # Then make the coloured copies for each theme
+        for theme in themes:
+            exit_colour = theme.err_colour
+            self.exit_icons[theme] = make_tinted_surface(exit_icon, exit_colour)
+            proceed_colour = theme.ok_colour
+            self.proceed_icons[theme] = make_tinted_surface(proceed_icon, proceed_colour)
 
 class Assets:
     def __init__(self) -> None:

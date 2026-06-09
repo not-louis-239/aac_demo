@@ -16,10 +16,22 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 from typing import TypeAlias
 
 Colour: TypeAlias = tuple[int, int, int]
+
+@dataclass(frozen=True, kw_only=True)
+class Fitzgerald:
+    pronoun: Colour
+    noun: Colour
+    verb: Colour
+    descriptor: Colour
+    social: Colour
+    syntax: Colour
+    system: Colour
+    folder: Colour
+    default: Colour
 
 @dataclass(frozen=True, kw_only=True)
 class Theme:
@@ -28,7 +40,8 @@ class Theme:
     fg_colour: Colour
     err_colour: Colour
     warn_colour: Colour
-    fitzgerald_theme: dict[str, Colour]
+    ok_colour: Colour
+    fitzgerald_theme: Fitzgerald
 
 FPS = 60
 
@@ -41,10 +54,12 @@ GRID_W, GRID_H = 10, 6
 BUTTON_BORDER_WIDTH = 2
 
 # Relative to WN_W, WN_H
-UI_PADDING = WN_W * 0.01
+UI_PADDING = int(WN_W * 0.01)
+UI_MARGIN = int(WN_W * 0.06)
 BUTTON_FONT_SIZE = WN_W * 0.015
 
 BUTTON_IMAGE_SIZE = int((WN_H - SENTENCE_BAR_H - UI_PADDING) / GRID_H * 0.65)
+ICON_SIZE = int(WN_W * 0.025)
 
 ALLOWED_BUTTON_TYPES = [
     "pronoun",
@@ -66,15 +81,18 @@ THEMES: list[Theme] = [
         fg_colour=(0, 0, 0),
         err_colour=(255, 0, 0),
         warn_colour=(255, 208, 0),
-        fitzgerald_theme={
-            "pronoun": (255, 255, 180),
-            "noun": (255, 210, 180),
-            "verb": (180, 255, 180),
-            "descriptor": (180, 200, 255),
-            "social": (240, 180, 255),
-            "syntax": (180, 180, 180),
-            "system": (240, 240, 240)
-        }
+        ok_colour = (48, 220, 0),
+        fitzgerald_theme=Fitzgerald(
+            pronoun=(255, 255, 180),
+            noun=(255, 210, 180),
+            verb=(180, 255, 180),
+            descriptor=(180, 200, 255),
+            social=(240, 180, 255),
+            syntax=(180, 180, 180),
+            system=(240, 240, 240),
+            folder=(200, 200, 200),
+            default=(255, 255, 255),
+        )
     ),
 
     # Dark mode
@@ -84,15 +102,18 @@ THEMES: list[Theme] = [
         fg_colour=(255, 255, 255),
         err_colour=(255, 0, 0),
         warn_colour=(255, 208, 0),
-        fitzgerald_theme={
-            "pronoun": (100, 100, 50),
-            "noun": (100, 75, 50),
-            "verb": (50, 100, 50),
-            "descriptor": (50, 65, 100),
-            "social": (90, 50, 100),
-            "syntax": (70, 70, 70),
-            "system": (55, 55, 55)
-        }
+        ok_colour=(104, 255, 61),
+        fitzgerald_theme=Fitzgerald(
+            pronoun=(100, 100, 50),
+            noun=(100, 75, 50),
+            verb=(50, 100, 50),
+            descriptor=(50, 65, 100),
+            social=(90, 50, 100),
+            syntax=(70, 70, 70),
+            system=(55, 55, 55),
+            folder=(60, 60, 60),
+            default=(0, 0, 0),
+        )
     )
 ]
 
@@ -105,7 +126,7 @@ def _test():
         name = theme.display_name
 
         print(f"\nTheme: {name}")
-        print("Colors:")
+        print("Colours:")
 
         col = theme.bg_colour
         r, g, b = col
@@ -119,7 +140,7 @@ def _test():
         text = f"  fg_colour: {BOLD}{GREY_BG}{col_code}{col}{RESET}"
         print(text)
 
-        for cat, col in theme.fitzgerald_theme.items():
+        for cat, col in asdict(theme.fitzgerald_theme).items():
             r, g, b = col
             col_code = f"\033[38;2;{r};{g};{b}m"
             text = f"  {cat}: {BOLD}{GREY_BG}{col_code}{col}{RESET}"

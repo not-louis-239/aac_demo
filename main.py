@@ -28,6 +28,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
 
 from sunrise.core.constants import WN_W, WN_H, FPS
 from sunrise.core.aac import AAC
+from sunrise.core.error_logger import write_error_log
 
 def main():
     pg.init()
@@ -57,6 +58,8 @@ def main():
 if __name__ == "__main__":
     try:
         main()
+    except Exception as exc:
+        write_error_log(exc)
     except KeyboardInterrupt:
         print("\nExited.")
         pg.quit()

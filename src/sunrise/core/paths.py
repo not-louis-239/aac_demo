@@ -27,5 +27,10 @@ ASSETS_DIR = ROOT_DIR / "assets"
 
 FONTS_DIR = ASSETS_DIR / "fonts"
 IMAGES_DIR = ASSETS_DIR / "images"
+UI_IMAGES_DIR = IMAGES_DIR / "ui"
+
+LOGS_DIR = ROOT_DIR / "logs"
 
 NODES_FILE = ROOT_DIR / "tree" / "nodes.json"
+
+

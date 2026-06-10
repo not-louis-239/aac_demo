@@ -17,13 +17,23 @@
 
 
 from pathlib import Path
+from enum import StrEnum
 
 import pygame as pg
 
 from sunrise.ui.utils import make_tinted_surface
-from sunrise.core.custom_types import Colour
 from sunrise.core.paths import FONTS_DIR, UI_IMAGES_DIR
 from sunrise.core.constants import THEMES, ICON_SIZE, Theme
+
+
+class PropertyIconID(StrEnum):
+    TEXT = "text"
+    DEST = "dest"
+    FUNC = "func"
+    IMAGE = "image"
+    LABEL = "label"
+    MAP_PIN = "map_pin"
+    TYPE = "type"
 
 
 class Fonts:
@@ -38,26 +48,38 @@ class Images:
         self.cache: dict[str, pg.Surface] = {}
 
         # {theme colour: coloured icon}
-        self.exit_icons: dict[Theme, pg.Surface] = {}
-        self.proceed_icons: dict[Theme, pg.Surface] = {}
+        self.exit_icons: dict[Theme, pg.Surface] = self._load(UI_IMAGES_DIR / "exit.png", colour_attr="err_colour")
+        self.proceed_icons: dict[Theme, pg.Surface] = self._load(UI_IMAGES_DIR / "proceed.png", colour_attr="ok_colour")
+        self.lock_icons: dict[Theme, pg.Surface] = self._load(UI_IMAGES_DIR / "lock.png", colour_attr="warn_colour")
 
-        self.init_coloured_icons()
+        # TODO: implement
+        self.property_icons: dict[str, dict[Theme, pg.Surface]] = {
+            PropertyIconID.TEXT: self._load(UI_IMAGES_DIR / "text.png"),
+            PropertyIconID.DEST: self._load(UI_IMAGES_DIR / "dest.png"),
+            PropertyIconID.FUNC: self._load(UI_IMAGES_DIR / "func.png"),
+            PropertyIconID.IMAGE: self._load(UI_IMAGES_DIR / "image.png"),
+            PropertyIconID.LABEL: self._load(UI_IMAGES_DIR / "label.png"),
+            PropertyIconID.MAP_PIN: self._load(UI_IMAGES_DIR / "map_pin.png"),
+            PropertyIconID.TYPE: self._load(UI_IMAGES_DIR / "type.png")
+        }
 
-    def init_coloured_icons(self, themes: list[Theme] = THEMES) -> None:
-        # Load icons
-        exit_icon = pg.transform.scale(
-            pg.image.load(UI_IMAGES_DIR / "exit.png").convert_alpha(), (ICON_SIZE, ICON_SIZE)
-        )
-        proceed_icon = pg.transform.scale(
-            pg.image.load(UI_IMAGES_DIR / "proceed.png").convert_alpha(), (ICON_SIZE, ICON_SIZE)
-        )
+    def _load(
+            self, path: Path, *,
+            colour_attr: str = "fg_colour", size: tuple[int, int] = (ICON_SIZE, ICON_SIZE)
+        ) -> dict[Theme, pg.Surface]:
+        """Loads an image from a path, and in accordance with a list of themes,
+        makes a coloured version for the specified `colour_attr` while simultaneously
+        scaling it to a certain `size`. Returns {themes: coloured surfaces}.
+        Default attr is `fg_colour` if `colour_attr` is not specified or found."""
+        img_raw = pg.image.load(path).convert_alpha()
+        img_scaled = pg.transform.scale(img_raw, size)
 
-        # Then make the coloured copies for each theme
-        for theme in themes:
-            exit_colour = theme.err_colour
-            self.exit_icons[theme] = make_tinted_surface(exit_icon, exit_colour)
-            proceed_colour = theme.ok_colour
-            self.proceed_icons[theme] = make_tinted_surface(proceed_icon, proceed_colour)
+        img_dict: dict[Theme, pg.Surface] = {}
+        for theme in THEMES:
+            tinted = make_tinted_surface(img_scaled, getattr(theme, colour_attr, theme.fg_colour))
+            img_dict[theme] = tinted
+
+        return img_dict
 
 class Assets:
     def __init__(self) -> None:

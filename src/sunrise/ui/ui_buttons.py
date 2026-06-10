@@ -21,10 +21,12 @@
 
 from abc import ABC, abstractmethod
 
+import pygame as pg
+
 
 class UIButton(ABC):
     @abstractmethod
-    def check_click(self, mouse_x: int, mouse_y: int) -> bool:
+    def check_click(self, mouse_pos: tuple[int, int]) -> bool:
         raise NotImplementedError
 
 class RectangularUIButton(UIButton):
@@ -33,11 +35,12 @@ class RectangularUIButton(UIButton):
         self.y = y
         self.w = w
         self.h = h
+        self.rect = pg.Rect(x, y, w, h)
 
-    def check_click(self, mouse_x: int, mouse_y: int) -> bool:
+    def check_click(self, mouse_pos: tuple[int, int]) -> bool:
         return (
-            self.x <= mouse_x <= self.x + self.w
-            and self.y <= mouse_y <= self.y + self.h
+            self.x <= mouse_pos[0] <= self.x + self.w
+            and self.y <= mouse_pos[1] <= self.y + self.h
         )
 
 class CircularUIButton(UIButton):
@@ -46,5 +49,5 @@ class CircularUIButton(UIButton):
         self.centre_y = centre_y
         self.r = r
 
-    def check_click(self, mouse_x: int, mouse_y: int) -> bool:
-        return (mouse_x - self.centre_x) ** 2 + (mouse_y - self.centre_y) ** 2 <= self.r ** 2
+    def check_click(self, mouse_pos: tuple[int, int]) -> bool:
+        return (mouse_pos[0] - self.centre_x) ** 2 + (mouse_pos[1] - self.centre_y) ** 2 <= self.r ** 2

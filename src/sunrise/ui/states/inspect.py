@@ -25,11 +25,13 @@ from pygame.key import ScancodeWrapper
 from crystallinium.text_utils import draw_text
 
 from .base_states import State, StateID
-from ..ui_buttons import CircularUIButton
+from ..ui_buttons import CircularUIButton, RectangularUIButton
 from sunrise.core.bus import EventID
-from sunrise.ui.utils import crop_text_to_fit
-from sunrise.core.load_nodes import Button
+from sunrise.core.asset_manager import PropertyIconID
+from sunrise.core.load_nodes import Button, save_language_tree
 from sunrise.core.constants import WN_W, WN_H, UI_PADDING, ICON_SIZE, UI_MARGIN
+from sunrise.ui.utils import crop_text_to_fit
+
 
 if TYPE_CHECKING:
     from sunrise.core.aac import AAC
@@ -51,7 +53,28 @@ class InspectState(State):
         close_button_centre_y = int(min_y + close_button_radius + UI_PADDING)
         self.close_button = CircularUIButton(centre_x=close_button_centre_x, centre_y=close_button_centre_y, r=close_button_radius)
 
+        button_row_h = int(WN_H * 0.85)
+        button_w = int(popup_w // 4)
+        button_h = int(WN_H * 0.08)
+
+        x, y, w, h = int(WN_W * 0.2 - button_w // 2), button_row_h, button_w, button_h
+        self.move_button = RectangularUIButton(x=x, y=y, w=w, h=h)
+
+        x, y, w, h = int(WN_W * 0.5 - button_w // 2), button_row_h, button_w, button_h
+        self.modify_button = RectangularUIButton(x=x, y=y, w=w, h=h)
+
+        x, y, w, h = int(WN_W * 0.8 - button_w // 2), button_row_h, button_w, button_h
+        self.delete_button = RectangularUIButton(x=x, y=y, w=w, h=h)
+
         self.title_font = pg.font.Font(self.aac_inst.assets.fonts.ui_font, 35)
+        self.button_font = pg.font.Font(self.aac_inst.assets.fonts.ui_font, 25)
+
+        # Delete confirmation buttons
+        self.black_overlay_surface = pg.Surface((WN_W, WN_H), pg.SRCALPHA)
+        self.black_overlay_surface.fill((0, 0, 0, 128))
+        self.yes_button = RectangularUIButton(x=int(WN_W * 0.25 - button_w // 2), y=int(WN_H * 0.6 - button_h // 2), w=button_w, h=button_h)
+        self.no_button = RectangularUIButton(x=int(WN_W * 0.75 - button_w // 2), y=int(WN_H * 0.6 - button_h // 2), w=button_w, h=button_h)
+        self.in_delete_confirmation = False
 
     def set_button_and_node(self, button: Button, node_label: str) -> None:
         self.button = button
@@ -60,11 +83,48 @@ class InspectState(State):
     def update(self, dt_s: float) -> None:
         pass
 
+    def _handle_left_click(self, event: pg.event.Event) -> None:
+        if self.button is None:
+            return
+
+        if self.in_delete_confirmation:
+            if self.yes_button.check_click(event.pos):
+                self.in_delete_confirmation = False
+                self.aac_inst.bus.emit(EventID.STATE_CHANGE, new_state=StateID.TALK)
+
+                if (
+                    self.button is not None
+                    and (node_str := self.aac_inst.engine.get_node_for_button(self.button)) is not None
+                    and self.button in (node_buttons := self.aac_inst.engine.tree.nodes[node_str].buttons)
+                ):
+                    node_buttons.remove(self.button)
+                    save_language_tree(lt=self.aac_inst.engine.tree)
+            if self.no_button.check_click(event.pos):
+                self.in_delete_confirmation = False
+            return
+
+        # close button
+        if self.close_button.check_click(event.pos):
+            self.in_delete_confirmation = False
+            self.aac_inst.bus.emit(EventID.STATE_CHANGE, new_state=StateID.TALK)
+
+        # modify, move, delete
+        if self.modify_button.check_click(event.pos):
+            if not self.button.immutable:
+                self.aac_inst.bus.emit(EventID.STATE_CHANGE, new_state=StateID.MODIFY)
+        if self.delete_button.check_click(event.pos):
+            if not self.button.immutable:
+                self.in_delete_confirmation = True
+        if self.move_button.check_click(event.pos):
+            self.aac_inst.bus.emit(EventID.STATE_CHANGE, new_state=StateID.TALK)
+
     def take_input(self, keys: ScancodeWrapper, events: list[Event], dt_s: float) -> None:
+        if self.button is None:
+            return
+
         for event in events:
             if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
-                if self.close_button.check_click(*event.pos):
-                    self.aac_inst.bus.emit(EventID.STATE_CHANGE, new_state=StateID.TALK)
+                self._handle_left_click(event)
 
     def draw(self, screen: Surface) -> None:
         theme = self.aac_inst.get_current_theme()
@@ -96,8 +156,8 @@ class InspectState(State):
             px, py = pos
 
             draw_text(
-                surface=screen, pos=(px, py),
-                horiz_align='left', vert_align='top',
+                surface=screen, pos=(px + UI_MARGIN, py),
+                horiz_align='left', vert_align='centre',
                 font_family=self.title_font, text=str(k),
                 colour=theme.fg_colour
             )
@@ -110,18 +170,73 @@ class InspectState(State):
                 v_col = (*theme.fg_colour, 127)
 
             draw_text(
-                surface=screen, pos=(px + value_offset, py),
-                horiz_align='left', vert_align='top',
+                surface=screen, pos=(px + UI_MARGIN + value_offset, py),
+                horiz_align='left', vert_align='centre',
                 font_family=self.title_font, text=v_str,
                 colour=v_col
             )
 
-        for i, (k, v) in enumerate({
-            "word:": self.button.word,
-            "dest:": self.button.dest,
-            "func:": self.button.func,
-            "image:": self.button.img,
-            "type:": self.button.type,
-        }.items()):
+        for i, (label, attr_value, icon_id) in enumerate((
+            ("word:", self.button.word, PropertyIconID.TEXT),
+            ("dest:", self.button.dest, PropertyIconID.DEST),
+            ("func:", self.button.func, PropertyIconID.FUNC),
+            ("image:", self.button.img, PropertyIconID.IMAGE),
+            ("type:", self.button.type, PropertyIconID.TYPE),
+        )):
+            image = self.aac_inst.assets.images.property_icons[icon_id][theme]
             pos = base_x, base_y + i * UI_MARGIN
-            draw_key_value_pair(k=k, v=v, pos=pos)
+            img_rect = pg.Rect(0, 0, *image.get_size())
+            img_rect.center = pos
+            screen.blit(image, img_rect)
+            draw_key_value_pair(k=label, v=attr_value, pos=pos)
+
+        if self.button.immutable:
+            draw_text(
+                surface=screen, pos=(base_x, base_y + 5 * UI_MARGIN),
+                horiz_align='left', vert_align='top',
+                font_family=self.title_font, text="immutable",
+                colour=theme.warn_colour
+            )
+
+        for button, text in [
+            (self.move_button, "Move"),
+            (self.modify_button, "Modify"),
+            (self.delete_button, "Delete")
+        ]:
+            # Now draw the buttons
+            pg.draw.rect(screen, theme.fg_colour, button.rect, width=2)
+            draw_text(
+                surface=screen, pos=button.rect.center, horiz_align='centre',
+                vert_align='centre', font_family=self.button_font, text=text,
+                colour=((*theme.err_colour, 127) if self.button.immutable else theme.err_colour) if button is self.delete_button else theme.fg_colour
+            )
+
+        if self.in_delete_confirmation:
+            screen.blit(self.black_overlay_surface, (0, 0))
+
+            pg.draw.rect(screen, theme.bg_colour, (WN_W * 0.08, WN_H * 0.4, WN_W * 0.84, WN_H * 0.3))
+            pg.draw.rect(screen, theme.fg_colour, (WN_W * 0.08, WN_H * 0.4, WN_W * 0.84, WN_H * 0.3), width=2)
+
+            draw_text(
+                surface=screen, pos=(int(WN_W * 0.5), int(WN_H * 0.5)),
+                horiz_align='centre', vert_align='centre',
+                font_family=self.title_font, text=f"Are you sure you want to delete '{self.button.label}'?",
+                colour=theme.fg_colour
+            )
+
+            # Draw yes/no buttons
+            pg.draw.rect(screen, theme.fg_colour, self.yes_button.rect, width=2)
+            draw_text(
+                surface=screen, pos=self.yes_button.rect.center,
+                horiz_align='centre', vert_align='centre',
+                font_family=self.title_font, text=f"Yes",
+                colour=theme.err_colour
+            )
+
+            pg.draw.rect(screen, theme.fg_colour, self.no_button.rect, width=2)
+            draw_text(
+                surface=screen, pos=self.no_button.rect.center,
+                horiz_align='centre', vert_align='centre',
+                font_family=self.title_font, text=f"No",
+                colour=theme.fg_colour
+            )

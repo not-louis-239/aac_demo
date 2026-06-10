@@ -33,7 +33,7 @@ from sunrise.core.constants import (
     SENTENCE_BAR_H,
     BUTTON_IMAGE_SIZE,
     UI_PADDING,
-    BUTTON_BORDER_WIDTH,
+    BORDER_WIDTH,
     BUTTON_FONT_SIZE,
     GRID_W,
     GRID_H,
@@ -166,7 +166,7 @@ class _Renderer:
         # Draw the actual rect first
         pg.draw.rect(screen, colour, rect)
         # Now border
-        pg.draw.rect(screen, theme.fg_colour, rect, BUTTON_BORDER_WIDTH)
+        pg.draw.rect(screen, theme.fg_colour, rect, BORDER_WIDTH)
 
         # Now the image
         if button.img:
@@ -219,6 +219,8 @@ class TalkState(State):
         super().__init__(aac_inst=aac_inst)
         self.renderer = _Renderer(aac_inst.assets, aac_inst=aac_inst)
 
+
+
     def update(self, dt_s: float) -> None:
         pass
 
@@ -238,12 +240,13 @@ class TalkState(State):
 
         button = _get_button_at_pos(self.aac_inst.engine.current_buttons(), button_coord)
         if button:
+            # button already exists - open the menu to modify it
             node_name = self.aac_inst.engine.get_node_for_button(button)
             self.aac_inst.bus.emit(EventID.SET_BUTTON, button=button, node_label=node_name)
+            self.aac_inst.bus.emit(EventID.STATE_CHANGE, new_state=StateID.INSPECT)
         else:
-            ...  # TODO: move to the modify state to add a new button
-
-        self.aac_inst.bus.emit(EventID.STATE_CHANGE, new_state=StateID.INSPECT)
+            # no button exists - open a window to create it
+            self.aac_inst.bus.emit(EventID.STATE_CHANGE, new_state=StateID.MODIFY)
 
     def take_input(self, keys: ScancodeWrapper, events: list[Event], dt_s: float) -> None:
         for event in events:

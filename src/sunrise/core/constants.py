@@ -51,7 +51,7 @@ SENTENCE_BAR_H = 80
 # How many buttons to have in the button area
 GRID_W, GRID_H = 10, 6
 
-BUTTON_BORDER_WIDTH = 2
+BORDER_WIDTH = 2  # border width for UI elements
 
 # Relative to WN_W, WN_H
 UI_PADDING = int(WN_W * 0.01)
@@ -59,7 +59,7 @@ UI_MARGIN = int(WN_W * 0.06)
 BUTTON_FONT_SIZE = WN_W * 0.015
 
 BUTTON_IMAGE_SIZE = int((WN_H - SENTENCE_BAR_H - UI_PADDING) / GRID_H * 0.65)
-ICON_SIZE = int(WN_W * 0.025)
+ICON_SIZE = int(WN_W * 0.025)  # size for UI icons
 
 ALLOWED_BUTTON_TYPES = [
     "pronoun",

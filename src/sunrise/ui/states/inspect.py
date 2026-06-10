@@ -29,7 +29,7 @@ from ..ui_buttons import CircularUIButton, RectangularUIButton
 from sunrise.core.bus import EventID
 from sunrise.core.asset_manager import PropertyIconID
 from sunrise.core.load_nodes import Button, save_language_tree
-from sunrise.core.constants import WN_W, WN_H, UI_PADDING, ICON_SIZE, UI_MARGIN
+from sunrise.core.constants import WN_W, WN_H, UI_PADDING, ICON_SIZE, UI_MARGIN, BORDER_WIDTH
 from sunrise.ui.utils import crop_text_to_fit
 
 
@@ -48,10 +48,9 @@ class InspectState(State):
         popup_w, popup_h = int(WN_W - 2 * UI_PADDING), int(WN_H - 2 * UI_PADDING)
         self.popup_rect = pg.Rect(min_x, min_y, popup_w, popup_h)
 
-        close_button_radius = ICON_SIZE // 2
-        close_button_centre_x = int(min_x + popup_w - close_button_radius - UI_PADDING)
-        close_button_centre_y = int(min_y + close_button_radius + UI_PADDING)
-        self.close_button = CircularUIButton(centre_x=close_button_centre_x, centre_y=close_button_centre_y, r=close_button_radius)
+        centre_x = WN_W - UI_PADDING - ICON_SIZE
+        center_y = UI_PADDING + ICON_SIZE
+        self.close_button = CircularUIButton(centre_x=centre_x, centre_y=center_y, r=ICON_SIZE // 2)
 
         button_row_h = int(WN_H * 0.85)
         button_w = int(popup_w // 4)
@@ -134,9 +133,9 @@ class InspectState(State):
             return
 
         # Draw the popup background rect
-        pg.draw.rect(screen, theme.fg_colour, self.popup_rect, width=2)
+        pg.draw.rect(screen, theme.fg_colour, self.popup_rect, width=BORDER_WIDTH)
 
-        # Draw the 'x' button so users can actually get out!
+        # Draw the close button so users can actually get out!
         topleft = (self.popup_rect.right - 2 * self.close_button.r - UI_PADDING, self.popup_rect.top + UI_PADDING)
         screen.blit(self.aac_inst.assets.images.exit_icons[theme], topleft)
 
@@ -198,24 +197,32 @@ class InspectState(State):
                 colour=theme.warn_colour
             )
 
+        # Draw buttons
         for button, text in [
             (self.move_button, "Move"),
             (self.modify_button, "Modify"),
             (self.delete_button, "Delete")
         ]:
+            if button == self.move_button:
+                colour = theme.fg_colour
+            elif button == self.modify_button:
+                colour = (*theme.fg_colour, 127) if self.button.immutable else theme.fg_colour
+            elif button == self.delete_button:
+                colour = (*theme.err_colour, 127) if self.button.immutable else theme.err_colour
+
             # Now draw the buttons
-            pg.draw.rect(screen, theme.fg_colour, button.rect, width=2)
+            pg.draw.rect(screen, theme.fg_colour, button.rect, width=BORDER_WIDTH)
             draw_text(
                 surface=screen, pos=button.rect.center, horiz_align='centre',
                 vert_align='centre', font_family=self.button_font, text=text,
-                colour=((*theme.err_colour, 127) if self.button.immutable else theme.err_colour) if button is self.delete_button else theme.fg_colour
+                colour=colour
             )
 
         if self.in_delete_confirmation:
             screen.blit(self.black_overlay_surface, (0, 0))
 
             pg.draw.rect(screen, theme.bg_colour, (WN_W * 0.08, WN_H * 0.4, WN_W * 0.84, WN_H * 0.3))
-            pg.draw.rect(screen, theme.fg_colour, (WN_W * 0.08, WN_H * 0.4, WN_W * 0.84, WN_H * 0.3), width=2)
+            pg.draw.rect(screen, theme.fg_colour, (WN_W * 0.08, WN_H * 0.4, WN_W * 0.84, WN_H * 0.3), width=BORDER_WIDTH)
 
             draw_text(
                 surface=screen, pos=(int(WN_W * 0.5), int(WN_H * 0.5)),
@@ -225,7 +232,7 @@ class InspectState(State):
             )
 
             # Draw yes/no buttons
-            pg.draw.rect(screen, theme.fg_colour, self.yes_button.rect, width=2)
+            pg.draw.rect(screen, theme.fg_colour, self.yes_button.rect, width=BORDER_WIDTH)
             draw_text(
                 surface=screen, pos=self.yes_button.rect.center,
                 horiz_align='centre', vert_align='centre',
@@ -233,7 +240,7 @@ class InspectState(State):
                 colour=theme.err_colour
             )
 
-            pg.draw.rect(screen, theme.fg_colour, self.no_button.rect, width=2)
+            pg.draw.rect(screen, theme.fg_colour, self.no_button.rect, width=BORDER_WIDTH)
             draw_text(
                 surface=screen, pos=self.no_button.rect.center,
                 horiz_align='centre', vert_align='centre',

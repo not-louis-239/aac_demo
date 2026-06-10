@@ -17,7 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import pygame as pg
-from sunrise.core.constants import UI_PADDING
+from sunrise.core.constants import UI_PADDING, BORDER_WIDTH
 from sunrise.core.custom_types import Colour
 
 class InputBox:
@@ -69,4 +69,4 @@ class InputBox:
         screen.blit(text_surf, (self.rect.x + UI_PADDING, self.rect.y), source_rect)
 
         # Border
-        pg.draw.rect(screen, border_colour, self.rect, width=2)
+        pg.draw.rect(screen, border_colour, self.rect, width=BORDER_WIDTH)

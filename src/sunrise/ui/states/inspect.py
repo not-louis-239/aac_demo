@@ -25,7 +25,7 @@ from pygame.key import ScancodeWrapper
 from crystallinium.text_utils import draw_text
 
 from .base_states import State, StateID
-from ..ui_buttons import CircularUIButton, RectangularUIButton
+from ..elements.ui_buttons import CircularUIButton, RectangularUIButton
 from sunrise.core.bus import EventID
 from sunrise.core.asset_manager import PropertyIconID
 from sunrise.core.load_nodes import Button, save_language_tree

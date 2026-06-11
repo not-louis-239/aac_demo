@@ -22,11 +22,11 @@ from pygame import Surface
 from pygame.event import Event
 from pygame.key import ScancodeWrapper
 
-from sunrise.ui.input_boxes import InputBox
+from sunrise.ui.elements.input_boxes import InputBox
 from sunrise.core.load_nodes import Button
 from sunrise.core.bus import EventID
 from sunrise.ui.states.base_states import State, StateID
-from sunrise.ui.ui_buttons import CircularUIButton
+from sunrise.ui.elements.ui_buttons import CircularUIButton
 from sunrise.core.constants import WN_W, WN_H, UI_PADDING, BORDER_WIDTH, ICON_SIZE, UI_MARGIN
 
 if TYPE_CHECKING:

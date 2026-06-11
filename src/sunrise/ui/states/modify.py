@@ -22,10 +22,12 @@ from pygame import Surface
 from pygame.event import Event
 from pygame.key import ScancodeWrapper
 
+from sunrise.ui.input_boxes import InputBox
+from sunrise.core.load_nodes import Button
 from sunrise.core.bus import EventID
 from sunrise.ui.states.base_states import State, StateID
 from sunrise.ui.ui_buttons import CircularUIButton
-from sunrise.core.constants import WN_W, WN_H, UI_PADDING, BORDER_WIDTH, ICON_SIZE
+from sunrise.core.constants import WN_W, WN_H, UI_PADDING, BORDER_WIDTH, ICON_SIZE, UI_MARGIN
 
 if TYPE_CHECKING:
     from sunrise.core.aac import AAC
@@ -33,29 +35,94 @@ if TYPE_CHECKING:
 class ModifyState(State):
     def __init__(self, aac_inst: AAC) -> None:
         super().__init__(aac_inst)
+        self.aac_inst.bus.subscribe(EventID.SET_MODIFY_BUTTON, self.set_button_to_modify)
         self.popup_rect = pg.Rect(UI_PADDING, UI_PADDING, WN_W - UI_PADDING * 2, WN_H - UI_PADDING * 2)
 
         centre_x = WN_W - UI_PADDING - ICON_SIZE
         center_y = UI_PADDING + ICON_SIZE
         self.close_button = CircularUIButton(centre_x=centre_x, centre_y=center_y, r=ICON_SIZE // 2)
 
+        centre_x = WN_W - UI_PADDING - ICON_SIZE
+        center_y = WN_H - UI_PADDING - ICON_SIZE
+        self.proceed_button = CircularUIButton(centre_x=centre_x, centre_y=center_y, r=ICON_SIZE // 2)
+
+        # Button = existing button to modify
+        # None   = no button was selected, so making a new one
+        self.button_to_modify: Button | None = None
+
+        self.input_box_font = pg.font.Font(self.aac_inst.assets.fonts.ui_font, 32)
+
+        box_h = int(WN_H * 0.08)
+        box_y = UI_PADDING + UI_MARGIN
+        row_x = UI_PADDING + UI_MARGIN
+
+        # Row 1 - input box and path/to/image box
+        width = int(WN_W * 0.25)
+        self.label_input_box = InputBox(row_x, box_y, width, box_h, font=self.input_box_font)
+        row_x += width + UI_MARGIN
+        width = int(WN_W * 0.55)
+        self.path_input_box = InputBox(row_x, box_y, width, box_h, font=self.input_box_font)
+
+    def set_button_to_modify(self, button: Button | None, coords: tuple[int, int] | None = None) -> None:
+        # Set the button
+        self.button_to_modify = button
+
+        # Pre-fill input fields
+
     def update(self, dt_s: float) -> None:
         pass
 
     def _handle_left_click(self, event: pg.event.Event) -> None:
+        # Close button
         if self.close_button.check_click(event.pos):
+            self.aac_inst.bus.emit(EventID.STATE_CHANGE, new_state=StateID.TALK)
+
+        # Proceed button
+        if self.proceed_button.check_click(event.pos):
+            # Existing button - update button attributes
+            if self.button_to_modify is not None:
+                ...  # TODO
+
+            # Creating a new button - save before emitting state change
+            else:
+                ...  # TODO
+
             self.aac_inst.bus.emit(EventID.STATE_CHANGE, new_state=StateID.TALK)
 
     def take_input(self, keys: ScancodeWrapper, events: list[Event], dt_s: float) -> None:
         for event in events:
             if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
                 self._handle_left_click(event)
+        self.label_input_box._handle_input(keys=keys, events=events, dt_s=dt_s)
 
     def draw(self, screen: Surface) -> None:
+        # Get current theme and draw popup
         theme = self.aac_inst.get_current_theme()
         screen.fill(theme.bg_colour)
         pg.draw.rect(screen, theme.fg_colour, self.popup_rect, BORDER_WIDTH)
 
+        # Close button
         rect = pg.Rect(0, 0, *self.aac_inst.assets.images.exit_icons[theme].get_size())
         rect.center = (self.close_button.centre_x, self.close_button.centre_y)
         screen.blit(self.aac_inst.assets.images.exit_icons[theme], rect)
+
+        # Proceed button
+        rect = pg.Rect(0, 0, *self.aac_inst.assets.images.exit_icons[theme].get_size())
+        rect.center = (self.proceed_button.centre_x, self.proceed_button.centre_y)
+        screen.blit(self.aac_inst.assets.images.proceed_icons[theme], rect)
+
+        # Draw input fields
+        self.label_input_box.draw(
+            screen,
+            bg_active_colour=theme.bg_colour,
+            bg_inactive_colour=theme.bg_colour,
+            fg_colour=theme.fg_colour,
+            border_colour=theme.fg_colour
+        )
+        self.path_input_box.draw(
+            screen,
+            bg_active_colour=theme.bg_colour,
+            bg_inactive_colour=theme.bg_colour,
+            fg_colour=theme.fg_colour,
+            border_colour=theme.fg_colour
+        )

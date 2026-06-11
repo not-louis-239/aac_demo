@@ -42,7 +42,7 @@ class InspectState(State):
         super().__init__(aac_inst)
         self.button: Button | None = None  # the button that `self` is currently inspecting
         self.node_label: str | None = None
-        self.aac_inst.bus.subscribe(EventID.SET_BUTTON, self.set_button_and_node)
+        self.aac_inst.bus.subscribe(EventID.SET_INSPECT_BUTTON, self.set_button_and_node)
 
         min_x, min_y = int(UI_PADDING), int(UI_PADDING)
         popup_w, popup_h = int(WN_W - 2 * UI_PADDING), int(WN_H - 2 * UI_PADDING)
@@ -110,6 +110,7 @@ class InspectState(State):
         # modify, move, delete
         if self.modify_button.check_click(event.pos):
             if not self.button.immutable:
+                self.aac_inst.bus.emit(EventID.SET_MODIFY_BUTTON, button=self.button)
                 self.aac_inst.bus.emit(EventID.STATE_CHANGE, new_state=StateID.MODIFY)
         if self.delete_button.check_click(event.pos):
             if not self.button.immutable:

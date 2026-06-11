@@ -43,6 +43,8 @@ class Theme:
     ok_colour: Colour
     fitzgerald_theme: Fitzgerald
 
+DELETE_DELAY = 0.5
+DELETE_INTERVAL = 0.075
 MOVE_HOLD_DELAY = 0.5  # seconds to hold down a button to enter move mode
 
 FPS = 60

@@ -17,7 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import pygame as pg
-from sunrise.core.constants import UI_PADDING, BORDER_WIDTH
+from sunrise.core.constants import UI_PADDING, BORDER_WIDTH, DELETE_DELAY, DELETE_INTERVAL
 from sunrise.core.custom_types import Colour
 
 class InputBox:
@@ -26,18 +26,27 @@ class InputBox:
         self.text = ""
         self.active = False
         self.font = font  # needed so that it can auto-adjust text width while drawing
+        self.delete_timer: float = DELETE_DELAY
 
 
-    def handle_click(self, event: pg.event.Event) -> None:
-        if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
-            self.active = self.rect.collidepoint(event.pos)
-        elif event.type == pg.KEYDOWN:
-            if self.active:
-                if event.key == pg.K_BACKSPACE:
-                    self.text = self.text[:-1]
-                elif event.key not in (pg.K_RETURN, pg.K_ESCAPE, pg.K_TAB):
-                    # Append character
-                    self.text += event.unicode
+    def _handle_input(self, keys: pg.key.ScancodeWrapper, events: list[pg.event.Event], dt_s: float) -> None:
+        for event in events:
+            if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+                self.active = self.rect.collidepoint(event.pos)
+            elif event.type == pg.KEYDOWN:
+                if self.active:
+                    if event.key == pg.K_BACKSPACE:
+                        self.text = self.text[:-1]
+                    elif event.key not in (pg.K_RETURN, pg.K_ESCAPE, pg.K_TAB):
+                        # Append character
+                        self.text += event.unicode
+        if keys[pg.K_BACKSPACE]:
+            self.delete_timer -= dt_s
+            if self.delete_timer <= 0:
+                self.text = self.text[:-1]
+                self.delete_timer += DELETE_INTERVAL
+        else:
+            self.delete_timer = DELETE_DELAY
 
 
     def draw(
@@ -59,14 +68,15 @@ class InputBox:
         last_127_chars = self.text[-127:]  # drawing only last 127 characters for performance
         text_surf = self.font.render(last_127_chars, True, fg_colour)
         text_visual_width = self.rect.width - 2 * UI_PADDING
+
         source_rect = pg.Rect(
-            max(0, text_surf.get_width() - text_visual_width),
-            0,
+            self.rect.x + UI_PADDING,
+            self.rect.centery - text_surf.get_height() // 2,
             min(text_visual_width, text_surf.get_width()),
             text_surf.get_height()
         )
 
-        screen.blit(text_surf, (self.rect.x + UI_PADDING, self.rect.y), source_rect)
+        screen.blit(text_surf, source_rect)
 
         # Border
         pg.draw.rect(screen, border_colour, self.rect, width=BORDER_WIDTH)

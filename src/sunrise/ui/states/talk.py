@@ -296,11 +296,10 @@ class TalkState(State):
         if button:
             # button already exists - open the menu to inspect it
             node_name = self.aac_inst.engine.get_node_for_button(button)
-            self.aac_inst.bus.emit(EventID.SET_BUTTON, button=button, node_label=node_name)
+            self.aac_inst.bus.emit(EventID.SET_INSPECT_BUTTON, button=button, node_label=node_name)
             self.aac_inst.bus.emit(EventID.STATE_CHANGE, new_state=StateID.INSPECT)
         else:
-            # no button exists - open a window to create it
-            # TODO: modify state should know if it is making a new button or modifying an existing one
+            self.aac_inst.bus.emit(EventID.SET_MODIFY_BUTTON, button=button)
             self.aac_inst.bus.emit(EventID.STATE_CHANGE, new_state=StateID.MODIFY)
 
     def take_input(self, keys: ScancodeWrapper, events: list[Event], dt_s: float) -> None:

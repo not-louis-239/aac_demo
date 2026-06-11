@@ -116,6 +116,7 @@ class InspectState(State):
                 self.in_delete_confirmation = True
         if self.move_button.check_click(event.pos):
             self.aac_inst.bus.emit(EventID.STATE_CHANGE, new_state=StateID.TALK)
+            self.aac_inst.bus.emit(EventID.SET_MOVE_STATE, button=self.button)
 
     def take_input(self, keys: ScancodeWrapper, events: list[Event], dt_s: float) -> None:
         if self.button is None:
@@ -209,6 +210,8 @@ class InspectState(State):
                 colour = (*theme.fg_colour, 127) if self.button.immutable else theme.fg_colour
             elif button == self.delete_button:
                 colour = (*theme.err_colour, 127) if self.button.immutable else theme.err_colour
+            else:
+                colour = theme.fg_colour  # default so Pyright doesn't complain about possibly unbound variables
 
             # Now draw the buttons
             pg.draw.rect(screen, theme.fg_colour, button.rect, width=BORDER_WIDTH)

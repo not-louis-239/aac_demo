@@ -112,8 +112,8 @@
                     "dest": null,
                     "func": null,
                     "coords": [
-                        1,
-                        0
+                        5,
+                        1
                     ],
                     "type": "verb",
                     "img": null,
@@ -125,8 +125,8 @@
                     "dest": null,
                     "func": null,
                     "coords": [
-                        2,
-                        0
+                        1,
+                        2
                     ],
                     "type": "descriptor",
                     "img": "./icons/home/more.png",
@@ -139,7 +139,7 @@
                     "func": null,
                     "coords": [
                         3,
-                        0
+                        1
                     ],
                     "type": "verb",
                     "img": "./icons/home/stop.png",
@@ -152,7 +152,7 @@
                     "func": null,
                     "coords": [
                         4,
-                        0
+                        1
                     ],
                     "type": "verb",
                     "img": null,
@@ -164,8 +164,8 @@
                     "dest": null,
                     "func": null,
                     "coords": [
-                        5,
-                        0
+                        7,
+                        1
                     ],
                     "type": "syntax",
                     "img": null,
@@ -177,8 +177,8 @@
                     "dest": null,
                     "func": null,
                     "coords": [
-                        4,
-                        1
+                        8,
+                        0
                     ],
                     "type": "syntax",
                     "img": null,
@@ -190,8 +190,8 @@
                     "dest": null,
                     "func": null,
                     "coords": [
-                        5,
-                        1
+                        6,
+                        0
                     ],
                     "type": "syntax",
                     "img": null,
@@ -216,8 +216,8 @@
                     "dest": null,
                     "func": null,
                     "coords": [
-                        1,
-                        2
+                        6,
+                        1
                     ],
                     "type": "syntax",
                     "img": null,
@@ -242,8 +242,8 @@
                     "dest": null,
                     "func": null,
                     "coords": [
-                        3,
-                        2
+                        7,
+                        0
                     ],
                     "type": "syntax",
                     "img": null,
@@ -255,8 +255,8 @@
                     "dest": null,
                     "func": null,
                     "coords": [
-                        4,
-                        2
+                        9,
+                        0
                     ],
                     "type": "syntax",
                     "img": null,
@@ -268,8 +268,8 @@
                     "dest": null,
                     "func": null,
                     "coords": [
-                        5,
-                        2
+                        8,
+                        1
                     ],
                     "type": "syntax",
                     "img": null,
@@ -321,7 +321,7 @@
                     "func": null,
                     "coords": [
                         3,
-                        1
+                        2
                     ],
                     "type": "descriptor",
                     "img": "./icons/home/not.png",
@@ -398,8 +398,8 @@
                     "dest": "ACTIONS",
                     "func": null,
                     "coords": [
-                        5,
-                        3
+                        8,
+                        4
                     ],
                     "type": "folder",
                     "img": "./folders/actions.png",
@@ -476,7 +476,7 @@
                     "dest": "EXTRA_WORDS",
                     "func": null,
                     "coords": [
-                        5,
+                        9,
                         4
                     ],
                     "type": "folder",
@@ -489,8 +489,8 @@
                     "dest": null,
                     "func": null,
                     "coords": [
-                        6,
-                        1
+                        2,
+                        0
                     ],
                     "type": "pronoun",
                     "img": null,
@@ -502,7 +502,7 @@
                     "dest": null,
                     "func": null,
                     "coords": [
-                        6,
+                        1,
                         0
                     ],
                     "type": "pronoun",

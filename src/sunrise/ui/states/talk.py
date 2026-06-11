@@ -15,6 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from typing import TYPE_CHECKING
+import time
 
 import pygame as pg
 from pygame import Surface
@@ -26,10 +27,11 @@ from crystallinium.text_utils import draw_text
 from .base_states import State
 from sunrise.ui.states.base_states import StateID
 from sunrise.core.bus import EventID
-from sunrise.core.load_nodes import Button
+from sunrise.core.load_nodes import Button, save_language_tree
 from sunrise.core.paths import IMAGES_DIR
 from sunrise.core.asset_manager import Assets
 from sunrise.core.constants import (
+    MOVE_HOLD_DELAY,
     SENTENCE_BAR_H,
     BUTTON_IMAGE_SIZE,
     UI_PADDING,
@@ -110,7 +112,6 @@ class _Renderer:
     def __init__(self, assets: Assets, aac_inst: AAC):
         self.aac_inst = aac_inst
         self.assets = assets
-        self.talk_state = TalkState
         self.sentence_bar_font: pg.font.Font = pg.font.Font(assets.fonts.ui_font, int(SENTENCE_BAR_H * 0.5))
 
     def retrieve_img(self, rel_path: str) -> Surface | None:
@@ -192,9 +193,25 @@ class _Renderer:
             text=str(button.label), font_family=(self.aac_inst.assets.fonts.button_font, int(BUTTON_FONT_SIZE))
         )
 
-    def draw_sentence_bar(self, screen: pg.Surface) -> None:
+    def draw_sentence_bar(self, screen: pg.Surface, in_moving_state: bool = False) -> None:
         theme = self.aac_inst.get_current_theme()
+
+        # Draw the line for the sentence bar
         pg.draw.line(screen, self.aac_inst.get_current_theme().fg_colour, (0, SENTENCE_BAR_H), (WN_W, SENTENCE_BAR_H), 2)
+
+        # If in moving state, display instructions in the sentence bar, then early return
+        if in_moving_state:
+            instruction_pos = (WN_W // 2, SENTENCE_BAR_H // 2)
+            draw_text(
+                surface=screen, pos=instruction_pos,
+                horiz_align='centre', vert_align='centre',
+                font_family=(self.assets.fonts.ui_font, 25),
+                text="Click on an empty spot to which to move the button, or an existing button to swap them, or Escape to cancel.",
+                colour=theme.fg_colour
+            )
+            return
+
+        # Draw the sentence bar text
         sentence_bar_text = " ".join(self.aac_inst.engine.sentence_bar)
 
         # rendering only the last 127 characters for performance
@@ -217,21 +234,58 @@ class _Renderer:
 class TalkState(State):
     def __init__(self, aac_inst: AAC) -> None:
         super().__init__(aac_inst=aac_inst)
+        self.aac_inst.bus.subscribe(EventID.SET_MOVE_STATE, self.set_button_to_move)
         self.renderer = _Renderer(aac_inst.assets, aac_inst=aac_inst)
+        self.button_to_move: Button | None = None
+        self.button_hold_start_time: float | None = None
+        self.last_clicked_pos: tuple[int, int] | None = None
 
-
+    def set_button_to_move(self, button: Button) -> None:
+        self.button_to_move = button
 
     def update(self, dt_s: float) -> None:
-        pass
+        if self.button_hold_start_time is None:
+            return
+        if self.last_clicked_pos is None:
+            return
+        if time.time() - self.button_hold_start_time > MOVE_HOLD_DELAY:
+            # Valid grid coordinate and button exists -> move the button
+            if button_grid_coord := _screen_to_grid_coord(self.last_clicked_pos):
+                if button := _get_button_at_pos(self.aac_inst.engine.current_buttons(), button_grid_coord):
+                    self.button_hold_start_time = None
+                    self.button_to_move = button
 
     def _handle_lmb_click(self, event: pg.event.Event) -> None:
-        button_coord = _screen_to_grid_coord(event.pos)
+        button_grid_coord = _screen_to_grid_coord(event.pos)
 
-        if button_coord is not None:
-            if (button := _get_button_at_pos(self.aac_inst.engine.current_buttons(), button_coord)):
+        # No valid coordinate - return
+        if button_grid_coord is None:
+            return
+
+        # Get the actual Button object lying at `button_coord`
+        button = _get_button_at_pos(self.aac_inst.engine.current_buttons(), button_grid_coord)
+
+        if self.button_to_move:
+            if button:
+                # Valid button - swap the button to move with the button that just got clicked
+                button.coords, self.button_to_move.coords = self.button_to_move.coords, button.coords
+            else:
+                # No button exists at click location - move the button there
+                self.button_to_move.coords = button_grid_coord
+            save_language_tree(self.aac_inst.engine.tree)
+            self.button_to_move = None
+            self.button_hold_start_time = None
+            return
+
+        # Handle normal button press (not in move mode)
+        if (button := _get_button_at_pos(self.aac_inst.engine.current_buttons(), button_grid_coord)):
+            if self.button_hold_start_time is not None and time.time() - self.button_hold_start_time < MOVE_HOLD_DELAY:
                 self.aac_inst.engine.on_button_press(button)
 
     def _handle_rmb_click(self, event: pg.event.Event) -> None:
+        if self.button_to_move:
+            return
+
         button_coord = _screen_to_grid_coord(event.pos)
 
         # Coordinate doesn't correspond to a grid position - return
@@ -240,24 +294,38 @@ class TalkState(State):
 
         button = _get_button_at_pos(self.aac_inst.engine.current_buttons(), button_coord)
         if button:
-            # button already exists - open the menu to modify it
+            # button already exists - open the menu to inspect it
             node_name = self.aac_inst.engine.get_node_for_button(button)
             self.aac_inst.bus.emit(EventID.SET_BUTTON, button=button, node_label=node_name)
             self.aac_inst.bus.emit(EventID.STATE_CHANGE, new_state=StateID.INSPECT)
         else:
             # no button exists - open a window to create it
+            # TODO: modify state should know if it is making a new button or modifying an existing one
             self.aac_inst.bus.emit(EventID.STATE_CHANGE, new_state=StateID.MODIFY)
 
     def take_input(self, keys: ScancodeWrapper, events: list[Event], dt_s: float) -> None:
         for event in events:
+            # If in moving state, press Escape to cancel
+            if self.button_to_move and event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
+                self.button_to_move = None
+                self.button_hold_start_time = None
+
+            # Handle mouse clicks
             if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+                # Left click
                 self._handle_lmb_click(event)
+                self.button_hold_start_time = time.time()
+                self.last_clicked_pos = event.pos
             elif event.type == pg.MOUSEBUTTONDOWN and event.button == 3:
+                # Right click
                 self._handle_rmb_click(event)
+            elif event.type == pg.MOUSEBUTTONUP:
+                # Mouse button released - cancel last clicked position
+                self.last_clicked_pos = None
 
     def draw(self, screen: Surface) -> None:
         theme = self.aac_inst.get_current_theme()
         screen.fill(theme.bg_colour)
 
-        self.renderer.draw_sentence_bar(screen)
+        self.renderer.draw_sentence_bar(screen, in_moving_state=self.button_to_move is not None)
         self.renderer.draw_buttons(screen)

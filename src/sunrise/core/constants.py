@@ -43,6 +43,8 @@ class Theme:
     ok_colour: Colour
     fitzgerald_theme: Fitzgerald
 
+MOVE_HOLD_DELAY = 0.5  # seconds to hold down a button to enter move mode
+
 FPS = 60
 
 WN_W, WN_H = 1280, 720

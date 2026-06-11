@@ -28,6 +28,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
 
 from sunrise.core.constants import WN_W, WN_H, FPS
 from sunrise.core.aac import AAC
+from sunrise.core.load_nodes import save_language_tree
 from sunrise.core.error_logger import write_error_log
 
 def main():
@@ -46,14 +47,13 @@ def main():
 
         for event in events:
             if event.type == pg.QUIT:
+                save_language_tree(aac.engine.tree)
                 running = False
 
         aac.update(dt_s=dt_s)
         aac.take_input(keys=keys, events=events, dt_s=dt_s)
         aac.draw(screen)
         pg.display.flip()
-
-    pg.quit()
 
 if __name__ == "__main__":
     try:
@@ -62,4 +62,5 @@ if __name__ == "__main__":
         write_error_log(exc)
     except KeyboardInterrupt:
         print("\nExited.")
+    finally:
         pg.quit()

@@ -26,6 +26,7 @@ class EventID(StrEnum):
     STATE_CHANGE = "STATE_CHANGE"
     SET_BUTTON = "SET_BUTTON"
     DELETE_BUTTON = "DELETE_BUTTON"
+    SET_MOVE_STATE = "SET_MOVE_STATE"
 
 
 class Bus:

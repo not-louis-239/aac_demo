@@ -18,7 +18,21 @@
 
 
 from pathlib import Path
+import pygame as pg
 
 class Icon:
-    def __init__(self, img_path: Path) -> None:
+    def __init__(self, img_path: Path, size: tuple[int, int]) -> None:
         self.img_path = img_path
+        self.size = size
+        self._cached: pg.Surface | None = None
+        self._refresh_cache()
+
+    def _refresh_cache(self) -> None:
+        if self._cached is None or self._cached.get_size() != self.size:
+            self._cached = pg.image.load(str(self.img_path)).convert_alpha()
+            self._cached = pg.transform.scale(self._cached, self.size)
+
+    def draw(self, screen: pg.Surface, pos: tuple[int, int]) -> None:
+        self._refresh_cache()
+        assert self._cached is not None
+        screen.blit(self._cached, pos)

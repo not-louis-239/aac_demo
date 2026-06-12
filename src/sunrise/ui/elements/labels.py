@@ -16,9 +16,24 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+import pygame as pg
+
+
 class Label:
-    def __init__(self, text: str = "") -> None:
+    def __init__(self, font: pg.font.Font, text: str = "") -> None:
+        self.font = font
         self.text = text
+        self.rect = pg.Rect(0, 0, *self.font.size(text))
+
+    def _sync_size(self) -> None:
+        self.rect.width = self.font.size(self.text)[0]
 
     def set_text(self, text: str) -> None:
         self.text = text
+        self._sync_size()
+
+    def draw(self, screen: pg.Surface, colour: Colour | AColour, pos: tuple[int, int]) -> None:
+        font_surf = self.font.render(self.text, True, colour)
+        if len(colour) == 4:
+            font_surf.set_alpha(colour[3])
+        screen.blit(font_surf, pos)

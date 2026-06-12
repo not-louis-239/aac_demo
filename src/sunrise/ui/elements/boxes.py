@@ -1,4 +1,4 @@
-# vertical boxes
+# UI boxes
 
 # repo at: https://github.com/not-louis-239/sunrise-aac
 # Copyright (C) 2026 Louis Masarei-Boulton <243234869+not-louis-239@users.noreply.github.com>
@@ -16,8 +16,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-
-class VBox:
-    def __init__(self, base_padding: int = 0):
+class _UIBox:
+    def __init__(self, padding: int = 0):
+        self.padding = padding
         self.children = []
-        self.base_padding = base_padding
+
+class HBox(_UIBox):
+    pass
+
+class VBox(_UIBox):
+    pass

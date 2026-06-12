@@ -18,16 +18,17 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+from . import boxes
+
 from . import (
-    hbox,
-    vbox,
+    boxes,
     spacer,
     input_boxes,
     labels
 )
 
-HBox = hbox.HBox
-VBox = vbox.VBox
+HBox = boxes.HBox
+VBox = boxes.VBox
 Spacer = spacer.Spacer
 InputBox = input_boxes.InputBox
 Label = labels.Label

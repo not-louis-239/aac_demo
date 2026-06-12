@@ -18,8 +18,8 @@
 
 
 
-from .hbox import HBox
-from .vbox import VBox
+from .boxes import HBox
+from .boxes import VBox
 
 class Panel:
     def __init__(self, chidren: list[HBox | VBox] | None = None) -> None:

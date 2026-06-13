@@ -17,17 +17,19 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import pygame as pg
-from sunrise.core.constants import UI_PADDING, BORDER_WIDTH, DELETE_DELAY, DELETE_INTERVAL
-from sunrise.core.custom_types import Colour
+from sunrise.core.constants import DELETE_DELAY, DELETE_INTERVAL
 
-class InputBox:
+from .widget import Widget, DrawContext
+
+
+class InputBox(Widget):
     def __init__(self, x: int, y: int, w: int, h: int, font: pg.font.Font) -> None:
+        super().__init__()
         self.rect = pg.Rect(x, y, w, h)
         self.text = ""
         self.active = False
         self.font = font  # needed so that it can auto-adjust text width while drawing
         self.delete_timer: float = DELETE_DELAY
-
 
     def _handle_input(self, keys: pg.key.ScancodeWrapper, events: list[pg.event.Event], dt_s: float) -> None:
         for event in events:
@@ -48,12 +50,7 @@ class InputBox:
         else:
             self.delete_timer = DELETE_DELAY
 
-
-    def draw(
-            self, screen: pg.Surface,
-            bg_active_colour: Colour, bg_inactive_colour: Colour,
-            fg_colour: Colour, border_colour: Colour
-        ) -> None:
+    def draw(self, surface: pg.Surface, ctx: DrawContext) -> None:
         # Passing the colours into the method instead of
         # as attributes because these suckers shouldn't really need to know
         # what colour they are, and it makes multiple themes harder
@@ -61,22 +58,22 @@ class InputBox:
         # every time you wanted to change theme
 
         # Draw the background and border
-        bg_colour = bg_active_colour if self.active else bg_inactive_colour
-        pg.draw.rect(screen, bg_colour, self.rect)
+        bg_colour = ctx.active_bg if self.active else ctx.bg
+        pg.draw.rect(surface, bg_colour, self.rect)
 
         # Text
         last_127_chars = self.text[-127:]  # drawing only last 127 characters for performance
-        text_surf = self.font.render(last_127_chars, True, fg_colour)
-        text_visual_width = self.rect.width - 2 * UI_PADDING
+        text_surf = self.font.render(last_127_chars, True, ctx.fg)
+        text_visual_width = self.rect.width - 2 * ctx.text_inset
 
         source_rect = pg.Rect(
-            self.rect.x + UI_PADDING,
+            self.rect.x + ctx.text_inset,
             self.rect.centery - text_surf.get_height() // 2,
             min(text_visual_width, text_surf.get_width()),
             text_surf.get_height()
         )
 
-        screen.blit(text_surf, source_rect)
+        surface.blit(text_surf, source_rect)
 
         # Border
-        pg.draw.rect(screen, border_colour, self.rect, width=BORDER_WIDTH)
+        pg.draw.rect(surface, ctx.border, self.rect, width=ctx.border_w)

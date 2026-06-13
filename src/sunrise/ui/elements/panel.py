@@ -16,17 +16,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+from .widget import Widget
 
-
-from .boxes import HBox
-from .boxes import VBox
-
-class Panel:
-    def __init__(self, chidren: list[HBox | VBox] | None = None) -> None:
-        if chidren is None:
-            self.children: list[HBox | VBox] = []
-        else:
-            self.children: list[HBox | VBox] = chidren
-
-    def add_child(self, child: HBox | VBox) -> None:
-        self.children.append(child)
+class Panel(Widget):
+    def __init__(self, *, padding: int = 0, child: Widget) -> None:
+        super().__init__()
+        self.padding = padding
+        self.child = child

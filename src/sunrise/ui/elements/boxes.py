@@ -16,13 +16,31 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-class _UIBox:
-    def __init__(self, padding: int = 0):
+
+from .widget import Widget
+
+class _Box(Widget):
+    # Generic base class to store attributes common to both `HBox`es and `VBox`es
+
+    def __init__(self, *, padding: int = 0, gap: int = 0, children: list[Widget] | None = None) -> None:
+        """Initialises a new box.
+        padding = space between the box's edge and the first or last child
+        gap     = space between children in the box"""
+        super().__init__()
         self.padding = padding
+        self.gap = gap
+
         self.children = []
+        if children is not None:
+            for child in children:
+                self.add_child(child)
 
-class HBox(_UIBox):
-    pass
+    def add_child(self, child: Widget) -> None:
+        self.children.append(child)
+        child.parent = self
 
-class VBox(_UIBox):
-    pass
+class HBox(_Box):
+    pass  # TODO: implement abstract methods
+
+class VBox(_Box):
+    pass  # TODO: implement abstract methods

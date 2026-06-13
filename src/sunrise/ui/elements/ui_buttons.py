@@ -23,8 +23,10 @@ from abc import ABC, abstractmethod
 
 import pygame as pg
 
+from .widget import Widget
 
-class UIButton(ABC):
+
+class UIButton(Widget, ABC):
     @abstractmethod
     def check_click(self, mouse_pos: tuple[int, int]) -> bool:
         raise NotImplementedError

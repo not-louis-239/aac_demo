@@ -20,8 +20,11 @@
 from pathlib import Path
 import pygame as pg
 
-class Icon:
+from .widget import Widget, DrawContext, LayoutContext
+
+class Icon(Widget):
     def __init__(self, img_path: Path, size: tuple[int, int]) -> None:
+        super().__init__()
         self.img_path = img_path
         self.size = size
         self._cached: pg.Surface | None = None
@@ -32,7 +35,14 @@ class Icon:
             self._cached = pg.image.load(str(self.img_path)).convert_alpha()
             self._cached = pg.transform.scale(self._cached, self.size)
 
-    def draw(self, screen: pg.Surface, pos: tuple[int, int]) -> None:
+    def preferred_size(self, ctx: LayoutContext) -> tuple[int, int]:
+        return self.size
+
+    def layout(self, rect: pg.Rect) -> None:
+        self.rect = pg.Rect(0, 0, *self.size)
+        self.rect.center = rect.center
+
+    def draw(self, surface: pg.Surface, ctx: DrawContext) -> None:
         self._refresh_cache()
         assert self._cached is not None
-        screen.blit(self._cached, pos)
+        surface.blit(self._cached, self.rect.topleft)

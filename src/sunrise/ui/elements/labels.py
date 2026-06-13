@@ -18,22 +18,24 @@
 
 import pygame as pg
 
+from sunrise.ui.elements.widget import DrawContext
+from .widget import Widget, LayoutContext
 
-class Label:
-    def __init__(self, font: pg.font.Font, text: str = "") -> None:
-        self.font = font
+
+class Label(Widget):
+    def __init__(self, text: str = "") -> None:
+        super().__init__()
         self.text = text
-        self.rect = pg.Rect(0, 0, *self.font.size(text))
 
-    def _sync_size(self) -> None:
-        self.rect.width = self.font.size(self.text)[0]
+    def preferred_size(self, ctx: LayoutContext) -> tuple[int, int]:
+        w, h = ctx.font.size(self.text)
+        return (w, h)
 
-    def set_text(self, text: str) -> None:
-        self.text = text
-        self._sync_size()
+    def layout(self, rect: pg.Rect) -> None:
+        self.rect = rect
 
-    def draw(self, screen: pg.Surface, colour: Colour | AColour, pos: tuple[int, int]) -> None:
-        font_surf = self.font.render(self.text, True, colour)
-        if len(colour) == 4:
-            font_surf.set_alpha(colour[3])
-        screen.blit(font_surf, pos)
+    def draw(self, surface: pg.Surface, ctx: DrawContext) -> None:
+        font_surface = ctx.font.render(self.text, True, ctx.fg)
+        if len(ctx.fg) == 4 and ctx.fg[3] < 255:
+            font_surface.set_alpha(ctx.fg[3])
+        surface.blit(font_surface, self.rect)

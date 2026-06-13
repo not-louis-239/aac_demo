@@ -16,6 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
@@ -26,7 +27,7 @@ import pygame as pg
 from sunrise.core.custom_types import Colour, AColour
 
 
-@dataclass(kw_only=True)
+@dataclass(frozen=True, kw_only=True)
 class DrawContext:
     # border
     border: Colour | AColour
@@ -43,11 +44,6 @@ class DrawContext:
     # typography
     font: pg.font.Font
     text_inset: int = 5
-
-
-@dataclass(kw_only=True)
-class LayoutContext:
-    font: pg.font.Font
 
 
 class Widget(ABC):
@@ -67,7 +63,7 @@ class Widget(ABC):
         self.layout_is_dirty: bool = False   # Do I need to refresh my layout?
 
     @abstractmethod
-    def preferred_size(self, ctx: LayoutContext) -> tuple[int, int]:
+    def preferred_size(self) -> tuple[int, int]:
         """If no one told me how big I have to be,
         then how big do I want to be?"""
         raise NotImplementedError

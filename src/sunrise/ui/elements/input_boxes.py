@@ -27,8 +27,8 @@ class InputBox(Widget):
         super().__init__()
         self.rect = pg.Rect(x, y, w, h)
         self.text = ""
-        self.active = False
         self.font = font  # needed so that it can auto-adjust text width while drawing
+        self.active = False
         self.delete_timer: float = DELETE_DELAY
 
     def _handle_input(self, keys: pg.key.ScancodeWrapper, events: list[pg.event.Event], dt_s: float) -> None:
@@ -49,6 +49,9 @@ class InputBox(Widget):
                 self.delete_timer += DELETE_INTERVAL
         else:
             self.delete_timer = DELETE_DELAY
+
+    def preferred_size(self) -> tuple[int, int]:
+        raise NotImplementedError  # TODO
 
     def draw(self, surface: pg.Surface, ctx: DrawContext) -> None:
         # Passing the colours into the method instead of

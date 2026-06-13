@@ -19,16 +19,17 @@
 import pygame as pg
 
 from sunrise.ui.elements.widget import DrawContext
-from .widget import Widget, LayoutContext
+from .widget import Widget
 
 
 class Label(Widget):
-    def __init__(self, text: str = "") -> None:
+    def __init__(self, *, text: str = "", font: pg.font.Font) -> None:
         super().__init__()
         self.text = text
+        self.font = font
 
-    def preferred_size(self, ctx: LayoutContext) -> tuple[int, int]:
-        w, h = ctx.font.size(self.text)
+    def preferred_size(self) -> tuple[int, int]:
+        w, h = self.font.size(self.text)
         return (w, h)
 
     def layout(self, rect: pg.Rect) -> None:

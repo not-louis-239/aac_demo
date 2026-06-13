@@ -19,7 +19,7 @@
 
 from pygame import Rect, Surface
 
-from .widget import Widget, LayoutContext, DrawContext
+from .widget import Widget, DrawContext
 
 
 class Spacer(Widget):
@@ -29,7 +29,7 @@ class Spacer(Widget):
         self.min_w = min_w
         self.min_h = min_h
 
-    def preferred_size(self, ctx: LayoutContext) -> tuple[int, int]:
+    def preferred_size(self) -> tuple[int, int]:
         return (self.min_w, self.min_h)
 
     def layout(self, rect: Rect) -> None:

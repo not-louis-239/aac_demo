@@ -20,7 +20,7 @@
 from pathlib import Path
 import pygame as pg
 
-from .widget import Widget, DrawContext, LayoutContext
+from .widget import Widget, DrawContext
 
 class Icon(Widget):
     def __init__(self, img_path: Path, size: tuple[int, int]) -> None:
@@ -35,7 +35,7 @@ class Icon(Widget):
             self._cached = pg.image.load(str(self.img_path)).convert_alpha()
             self._cached = pg.transform.scale(self._cached, self.size)
 
-    def preferred_size(self, ctx: LayoutContext) -> tuple[int, int]:
+    def preferred_size(self) -> tuple[int, int]:
         return self.size
 
     def layout(self, rect: pg.Rect) -> None:

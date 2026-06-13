@@ -19,19 +19,19 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 
 import pygame as pg
 
 from .widget import Widget
 
 
-class UIButton(Widget, ABC):
+class _UIButton(Widget):
     @abstractmethod
     def check_click(self, mouse_pos: tuple[int, int]) -> bool:
         raise NotImplementedError
 
-class RectangularUIButton(UIButton):
+class RectangularUIButton(_UIButton):
     def __init__(self, x: int, y: int, w: int, h: int) -> None:
         self.x = x
         self.y = y
@@ -45,7 +45,7 @@ class RectangularUIButton(UIButton):
             and self.y <= mouse_pos[1] <= self.y + self.h
         )
 
-class CircularUIButton(UIButton):
+class CircularUIButton(_UIButton):
     def __init__(self, centre_x: int, centre_y: int, r: int) -> None:
         self.centre_x = centre_x
         self.centre_y = centre_y
